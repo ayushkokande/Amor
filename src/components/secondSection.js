@@ -24,7 +24,7 @@ export default function() {
     return (  
             <section id="secondSection">
             <animated.div style={{top: animFirst.t.interpolate({
-                range: [0,10000,180000,200000],
+                range: [0,20000,180000,200000],
                 output: [-100,0,0,100]
             }).interpolate(t=> `${t}vh`)
             }} className="transFirst"></animated.div>

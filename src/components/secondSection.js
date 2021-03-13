@@ -42,55 +42,34 @@ export default function() {
             <div className="transText">
                 amor
             </div> */}
-            <div className="container-fluid">
-                <div className="row">
-                    <div className="col-md-auto col-sm-12">
-                        <div className="loginContainer">
-                        <img src="/images/secondSection.jpg" />
-                        <div className = "container login">
-                            <div className = "row">
-                                <div className = "col-sm-9 mx-auto">
-                                <form>
-                                    <div class="logo mb-3">
-                                    <div class="col-md-12 text-center">
-                                        <h1>Login</h1>
-                                    </div>
-                                    </div>
-                                    <div class="mb-3 form-group">
-                                        <input type="email" class="form-control" placeholder="Enter your email address" id="exampleInputEmail1" aria-describedby="emailHelp" />
-                                        <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
-                                    </div>
-                                    <div class="mb-3 form-group">
-                                        <input type="password" class="form-control" placeholder="Password" id="exampleInputPassword1" />
-                                    </div>
-                                    <div className = "col-md-12 text-center">
-                                    <button type="submit" class="btn btn-primary">Login</button>
-                                    </div>
-                                    <div class="col-md-12 ">
-                                    <div class="login-or">
-                                        <hr class="hr-or" />
-                                        <span class="span-or">or</span>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <p class="text-center">Don't have account? <a href="#" id="signup">Sign up here</a></p>
-                                </div>
-                                </form>
-                                </div>
-                            </div>
+            <div className="signInBox">
+                <div className="imgContainer">
+                    <img id="loginImg" src="/images/secSection2.jpg" alt="LoginPage Image"/>
+                </div>                
+                <div className="signInContent">
+                    <form method="POST" className="signInForm">
+                    <h3 className="form-title">Sign In</h3>
+                        <div className="form-group em_pw">
+                            <label for="email"><i className="zmdi zmdi-email"></i></label>
+                            <input type="email" className="inpText" placeholder="Enter email"></input>
                         </div>
-
-                        
-                    </div>
-                    </div>
-                    <div className="col-md-auto col-sm-12">
-                        <div className = "container aboutBS">
-                            <h2>heading</h2>
-                            <p>Some bs about love</p>
+                        <div className="form-group em_pw">
+                            <i className="zmdi zmdi-lock"></i>
+                            <input type="password" className=" text-muted inpText" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Password"></input>
                         </div>
-                    </div>
+                        <div class="form-group check-form">
+                            <input type="checkbox"/>
+                            <label>Remember my password</label>
+                        </div>
+                        <div class="form-group form-button">
+                            <input type="submit"  class="form-submit" value="Login"/>
+                        </div>
+                        <div className="form-group">
+                            <p>Don't have an account? <a href="#">Sign up.</a></p>
+                        </div>
+                    </form>
                 </div>
-            </div>
+            </div>    
             </section>  
     )
 }

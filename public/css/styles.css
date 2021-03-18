@@ -120,6 +120,9 @@ section img {
   margin: 20px 20px;
   width: 100%;
 }
+#secondSection .signInBox .signInContent .form-title {
+  font-weight: 800;
+}
 #secondSection .signInBox .signInContent i {
   width: 16px;
   margin-right: 16px;
@@ -133,6 +136,10 @@ section img {
 #secondSection .signInBox .signInContent input[type=checkbox] {
   appearance: checkbox;
   margin-right: 16px;
+}
+#secondSection .signInBox .signInContent input[type=checkbox]:checked {
+  background-color: black;
+  color: brown;
 }
 #secondSection .signInBox .signInContent .em_pw {
   border-bottom: 1px solid #999;

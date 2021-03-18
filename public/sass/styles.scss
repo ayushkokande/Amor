@@ -127,6 +127,10 @@ section {
         margin: 20px 20px;
         width: 100%;
 
+        .form-title {
+          font-weight: 800;
+        }
+
         i {
           width: 16px;
           margin-right: 16px;
@@ -140,6 +144,11 @@ section {
         input[type=checkbox] {
           appearance: checkbox;
           margin-right: 16px;
+          
+          &:checked {
+            background-color: black;
+            color: brown;
+          }
         }
         .em_pw {
           border-bottom: 1px solid #999;

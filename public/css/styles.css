@@ -11,7 +11,7 @@ body {
   font-family: "Nunito", sans-serif;
 }
 
-section {
+.l-sec {
   height: 100vh;
   position: relative;
   display: flex;
@@ -19,7 +19,7 @@ section {
   overflow: hidden;
   background-color: #fcf8e8;
 }
-section img {
+.l-sec img {
   position: relative;
   height: 70vh;
   width: auto;
@@ -213,6 +213,24 @@ section img {
 .navbar-brand {
   font-family: "Yeseva One", cursive;
   margin-left: 1rem;
+  color: #303030;
+  position: relative;
+}
+.navbar-brand::before {
+  content: "";
+  width: 0px;
+  background-color: maroon;
+  height: 5px;
+  position: absolute;
+  bottom: 0;
+  transition: all 0.5s ease;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.navbar-brand:hover::before {
+  width: 100%;
+}
+.navbar-brand:hover {
   color: black;
 }
 

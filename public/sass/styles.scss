@@ -11,7 +11,7 @@ body {
   font-family: 'Nunito', sans-serif;
 }
 
-section {
+.l-sec {
     height: 100vh;
     position: relative;
     display: flex;
@@ -236,7 +236,26 @@ section {
 .navbar-brand {
     font-family: 'Yeseva One', cursive;
     margin-left: 1rem;
-    color: black;
+    color: rgb(48, 48, 48);
+    position: relative;
+    
+    &::before {
+      content: "";
+      width: 0px;
+      background-color: maroon;
+      height: 5px;
+      position: absolute;
+      bottom: 0;
+      transition: all 0.5s ease;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    &:hover::before {
+      width: 100%;
+    }
+    &:hover {
+      color: black;
+    }
 }
 .nav-item {
   position: relative;

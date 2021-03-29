@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import {useSpring, animated} from "react-spring";
-import store from "../store/store";
+import store from "../../store/store";
 
 function Navbar(param) {
   let hover = useSelector(state => state.hover);
@@ -24,24 +25,20 @@ function Navbar(param) {
       <div className="container-fluid mx-5 pt-2 pb-2">
         <ul className="navbar-nav">
           <li className = "nav-item px-4">
-            <animated.a onMouseEnter={mouseEnter} onMouseLeave={mouseLeave} id="about" className="nav-link" href="/about">
+            <Link to="/about" onMouseEnter={mouseEnter} onMouseLeave={mouseLeave} id="about" className="nav-link">
               <span className="first" data-content="A">A</span><span className="rest" data-content="bout">bout</span>
-            </animated.a>
+            </Link>
             <svg><rect></rect></svg>
           </li>
         
-          <a class="navbar-brand" href="/">amor</a>
+          <Link to="/" class="navbar-brand">amor</Link>
         
           <li className = "nav-item px-4">
-            <a id="dishes" className="nav-link" href="/login">
+            <Link to="/login" id="dishes" className="nav-link">
               <span className="first" data-content="L">L</span><span className="rest" data-content="ogin">ogin</span>
-            </a>
+            </Link>
             <svg><rect></rect></svg></li>
-          {/* <li className = "nav-item col-sm-8">
-            <a id="home" className="nav-link" href="#home">
-              <span className="first" data-content="C">C</span><span className="rest" data-content="ontact">ontact</span>
-            </a>
-            <svg><rect></rect></svg></li> */}
+          
         </ul>
       </div>  
     </nav>

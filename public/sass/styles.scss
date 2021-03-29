@@ -11,7 +11,7 @@ body {
   font-family: 'Nunito', sans-serif;
 }
 
-section {
+.l-sec {
     height: 100vh;
     position: relative;
     display: flex;
@@ -127,6 +127,10 @@ section {
         margin: 20px 20px;
         width: 100%;
 
+        .form-title {
+          font-weight: 800;
+        }
+
         i {
           width: 16px;
           margin-right: 16px;
@@ -140,6 +144,11 @@ section {
         input[type=checkbox] {
           appearance: checkbox;
           margin-right: 16px;
+          
+          &:checked {
+            background-color: black;
+            color: brown;
+          }
         }
         .em_pw {
           border-bottom: 1px solid #999;
@@ -227,7 +236,26 @@ section {
 .navbar-brand {
     font-family: 'Yeseva One', cursive;
     margin-left: 1rem;
-    color: black;
+    color: rgb(48, 48, 48);
+    position: relative;
+    
+    &::before {
+      content: "";
+      width: 0px;
+      background-color: maroon;
+      height: 5px;
+      position: absolute;
+      bottom: 0;
+      transition: all 0.5s ease;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    &:hover::before {
+      width: 100%;
+    }
+    &:hover {
+      color: black;
+    }
 }
 .nav-item {
   position: relative;

@@ -22,7 +22,7 @@ export default function() {
     })
 
     return (  
-            <section id="secondSection">
+            <section classNamae="l-sec" id="secondSection">
             <animated.div style={{top: animFirst.t.interpolate({
                 range: [0,20000,180000,200000],
                 output: [-100,0,0,100]

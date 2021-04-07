@@ -83,7 +83,10 @@ body {
 }
 
 #secondSection {
+  height: 100vh;
+    position: relative;
     display: flex;
+    background-color: #fcf8e8;
     justify-content: center;
     align-content: center;
     // overflow: visible;

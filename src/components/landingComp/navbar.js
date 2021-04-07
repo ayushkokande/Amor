@@ -18,10 +18,10 @@ function Navbar(param) {
     store.dispatch({type: "not"});
   }
 
-  let name_class="navbar"+ param.class; 
+  // let name_class="navbar"+ param.class; 
 
   return (
-    <nav className={name_class} id="navbar">
+    <nav className="navbar" id="navbar">
       <div className="container-fluid mx-5 pt-2 pb-2">
         <ul className="navbar-nav">
           <li className = "nav-item px-4">

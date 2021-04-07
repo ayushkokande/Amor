@@ -1,5 +1,8 @@
 import { useTransition, animated, useSpring, interpolate } from 'react-spring'
 import { useState } from "react";
+import { Link } from "react-router-dom";
+
+import Navbar from "./navbar";
 
 export default function() {
     // const [index, set] = useState(0);
@@ -22,6 +25,8 @@ export default function() {
     })
 
     return (  
+            <>
+            <Navbar />
             <section classNamae="l-sec" id="secondSection">
             <animated.div style={{top: animFirst.t.interpolate({
                 range: [0,20000,180000,200000],
@@ -65,12 +70,13 @@ export default function() {
                             <input type="submit"  class="form-submit" value="Login"/>
                         </div>
                         <div className="form-group">
-                            <p>Don't have an account? <a href="#">Sign up.</a></p>
+                            <p>Don't have an account? <Link to="/signup">Sign up.</Link></p>
                         </div>
                     </form>
                 </div>
             </div>    
-            </section>  
+            </section> 
+            </> 
     )
 }
 

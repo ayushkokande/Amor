@@ -5,6 +5,7 @@ import About from "../components/landingComp/about";
 import Navbar from "../components/landingComp/navbar";
 import FirstSection from "../components/landingComp/firstSection";
 import SecondSection from "../components/landingComp/secondSection";
+import SignUpPage from "./signUpPage";
 
 import { AnimatePresence } from "framer-motion";
 
@@ -24,7 +25,6 @@ window.addEventListener("scroll", myScrollFunc);
   
   return (
     <BrowserRouter>
-        <Navbar class={classLT}/>
         <Route
         render={({ location }) => (
           <AnimatePresence exitBeforeEnter>
@@ -32,6 +32,7 @@ window.addEventListener("scroll", myScrollFunc);
               <Route exact path='/' render={() => <FirstSection />} />
               <Route path='/about' render={() => <About />} />
               <Route path='/login' render={() => <SecondSection />} />
+              <Route path="/signup" render={() => <SignUpPage />} />
             </Switch>
           </AnimatePresence>
         )}

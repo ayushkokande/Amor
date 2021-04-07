@@ -1,6 +1,8 @@
 import { useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 
+import Navbar from "./navbar";
+
 export default function() {
     // let location = useLocation();
     // console.log(location);
@@ -14,6 +16,8 @@ export default function() {
         }
     };
     return(
+        <>
+        <Navbar />
         <motion.div
         initial={{opacity: 0,scale: 0.5}}
         animate={{opacity: 1, scale: 0.9, transition: {duration: 1, type: "spring", when: "afterChildren"}}}
@@ -29,5 +33,6 @@ export default function() {
                 </motion.p>
             </AnimatePresence>
         </motion.div>
+        </>
     )
 }

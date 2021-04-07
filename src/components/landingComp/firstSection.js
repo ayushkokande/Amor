@@ -2,6 +2,8 @@ import {useEffect} from "react";
 import {useSpring, animated} from "react-spring";
 import { motion } from "framer-motion";
 
+import Navbar from "./navbar";
+
 export default function() {
     let title = "we all need love to raw dog our hearts";
     title = title.split(' ');
@@ -44,6 +46,8 @@ export default function() {
     }
 
     return (
+        <>
+        <Navbar />
         <section className="l-sec" id="firstSection">
             <div className="transFirst"></div>
             <div className="transSec"></div>
@@ -55,5 +59,6 @@ export default function() {
                 <p>love better</p>
             </motion.div>
         </section>
+        </>
     )
 }

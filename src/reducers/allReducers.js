@@ -9,8 +9,7 @@ const allReducers = combineReducers({
     hover: onHover,
     match: matchReducer,
     profile: profileReducer,
-    modal: modaleReducer,
-    signUpIdx: signUpReducer
+    modal: modaleReducer
 });
 
 export default allReducers;

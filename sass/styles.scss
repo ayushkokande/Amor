@@ -1,0 +1,349 @@
+@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@300&family=Work+Sans:wght@300&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Neuton:wght@200&family=Yeseva+One&display=swap');
+
+*{
+  margin: 0; padding: 0;
+}
+
+body {
+  overflow-x: hidden;
+  background-color: #fff;
+  font-family: 'Nunito', sans-serif;
+}
+
+.l-sec {
+    height: 100vh;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+    background-color: #fcf8e8;
+   
+    img{
+        position: relative;
+        height: 70vh;
+        width: auto;
+    }
+}
+
+.transFirst, .transSec {
+  position: absolute !important;
+  width:50vw;
+  height: 100vh;
+  background-color: #4e4e4e; 
+  z-index: 3;
+}
+
+.transFirst {
+  left:0;
+  top: -100vh;
+}
+
+.transSec {
+  right: 0;
+  bottom: -100vh;
+}
+
+.transText {
+  position: absolute !important;
+}
+
+#firstSection {
+  p{
+    position: absolute;
+    color: white;
+    font-size: 40px;
+    font-family: 'Neuton', serif;
+    font-weight: 200;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    z-index: 2;
+    margin: 0;
+  }
+
+  display: flex;
+  flex-direction: column;
+
+  #firstImg{
+    position: absolute;
+    // align-self:stretch;
+    // margin: 0 auto;
+    // margin-top: auto;
+    left: 50%; bottom: 0;
+    transform: translate(-50%,0);
+  }
+
+  .textcenter {
+    margin-bottom: auto;
+    margin: 0 auto;
+    margin-bottom: auto;
+    margin-top: 16vh;
+  }
+}
+
+#secondSection {
+  height: 100vh;
+    position: relative;
+    display: flex;
+    background-color: #fcf8e8;
+    justify-content: center;
+    align-content: center;
+    // overflow: visible;
+    div{
+        align-self: center;
+        position: relative;
+    }
+    #loginImg {
+      max-height: 500px;
+      width: auto;
+    }
+    .login {
+      position: absolute;
+      left: 0; top:50%;
+      transform: translate(0,-50%);
+    }
+    .logo {
+      padding: 1.3rem 0;
+      padding-top: 0;
+      margin: 0 !important;
+    }
+    form {
+      padding: 2rem 2rem;
+      padding-top: 1rem;
+      background-color: white;
+      border-radius: 5%;
+      // box-shadow: ;
+    }
+
+    .signInBox {
+      background-color: white;
+      display: flex;
+      box-shadow: 0px 15px 16.83px 0.17px rgba(0, 0, 0, 0.05);
+      border-radius: 20px;
+      
+      .imgContainer {
+        margin: 50px ;
+        margin-right: 50px;
+      }
+      .signInContent {
+        margin: 20px 20px;
+        width: 100%;
+
+        .form-title {
+          font-weight: 800;
+        }
+
+        i {
+          width: 16px;
+          margin-right: 16px;
+        }
+        .inpText {
+          width: 300px;
+          border: none;
+          outline: none;
+          appearance: unset !important;
+        }
+        input[type=checkbox] {
+          appearance: checkbox;
+          margin-right: 16px;
+          
+          &:checked {
+            background-color: black;
+            color: brown;
+          }
+        }
+        .em_pw {
+          border-bottom: 1px solid #999;
+          margin: 30px 0;
+        }
+
+        .check-form{
+          margin: 30px 0;
+        }
+
+        .form-submit{
+          display: inline-block;
+          background: #805252;
+          color: #fff;
+          border: none;
+          width: auto;
+          padding: 10px 20px;
+          border-radius: 5px;
+          margin-bottom: 10px;
+        }
+    }
+  }
+}
+
+// .loginContainer{
+//   margin-left: 6rem;
+// }
+
+.scrolled {
+  background-color: burlywood !important;
+}
+
+.aboutBS {
+  // justify-self: flex-end;
+  // align-self: flex-end;
+  margin-left: auto;
+  margin-right: 6rem;
+}
+
+.login-or {
+  position: relative;
+  color: #aaa;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  }
+  .span-or {
+  display: block;
+  position: absolute;
+  left: 50%;
+  top: -2px;
+  margin-left: -25px;
+  background-color: #fff;
+  width: 50px;
+  text-align: center;
+  }
+  .hr-or {
+  height: 1px;
+  margin-top: 0px !important;
+  margin-bottom: 0px !important;
+  }
+
+// .container-fluid {
+//   width: 55%;
+// }
+
+.navbar {
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  top: 0px;
+  width: 100%;
+  z-index: 1;
+  transition: all 1s;
+  // background-color: #ededed;
+  // box-shadow: 2px 2px 2px #7c7c7c;
+  font-family: "Nunito", sans-serif;
+  .container-fluid{
+    display: flex;
+    justify-content: center;
+  }
+}
+.navbar-brand {
+    font-family: 'Yeseva One', cursive;
+    margin-left: 1rem;
+    color: rgb(48, 48, 48);
+    position: relative;
+    
+    &::before {
+      content: "";
+      width: 0px;
+      background-color: maroon;
+      height: 5px;
+      position: absolute;
+      bottom: 0;
+      transition: all 0.5s ease;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    &:hover::before {
+      width: 100%;
+    }
+    &:hover {
+      color: black;
+    }
+}
+.nav-item {
+  position: relative;
+  padding: 0;
+  display: flex;
+  overflow: visible;
+  text-align: center;
+  margin: 0;
+  justify-content: center;
+  align-items: center;
+}
+
+a.nav-link {
+  padding: 0 1rem !important;
+  position: relative;
+  overflow: hidden;
+  text-decoration: none;
+  color: black;
+  transition: clip-path 275ms ease;
+  overflow: visible;
+  text-align: center;
+  z-index: 1;
+  font-size: 1rem;
+  min-width: 77px;
+}
+
+.first::before, .rest::before {
+  position: absolute;
+  content: attr(data-content);
+  color: #f39189;
+  clip-path: polygon(0 100%, 100% 100%, 100% 100%, 0 100%);
+  transition: clip-path 275ms ease;
+}
+
+a.nav-link:hover > .first::before, a.nav-link:hover > .rest::before {
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+}
+
+a span {
+  position: relative;
+}
+
+li.nav-item {
+  position: relative;
+}
+
+svg, rect {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  fill: transparent;
+  stroke: #bb8082;
+  stroke-width: 1;
+  z-index: 0;
+  stroke-dasharray: 380;
+  stroke-dashoffset: -300;
+  transition: 1s;
+}
+
+rect{
+  top: 50%;
+  transform: translate(0,48%);
+}
+
+a.nav-link:hover ~ svg, a.nav-link:hover ~ svg rect {
+  
+  stroke-dashoffset: 0;
+}
+
+.navbar-brand {
+  font-weight: 600;
+  font-size: 1.55rem;
+}
+
+.navbar-nav {
+  flex-direction: row;
+  justify-content: flex-end;
+  font-size: 1.15rem;
+}
+
+.navbar-nav li {
+  margin: 0px 0rem;
+}
+
+
+/*# sourceMappingURL=styles.css.map */
+
+/*# sourceMappingURL=styles.scss.map */

@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/amor/static/css/main.3b561d70.chunk.css",
+    "main.js": "/amor/static/js/main.82909369.chunk.js",
+    "main.js.map": "/amor/static/js/main.82909369.chunk.js.map",
+    "runtime-main.js": "/amor/static/js/runtime-main.e1623816.js",
+    "runtime-main.js.map": "/amor/static/js/runtime-main.e1623816.js.map",
+    "static/js/2.ba40d82a.chunk.js": "/amor/static/js/2.ba40d82a.chunk.js",
+    "static/js/2.ba40d82a.chunk.js.map": "/amor/static/js/2.ba40d82a.chunk.js.map",
+    "static/js/3.a6bcf368.chunk.js": "/amor/static/js/3.a6bcf368.chunk.js",
+    "static/js/3.a6bcf368.chunk.js.map": "/amor/static/js/3.a6bcf368.chunk.js.map",
+    "index.html": "/amor/index.html",
+    "static/css/main.3b561d70.chunk.css.map": "/amor/static/css/main.3b561d70.chunk.css.map",
+    "static/js/2.ba40d82a.chunk.js.LICENSE.txt": "/amor/static/js/2.ba40d82a.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.e1623816.js",
+    "static/js/2.ba40d82a.chunk.js",
+    "static/css/main.3b561d70.chunk.css",
+    "static/js/main.82909369.chunk.js"
+  ]
+}

@@ -1,3 +1,4 @@
+import "./landingStyles.css";
 import React from "react";
 import { BrowserRouter, Route, Switch, useLocation } from "react-router-dom";
 

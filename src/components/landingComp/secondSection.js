@@ -49,7 +49,7 @@ export default function() {
             </div> */}
             <div className="signInBox">
                 <div className="imgContainer">
-                    <img id="loginImg" src="/images/secSection2.jpg" alt="LoginPage Image"/>
+                    <img id="loginImg" src={process.env.PUBLIC_URL + "/images/secSection2.jpg"} alt="LoginPage Image"/>
                 </div>                
                 <div className="signInContent">
                     <form method="POST" className="signInForm">

@@ -55,7 +55,7 @@ export default function() {
                 <h1>{title.map(titleAnim)}</h1>
             </div>
             <motion.div variants={imgVariants} initial="initial" animate="enter" exit="exit" id="firstImg">
-                <img src="/images/firstSection.jpg" />
+                <img src={process.env.PUBLIC_URL + "/images/firstSection.jpg"} />
                 <p>love better</p>
             </motion.div>
         </section>

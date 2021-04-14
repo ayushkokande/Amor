@@ -5,7 +5,6 @@ import Page1 from "./page1";
 
 export default function () {
   const [step, setStep] = useState(0);
-  let idx = useSelector((state) => state.signUpIdx.idx);
 
   const arr = [Page0, Page1];
   const [data, setData] = useState({

@@ -1,7 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Yantramanav&display=swap');
+
 .formContainer {
     height: 100vh;
     width: auto;
-    background-image: url("https://knoxmuseum.org/wp-content/uploads/2016/03/knox-pink-polygon-bg.svg");
+    background-image: url("./../assets/noisy.png");
     display: flex;
     justify-content: center;
     align-items: center;
@@ -10,27 +12,49 @@
   .formContainer .Container {
     background-color: white;
     box-shadow: 0px 15px 16.83px 0.17px rgba(0, 0, 0, 0.05);
-    border-radius: 20px;
+    border-radius: 40px;
+    
   }
   
   #signUpForm {
-    padding: 30px;
+    font-family: 'Yantramanav', sans-serif;
+    padding: 12%;
+    position: relative;
+    min-width: 450px;
+    text-align: left;
+    border-radius: 40px;
+    background: rgb(255,64,64);
+    background: linear-gradient(309deg, rgba(255,64,64,0.9867297260701156) 0%, rgba(255,150,162,1) 50%, rgba(252,231,234,1) 100%);
+    box-shadow: 3px 5px 10px rgb(77, 77, 77);
   }
 
   #signUpForm i {
     width: 16px;
-    margin-right: 16px;
   }
-  #signUpForm .inpText {
-    font-size: 1rem;
+
+  #signUpForm label {
+    margin-left: 5px;
+  }
+
+  #signUpForm .inpsText {
+    display: block;
+    padding: 5px 10px;
+    font-size: 0.8rem;
     border: none;
+    border-radius: 20px;
     outline: none;
     appearance: unset !important;
+    width: 100%;
+    text-decoration: none;
+    box-shadow: 2px 2px 5px rgb(88, 88, 88);
   }
   
   #signUpForm .form-group {
     margin-bottom: 7px;
-    border-bottom: 1px solid #999;
+  }
+  
+  #signUpForm .form-group label {
+    text-align: left;
   }
   
   #signUpForm .form-button {
@@ -38,4 +62,90 @@
     margin: 20px 0;
   }
   
-  
+  .form-title {
+    text-align: left;
+    margin: 0;
+  }
+
+  .formUnd {
+    /* margin: 0; */
+    height: 0.7px;
+    position: relative;
+    overflow-x: hidden;
+    margin-bottom: 15px;
+  }
+
+  .formUnd svg{
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 0.7px;
+    width: 100%;
+  }
+
+  .form-button {
+    display: flex;
+    justify-content: center;
+    
+  }
+
+  .form-button .but {
+    border: none;
+    min-width: 100px;
+    padding: 20px;
+    background: #ffb4b4;
+    box-shadow: -4px -4px 7px rgba(255, 222, 222, 0.8), 6px 6px 10px rgba(0, 0, 0, 0.2);
+    border-radius: 20px;
+    transition: 0.2s ease-in-out;
+    outline: none;
+  }
+
+  .form-button .but:hover {
+    opacity: 0.8;
+    box-shadow: -4px -4px 7px rgba(255, 255, 255, 0.8),
+      6px 6px 10px rgba(0, 0, 0, 0.2);
+  }
+
+  .form-button .but:active {
+    opacity: 1;
+    background-color: #ffb3b3;
+    box-shadow: inset -4px -4px 8px rgba(255, 222, 222, 0.6),
+      inset 8px 8px 16px rgba(184, 0, 0, 0.479);
+    outline: none;
+  }
+
+  .imgUp {
+    position: relative;
+    z-index: 0;
+    padding: 50px;
+    border-radius: 100%;
+    background-color: aquamarine;
+  }
+
+  .imgUp span {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+  }
+
+  .imgUp input {
+    position: absolute;
+    z-index: -1;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    width: 10px;
+    opacity: 0;
+  }
+
+  .images {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+  }
+  .p2.row {
+    width: 100%;
+    justify-content: space-around;
+  }

@@ -1,9 +1,13 @@
 @import url("https://fonts.googleapis.com/css2?family=Nunito:wght@300&family=Work+Sans:wght@300&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Neuton:wght@200&family=Yeseva+One&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Gotu&family=Quicksand&family=Sansita&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Slabo+27px&family=Thasadith&family=Titillium+Web&display=swap');
 * {
   margin: 0;
   padding: 0;
 }
+
+/* BASE STYLING */
 
 body {
   overflow-x: hidden;
@@ -14,10 +18,7 @@ body {
 .l-sec {
   height: 100vh;
   position: relative;
-  display: flex;
-  justify-content: center;
   overflow: hidden;
-  background-color: #fcf8e8;
 }
 .l-sec img {
   position: relative;
@@ -25,33 +26,13 @@ body {
   width: auto;
 }
 
-.transFirst, .transSec {
-  position: absolute !important;
-  width: 50vw;
-  height: 100vh;
-  background-color: #4e4e4e;
-  z-index: 3;
-}
-
-.transFirst {
-  left: 0;
-  top: -100vh;
-}
-
-.transSec {
-  right: 0;
-  bottom: -100vh;
-}
-
-.transText {
-  position: absolute !important;
-}
+/* HomePage */
 
 #firstSection {
-  display: flex;
-  flex-direction: column;
+  position: relative;
+  background-image: url("./../assets/pink_rice.png");
 }
-#firstSection p {
+/* #firstSection p {
   position: absolute;
   color: white;
   font-size: 40px;
@@ -66,21 +47,56 @@ body {
 #firstSection #firstImg {
   position: absolute;
   left: 50%;
-  bottom: 0;
+  bottom: 6%;
   transform: translate(-50%, 0);
-}
+  opacity: 77%;
+} */
 #firstSection .textcenter {
-  margin-bottom: auto;
-  margin: 0 auto;
-  margin-bottom: auto;
-  margin-top: 16vh;
+  font-family: 'Quicksand', sans-serif;
+  text-align: center;
+  margin-top: 8vh;
+  margin-bottom: 16px;
 }
+
+#firstImg {
+  position: absolute;
+  left: 50%;
+}
+
+.imgOverlay {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgb(139, 139, 139);
+  opacity: 0.3;
+}
+
+.Trans1 {
+  position: absolute !important;
+  top: 0;
+  height: 50vh;
+  width: 100vw;
+  background-image: url("./../assets/blue_rice.png");
+  z-index: 15;
+  transform: translateX(100%);
+}
+
+.Trans2 {
+  position: absolute !important;
+  bottom: 0;
+  height: 50vh;
+  width: 100vw;
+  background-image: url("./../assets/blue_rice.png");
+  z-index: 15;
+}
+
+/* LoginPage */
 
 #secondSection {
   height: 100vh;
   position: relative;
-  display: flex;
-  background-color: #fcf8e8;
+  background-image: url("./../assets/royal_rice.png");
   justify-content: center;
   align-content: center;
 }
@@ -110,9 +126,14 @@ body {
   border-radius: 5%;
 }
 #secondSection .signInBox {
+  position: relative;
   background-color: white;
   display: flex;
+  max-width: 950px;
+  left: 50%;
+  transform: translateX(-50%);
   box-shadow: 0px 15px 16.83px 0.17px rgba(0, 0, 0, 0.05);
+  margin-top: 35px;
   border-radius: 20px;
 }
 #secondSection .signInBox .imgContainer {
@@ -197,14 +218,94 @@ body {
   margin-bottom: 0px !important;
 }
 
-.navbar {
-  position: fixed;
+/* AboutPage */
+#thirdSection {
+  height: 100vh;
+  position: relative;
+  background-image: url("./../assets/blue_rice.png");
+}
+
+#thirdSection svg {
+  position: absolute;
+  z-index: 0;
+  top:0;
+  right:0;
+  width: 100px;
+  height: 100px;
+  transform-origin: top right;
+  opacity: 0.6;
+}
+
+#thirdSection svg>circle {
+  stroke-width: 0;
+  fill: #E8F7FF;
+  position: absolute;
+  top:0;
+  right: 0;
+}
+
+#thirdSection .container-fluid {
+  position: relative;
+  z-index: 2;
+}
+
+#thirdSection .oneLiner {
+  font-family: 'Titillium Web', sans-serif;
+  font-weight: 700;
+  margin-top: 100px;
+  overflow: hidden;
+}
+
+#thirdSection .motto {
+  font-family: 'Slabo 27px', serif;
+  margin-bottom: 70px;
+  overflow: hidden;
+}
+
+#thirdSection .desc {
+  text-align: left;
+  margin-left: 15vw;
+}
+
+#thirdSection .desc h3 {
+  font-family: 'Quicksand', sans-serif;
+  margin-bottom: 28px;
+}
+
+#thirdSection .desc {
+  max-width: 550px;
+}
+
+#thirdSection .amor {
+  font-family: 'Sansita', sans-serif;
+  position: relative;
+}
+
+#thirdSection .amor::before{
+  content: "";
+  width: 100%;
+  background-color: black;
+  height: 0.5px;
+  position: absolute;
+  bottom: -5px;
+  transition: all 0.5s ease;
+}
+
+#thirdSection .desc p {
+  font-family: 'Thasadith', sans-serif;
+  font-size: 18px;
+}
+
+/* NAVBAR */
+
+.navbar, .NAV {
+  position: relative;
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
   top: 0px;
   width: 100%;
-  z-index: 1;
+  z-index: 10 !important;
   transition: all 1s;
   font-family: "Nunito", sans-serif;
 }
@@ -214,8 +315,10 @@ body {
 }
 
 .navbar-brand {
-  font-family: "Yeseva One", cursive;
-  margin-left: 1rem;
+  /* font-family: "Yeseva One", cursive; */
+  font-family: 'Sansita', sans-serif;
+  padding: 0;
+  margin: 0 6rem;
   color: #303030;
   position: relative;
 }
@@ -238,7 +341,9 @@ body {
 }
 
 .nav-item {
+  font-family: 'Gotu', sans-serif;
   position: relative;
+  top: 3px;
   padding: 0;
   display: flex;
   overflow: visible;
@@ -249,7 +354,6 @@ body {
 }
 
 a.nav-link {
-  padding: 0 1rem !important;
   position: relative;
   overflow: hidden;
   text-decoration: none;
@@ -260,6 +364,15 @@ a.nav-link {
   z-index: 1;
   font-size: 1rem;
   min-width: 77px;
+}
+
+p.nav-link {
+  margin: 0;
+  padding: 0;
+}
+
+p.nav-link:hover {
+  cursor: pointer;
 }
 
 .first::before, .rest::before {
@@ -282,7 +395,7 @@ li.nav-item {
   position: relative;
 }
 
-svg, rect {
+/* svg, rect {
   position: absolute;
   width: 100%;
   height: 100%;
@@ -298,7 +411,7 @@ svg, rect {
 rect {
   top: 50%;
   transform: translate(0, 48%);
-}
+} */
 
 a.nav-link:hover ~ svg, a.nav-link:hover ~ svg rect {
   stroke-dashoffset: 0;

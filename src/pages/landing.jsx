@@ -10,6 +10,11 @@ import SignUpPage from "./signUpPage";
 
 import { AnimatePresence } from "framer-motion";
 
+// const FirstSection = React.lazy(()=>import("../components/landingComp/firstSection"));
+// const SecondSection = React.lazy(()=>import("../components/landingComp/secondSection"));
+// const About = React.lazy(()=>import("../components/landingComp/about"));
+// const SignUpPage = React.lazy(()=>import("./signUpPage"));
+
 function Landing() {
   const [classLT,setClassLT] = React.useState("");
   const ht = document.documentElement.clientHeight;
@@ -29,12 +34,14 @@ window.addEventListener("scroll", myScrollFunc);
         <Route
         render={({ location }) => (
           <AnimatePresence exitBeforeEnter>
+          {/* <React.Suspense fallback={<div>LOADINGG.....</div>}> */}
             <Switch location={location} key={location.key}>
               <Route exact path='/' render={() => <FirstSection />} />
               <Route path='/about' render={() => <About />} />
               <Route path='/login' render={() => <SecondSection />} />
-              <Route path="/signup" render={() => <SignUpPage />} />
+              <Route path="/signUp" render={() => <SignUpPage />} />
             </Switch>
+            {/* </React.Suspense> */}
           </AnimatePresence>
         )}
       />

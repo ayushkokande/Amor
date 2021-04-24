@@ -67,7 +67,7 @@ export default function() {
     return (
         !linkChange?
             (<>
-            <section className="l-sec" id="secondSection">
+            <section style = {{backgroundImage: `url(/images/royal_rice.png)`}} className="l-sec" id="secondSection">
             <Navbar/>
             <motion.div style={{backgroundImage: `url(/images/${transBG.img})`}} variants = {abTransVariants1} initial="initial" exit="exit" className="Trans1"></motion.div>
             <motion.div style={{backgroundImage: `url(/images/${transBG.img})`}} variants = {abTransVariants2} initial="initial" exit="exit" className="Trans2"></motion.div>

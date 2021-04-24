@@ -23,8 +23,8 @@ export default function() {
 
     function titleAnim(item,ind) {
         const titleVariants = {
-            initial: {y: "101%"},
-            animate: i=>({y: "0", transition: {duration: 0.5, delay: 1.6 + i*0.13, type: "tween"}})
+            initial: {y: "101%", opacity: 0},
+            animate: i=>({y: "0", opacity: 1, transition: {duration: 0.5, delay: 1.6 + i*0.13, type: "tween"}})
         }
         return (
         <motion.div variants={titleVariants} initial="initial" animate="animate" custom={ind} style={{display: "inline-block"}}>
@@ -72,7 +72,7 @@ export default function() {
 
     return(
         <>
-        <section className="l-sec" id="thirdSection">
+        <section style = {{backgroundImage: `url(/images/blue_rice.png)`}} className="l-sec" id="thirdSection">
             <Navbar />
             <motion.div style={{backgroundImage: `url(/images/${transBG.img})`}} variants = {abTransVariants1} initial="initial" exit="exit" className="Trans1"></motion.div>
             <motion.div style={{backgroundImage: `url(/images/${transBG.img})`}} variants = {abTransVariants2} initial="initial" exit="exit" className="Trans2"></motion.div>
@@ -81,8 +81,8 @@ export default function() {
                 Sorry, your browser does not support inline SVG.  
             </motion.svg>
             <div className="container-fluid">
-                <motion.h1 variants = {oneLinerVar} initial="initial" animate="enter" className="oneLiner">One Liner</motion.h1>
-                <h3 className="motto">{title.map(titleAnim)}</h3>
+                <motion.h1 className="text-center oneLiner" variants = {oneLinerVar} initial="initial" animate="enter">One Liner</motion.h1>
+                <h3 className="motto text-center">{title.map(titleAnim)}</h3>
                 <div className="desc">
                     <motion.h3 variants={abVar} initial="initial" animate="enter">About <span className="amor">amor</span></motion.h3>
                     <motion.p variants={contVar} initial="initial" animate="enter">amor is an online social dating site. amor is an online social dating site. 

@@ -1,4 +1,4 @@
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import {useSpring, animated} from "react-spring";
 import { AnimatePresence, motion } from "framer-motion";
 import { useLocation } from "react-router-dom";
@@ -13,8 +13,8 @@ export default function() {
 
     function titleAnim(item,ind) {
         const titleVariants = {
-            initial: {y: "101%"},
-            animate: i=>({y: "0", transition: {duration: 0.5, delay: 1.6 + i*0.13, type: "tween"}})
+            initial: {y: "101%", opacity: 0},
+            animate: i=>({y: "0", opacity: 1, transition: {duration: 0.5, delay: 1.6 + i*0.13, type: "tween"}})
         }
         return (
         <motion.div variants={titleVariants} initial="initial" animate="animate" custom={ind} style={{display: "inline-block"}}>
@@ -22,27 +22,12 @@ export default function() {
         </motion.div>)
     }
 
-    const imgAnim = useSpring(
-        {
-        config: {friction: 50},
-        to: {bottom: 0},
-        from: {bottom: -600},
-        delay: 300
-})
-
-    const transVariants = {
-        initial: { scale: 0.6, opacity: 0 },
-        enter: { scale: 1, opacity: 1, transition: {duration: 1}},
-        exit: {
-          scale: 0.3,
-          opacity: 0,
-          transition: { duration: 1.5, when: "beforeChildren", staggerChildren: 1 }
-        }
-    };
+    // let mediaQ = window.matchMedia('(max-width: 468px');
+    // let mQ = (mediaQ) ? 1.4 : 1;
 
     const imgVariants = {
         initial: {translateX: "-50%", translateY: "100%", opacity: 0},
-        enter: {translateX: "-50%", translateY: "0%",opacity: 1, transition: {
+        enter: {translateX: "-50%", translateY: "0%", opacity: 1, transition: {
             duration: 1,
             ease: [0.43, 0.13, 0.23, 0.96],
             delay: 0.5
@@ -84,15 +69,15 @@ export default function() {
     console.log(useLocation());
     return (
         <>
-            <motion.section className="l-sec" id="firstSection">
+            <motion.section style = {{backgroundImage: `url(/images/pink_rice.png)`}}className="l-sec" id="firstSection">
                 <Navbar />
                 <motion.div style={{backgroundImage: `url(/images/${transBG.img})`}} variants = {abTransVariants1} initial="initial" exit="exit" className="Trans1"></motion.div>
                 <motion.div style={{backgroundImage: `url(/images/${transBG.img})`}} variants = {abTransVariants2} initial="initial" exit="exit" className="Trans2"></motion.div>
                 <div className="content">
                     <div className="textcenter" style={{overflow: "hidden"}}>
-                        <h1 style = {{fontSize: "2rem"}}>{title.map(titleAnim)}</h1>
+                        <h2>{title.map(titleAnim)}</h2>
                     </div>
-                    <motion.div variants={imgVariants} initial="initial" animate="enter" exit="exit" id="firstImg">
+                    <motion.div variants={imgVariants} initial="initial" animate="enter" id="firstImg">
                         <img src={process.env.PUBLIC_URL + "/images/firstSec.jpg"} />
                         <div className="imgOverlay"></div>
                     </motion.div>

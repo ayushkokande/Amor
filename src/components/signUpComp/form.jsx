@@ -42,7 +42,7 @@ export default function () {
   function content(formVar) {
     switch (step) {
       case 0:
-        return <Page2 changeDir = {changeDir} var = {formVar} next={next} data={data} change={onChange} />;
+        return <Page0 changeDir = {changeDir} var = {formVar} next={next} data={data} change={onChange} />;
 
       case 1:
         return <Page1 changeDir = {changeDir} var = {formVar} prev={prev} data={data} next={next} change={onChange} />;

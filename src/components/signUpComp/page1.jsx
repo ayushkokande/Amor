@@ -4,13 +4,11 @@ import { useState } from "react";
 export default function (props) {
   const [show,setShow] = useState(true);
   console.log(props.data);
-  function click(e) {
-    console.log(e);
-  }
+
   let formVar = props.var;
   return (
     <>
-    <div className="formContainer">
+    <div className="formContainer" style = {{backgroundImage: `url(/images/noisy.png)`}}>
       <AnimatePresence exitBeforeEnter>
       {show &&
         <motion.div variants={formVar} initial="initial" animate="enter" exit="exit" className="Container">

@@ -4,9 +4,7 @@ import { useState } from "react";
 export default function (props) {
   const [show, setShow] = useState(true);
   console.log(props.data);
-  function click(e) {
-    console.log(e);
-  }
+
   let formVar = props.var;
   return (
     <>

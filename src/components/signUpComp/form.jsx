@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { useSelector } from "react-redux";
-import { AnimatePresence, motion } from "framer-motion";
 import Page0 from "./page0";
 import Page1 from "./page1";
 import Page2 from "./page2";
+import Page3 from "./page3";
+import firebase from "firebase/app";
+import "firebase/auth";
 
 export default function () {
   const [step, setStep] = useState(0);
@@ -17,7 +18,24 @@ export default function () {
     password: "",
     age: "",
     sex: "",
+    bio: "",
+    images: []
   });
+
+  function signIn(){
+    firebase.auth().createUserWithEmailAndPassword(data.email, data.password)
+    .then((userCredential) => {
+      // Signed in 
+      var user = userCredential.user;
+      // ...
+    })
+    .catch((error) => {
+      var errorCode = error.code;
+      var errorMessage = error.message;
+      console.log(errorMessage);
+      // ..
+    });
+  }
 
   function next() {
     setStep(step + 1);
@@ -28,6 +46,7 @@ export default function () {
   }
 
   function sub() {
+    signIn();
     //Send data to database
   }
 
@@ -90,24 +109,16 @@ export default function () {
   }
 
   const formVar = {
-    initial: { translateX: direction === 1 ? "-40%" : "40%", opacity: 0 },
-    enter: {
-      translateX: "0%",
-      opacity: 1,
-      transition: {
-        ease: [0.43, 0.13, 0.23, 0.96],
-        duration: 0.8,
-      },
-    },
-    exit: {
-      translateX: direction === 1 ? "40%" : "-40%",
-      opacity: 0,
-      transition: {
-        ease: [0.43, 0.13, 0.23, 0.96],
-        duration: 0.8,
-      },
-    },
-  };
+    initial:  {left: (direction===1) ? "-40%" : "40%" , opacity: 0},
+    enter: {left: "0%", opacity:1, transition: {
+      ease: [0.43, 0.13, 0.23, 0.96],
+      duration: 0.8
+    }},
+    exit: {left: (direction===1) ? "40%" : "-40%", opacity:0, transition: {
+      ease: [0.43, 0.13, 0.23, 0.96],
+      duration: 0.8
+    }}
+  }
   console.log("Rendered");
   return content(formVar);
 }

@@ -1,0 +1,41 @@
+.chatContainer {
+    height: 100vh;
+    width: 100vw;
+    position: relative;
+    display: grid;
+    grid-template-rows: 50px auto 30px;
+}
+
+.banner {
+    grid-row-start: 1;
+    grid-row-end: 2;
+    background-color: brown;
+}
+
+#messages {
+    grid-row-start: 2;
+    grid-row-end: 3;
+    background-color: rgb(240, 240, 240);
+    display: flex;
+    flex-direction: column;
+}
+
+.msg {
+    max-width: 40%;
+    padding: 15px;
+    border-radius: 30px;
+    background-color: cornflowerblue;
+    margin: 10px;
+}
+
+.ogUser {
+    align-self: flex-end;
+}
+
+.otherUser {
+    align-self: flex-start;
+}
+.messageBox {
+    grid-row-start: 3;
+    grid-row-end: 3;
+}

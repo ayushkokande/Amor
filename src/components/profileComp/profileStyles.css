@@ -1,0 +1,180 @@
+.profilePage {
+  height: 100vh;
+  width: 100vw;
+  background: rgb(248, 186, 186);
+  background: linear-gradient(
+    0deg,
+    rgba(248, 186, 186, 1) 9%,
+    rgba(255, 240, 240, 1) 94%
+  );
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.profilePage > .container {
+  width: 70%;
+  height: 80%;
+  background-color: white;
+  border-radius: 60px;
+  position: relative;
+  box-shadow: 0px 15px 16.83px 0.17px rgba(0, 0, 0, 0.315);
+  border: 0.5px solid rgba(5, 5, 5, 0.479);
+}
+
+.container .profilePic img {
+  border-radius: 100%;
+  width: 100px;
+  height: 100px;
+  position: relative;
+  z-index: 1;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.container .buttons {
+  text-align: center;
+  position: relative;
+  top: -20px;
+}
+
+.container .buttons :nth-child(1) {
+  margin-right: 20px;
+}
+
+.container .buttons .btn {
+  position: relative;
+  transition: color 0.1s ease-in-out 0.5s;
+  transition: box-shadow, color 0.1s ease-in-out 0.5s;
+  background-clip: padding-box;
+  background-color: rgb(209, 96, 96);
+  z-index: 0;
+}
+
+.container .buttons .btn::before {
+  position: absolute;
+  content: "";
+  width: 0%;
+  height: 100%;
+  background-color: rgb(150, 42, 42);
+  left: 0;
+  top: 0;
+  z-index: -1;
+  transition: width 0.2s ease-in-out 0.5s;
+}
+
+.container .buttons .btn:hover::before {
+  width: 100%;
+}
+
+.container .buttons .btn:hover {
+  color: white;
+  box-shadow: 2px 3px 4px rgb(134, 134, 134);
+}
+
+.container .buttons .btn:nth-child(2)::after {
+  position: absolute;
+  content: "";
+  width: 0%;
+  height: 100%;
+  right: 0;
+  top: 0;
+  z-index: -1;
+  transition: width 0.2s ease-in-out 0.5s;
+  background-color: rgb(150, 42, 42);
+}
+
+.container .buttons .btn:nth-child(2)::before {
+  height: 0%;
+}
+
+.container .buttons .btn:nth-child(2):hover::after {
+  width: 100%;
+}
+
+.btn svg,
+.btn rect {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  fill: transparent;
+  stroke: black;
+  stroke-width: 1;
+  z-index: 0;
+  stroke-dasharray: 320;
+  stroke-dashoffset: 320;
+  transition: stroke-dashoffset 1s ease-in-out 0.5s;
+}
+
+.container .buttons .btn:hover svg,
+.container .buttons .btn:hover svg rect {
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset 0.5s ease-in-out 0s;
+}
+
+.profileData {
+  width: 70%;
+  height: 70%;
+  overflow-y: scroll;
+  scrollbar-color: #0a4c95 #c2d2e4;
+}
+
+.profileData::-webkit-scrollbar {
+  -webkit-appearance: none;
+  width: 14px;
+}
+
+.profileData::-webkit-scrollbar-track {
+  margin: 7px 0;
+}
+
+.profileData::-webkit-scrollbar-thumb {
+  border-radius: 12px;
+  border: 4px solid rgba(255, 255, 255, 0);
+  background-clip: content-box;
+  background-color: white;
+}
+
+.profileData span {
+  font-weight: 600;
+  padding: 0 6px;
+}
+
+.profileData .data {
+  width: 100%;
+  border-radius: 15px;
+  box-shadow: inset 0px 3px 4px -4px #ccc, inset 0px -3px 4px -4px #ccc;
+  padding: 2px 10px;
+  font-size: 12px;
+  background-color: rgba(250, 250, 250, 0.575);
+}
+
+.profileData .field {
+  margin: 20px 0;
+}
+
+@media (max-width: 468px) {
+  .container .buttons .btn {
+    font-size: 0.8rem;
+  }
+
+  .container .buttons .btn {
+    background-color: rgb(209, 96, 96);
+    color: white;
+    border: 0.4px solid black;
+  }
+
+  .btn svg,
+  .btn rect {
+    stroke: white;
+  }
+
+  .profileData {
+    width: 95%;
+  }
+  .container .buttons :nth-child(1) {
+    margin-right: 2vw;
+  }
+}

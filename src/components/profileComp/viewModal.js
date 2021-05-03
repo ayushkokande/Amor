@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useSelector } from "react-redux";
-import RightArr from "./rightArr";
+import RightArr from "./viewRightArr";
 import store from "../../store/store";
 
 export default function () {

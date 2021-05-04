@@ -3,7 +3,7 @@ import { useState } from "react";
 
 export default function (props) {
   const [show, setShow] = useState(true);
-  console.log(props.data);
+  // console.log(props.data);
 
   let formVar = props.var;
   return (

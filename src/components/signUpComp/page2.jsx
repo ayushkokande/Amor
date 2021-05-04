@@ -9,7 +9,7 @@ export default function (props) {
   const [img, setImg] = useState(null);
   const [show, setShow] = useState(true);
   const prevImg = usePrevious(img);
-  console.log(props.data);
+  // console.log(props.data);
 
   let arrUrl = [];
 

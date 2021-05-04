@@ -39,7 +39,6 @@ export default function () {
     /* for modal*/
   }
   const [open, setOpen] = useState(false);
-  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [user, setUser] = useState(null);
@@ -49,22 +48,14 @@ export default function () {
         //user has logged in
         console.log(authUser);
         setUser(authUser);
-        if (authUser.displayName) {
-          //don't update username
-        } else {
-          return authUser.updateProfile({
-            displayName: username,
-          });
-        }
       } else {
         setUser(null);
       }
     });
     return () => {
-      //perform some cleanup actions
       unsubscribe();
     };
-  }, [user, username]);
+  }, [user]);
 
   const classes = useStyles();
   const [modalStyle] = useState(getModalStyle);
@@ -116,18 +107,6 @@ export default function () {
       }, 100);
     });
   }
-  const signup = (event) => {
-    event.preventDefault();
-    auth
-      .createUserWithEmailAndPassword(email, password)
-      .then((authUser) => {
-        return authUser.user.updateProfile({
-          displayName: username,
-        });
-      })
-      .catch((error) => alert(error.message));
-    setOpen(false);
-  };
 
   const signIn = (event) => {
     event.preventDefault();
@@ -136,7 +115,7 @@ export default function () {
       .catch((error) => alert(error.message));
   };
   function onClick(e) {
-    // func(e.target.id).then(setChange(true));
+    func(e.target.id).then(setChange(true));
   }
 
   const transBG = useSelector((state) => state.link);
@@ -160,16 +139,9 @@ export default function () {
       >
         <Navbar />
         {/* Code for Modal*/}
-        <Modal open={open} onClose={() => setOpen(false)}>
+        {/* <Modal open={open} onClose={() => setOpen(false)}>
           <div style={modalStyle} className={classes.paper}>
             <form className="app__signup">
-              <Input
-                type="text"
-                placeholder="username"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-              />
-
               <Input
                 placeholder="email"
                 type="text"
@@ -188,7 +160,7 @@ export default function () {
               </Button>
             </form>
           </div>
-        </Modal>
+        </Modal> */}
 
         <motion.div
           style={{ backgroundImage: `url(/images/${transBG.img})` }}
@@ -217,66 +189,67 @@ export default function () {
               alt="LoginPage Image"
             />
           </div>
-          {user ? (
-            <Button type="submit" onClick={() => auth.signOut()}>
+
+          {/* <Button type="submit" onClick={() => auth.signOut()}>
               Sign Out{" "}
-            </Button>
-          ) : (
-            <div className="signInContent">
-              <form method="POST" className="signInForm">
-                <h3 className="form-title">Sign In</h3>
-                <div className="form-group em_pw">
-                  <label for="email">
-                    <i className="zmdi zmdi-email"></i>
-                  </label>
-                  <input
-                    type="email"
-                    className="inpText"
-                    placeholder="Enter email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                  ></input>
-                </div>
-                <div className="form-group em_pw">
-                  <i className="zmdi zmdi-lock"></i>
-                  <input
-                    type="password"
-                    className=" text-muted inpText"
-                    id="exampleInputEmail1"
-                    aria-describedby="emailHelp"
-                    value={password}
-                    placeholder="Password"
-                    onChange={(e) => setPassword(e.target.value)}
-                  ></input>
-                </div>
-                <div class="form-group check-form">
-                  <input type="checkbox" />
-                  <label>Remember my password</label>
-                </div>
-                <div class="form-group form-button">
-                  <input
-                    onClick={signIn}
-                    type="submit"
-                    class="form-submit"
-                    value="Login"
-                  />
-                </div>
-                <div className="form-group">
-                  <p>
-                    Don't have an account?{" "}
-                    {/* <p onClick={onClick} id="signUp"> */}
-                    <p onClick={() => setOpen(true)}>Sign up.</p>
+            </Button> */}
+
+          <div className="signInContent">
+            <form method="POST" className="signInForm">
+              <h3 className="form-title">Sign In</h3>
+              <div className="form-group em_pw">
+                <label for="email">
+                  <i className="zmdi zmdi-email"></i>
+                </label>
+                <input
+                  type="email"
+                  className="inpText"
+                  placeholder="Enter email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                ></input>
+              </div>
+              <div className="form-group em_pw">
+                <i className="zmdi zmdi-lock"></i>
+                <input
+                  type="password"
+                  className=" text-muted inpText"
+                  id="exampleInputEmail1"
+                  aria-describedby="emailHelp"
+                  value={password}
+                  placeholder="Password"
+                  onChange={(e) => setPassword(e.target.value)}
+                ></input>
+              </div>
+              <div class="form-group check-form">
+                <input type="checkbox" />
+                <label>Remember my password</label>
+              </div>
+              <div class="form-group form-button">
+                <input
+                  onClick={signIn}
+                  type="submit"
+                  class="form-submit"
+                  value="Login"
+                />
+              </div>
+              <div className="form-group">
+                <p>
+                  Don't have an account?{" "}
+                  <p onClick={onClick} id="signUp">
+                    SignUp
                   </p>
-                </div>
-              </form>
-            </div>
-          )}
+                  {/* <p onClick={() => setOpen(true)}>Sign up.</p> */}
+                </p>
+              </div>
+            </form>
+          </div>
         </motion.div>
       </section>
     </>
   ) : (
     <>
-      <section className="l-sec" id="secondSection">
+      {/* <section className="l-sec" id="secondSection">
         <Navbar />
         <motion.div
           style={{ backgroundImage: `url(/images/${transBG.img})` }}
@@ -341,7 +314,7 @@ export default function () {
             </form>
           </div>
         </div>
-      </section>
+      </section> */}
       <Redirect to={`/${id}`} />
     </>
   );

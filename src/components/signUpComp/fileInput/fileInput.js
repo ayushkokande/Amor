@@ -1,12 +1,12 @@
 import { useRef, useState } from "react";
 import UploadedImage from "./uploadedImg";
 
-export default function() {
+export default function (props) {
   const fileRef = useRef();
   const [uploaded, setUploaded] = useState(false);
   const [upUrl, setUpUrl] = useState(null);
-  const [done, setDone] = useState({done: false, url: null});
-  const [styles,setStyles] = useState({});
+  const [done, setDone] = useState({ done: false, url: null });
+  const [styles, setStyles] = useState({});
 
   function getBase64(file) {
     return new Promise((resolve) => {
@@ -29,7 +29,7 @@ export default function() {
     let file = e.target.files[0];
     fileRef.current = file;
     let d;
-    setStyles({zIndex: "1"});
+    setStyles({ zIndex: "1" });
     getBase64(file)
       .then((result) => {
         d = result;
@@ -40,45 +40,53 @@ export default function() {
         console.log(err);
       });
   }
-    
-    
-    return (!done.done) ? (
-      <>
-        <label className="imgUp col-auto">
-          <div style={ uploaded ? {animation: "spin 10s linear infinite"} : {} } className="circle"></div>
-          <span>
-            <i class="fas fa-plus"></i>
-          </span>
-          <input type="file" onChange={handleChange} required />
-        </label>
-        <div style={styles} className="fileContainer">
-          <UploadedImage
+
+  function cropImgUploaded(url) {
+    props.imgUpload(url, props.idx);
+  }
+
+  return !done.done ? (
+    <>
+      <label className="imgUp col-auto">
+        <div
+          style={uploaded ? { animation: "spin 10s linear infinite" } : {}}
+          className="circle"
+        ></div>
+        <span>
+          <i class="fas fa-plus"></i>
+        </span>
+        <input type="file" onChange={handleChange} required />
+      </label>
+      <div style={styles} className="fileContainer">
+        <UploadedImage
           imgUrl={upUrl}
           uploaded={uploaded}
           setUploaded={setUploaded}
-          setSt = {()=>setStyles({})}
-          setDone = {setDone}
-          />
+          setSt={() => setStyles({})}
+          setDone={setDone}
+          cropImgUploaded={cropImgUploaded}
+        />
+      </div>
+    </>
+  ) : (
+    <>
+      <label style={{ backgroundColor: "#fff" }} className="imgUp col-auto">
+        <div className="circle"></div>
+        <div className="croppedImg">
+          <img src={done.url} />
         </div>
-      </>)
-      : (
-        <>
-          <label style={{backgroundColor: "#fff"}} className="imgUp col-auto">
-          <div className="circle"></div>
-            <div className="croppedImg">
-              <img src={done.url} />
-            </div>
-          <input type="file" onChange={handleChange} required />
-          </label>
-          <div style={styles} className="fileContainer">
-          <UploadedImage
+        <input type="file" onChange={handleChange} required />
+      </label>
+      <div style={styles} className="fileContainer">
+        <UploadedImage
           imgUrl={upUrl}
           uploaded={uploaded}
           setUploaded={setUploaded}
-          setSt = {()=>setStyles({})}
-          setDone = {setDone}
-          />
-        </div>
-        </>
-      )   
+          setSt={() => setStyles({})}
+          setDone={setDone}
+          cropImgUploaded={cropImgUploaded}
+        />
+      </div>
+    </>
+  );
 }

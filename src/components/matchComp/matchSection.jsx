@@ -1,6 +1,5 @@
 import Profile from "./Profile.jsx";
 import List from "./list";
-import { useSelector } from "react-redux";
 
 export default function () {
   return (

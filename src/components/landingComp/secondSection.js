@@ -95,7 +95,7 @@ export default function () {
   };
 
   const abTransVariants2 = {
-    initial: { translateX: "-100%" },
+    initial: { translateX: "-50%" },
     exit: {
       translateX: "0%",
       transition: {
@@ -136,7 +136,7 @@ export default function () {
       .catch((error) => alert(error.message));
   };
   function onClick(e) {
-    // func(e.target.id).then(setChange(true));
+    func(e.target.id).then(setChange(true));
   }
 
   const transBG = useSelector((state) => state.link);
@@ -264,8 +264,10 @@ export default function () {
                 <div className="form-group">
                   <p>
                     Don't have an account?{" "}
-                    {/* <p onClick={onClick} id="signUp"> */}
-                    <p onClick={() => setOpen(true)}>Sign up.</p>
+                    <p onClick={onClick} id="signUp">
+                      Sign Up.
+                    </p>
+                    {/* <p onClick={() => setOpen(true)}>Sign up.</p> */}
                   </p>
                 </div>
               </form>
@@ -276,7 +278,11 @@ export default function () {
     </>
   ) : (
     <>
-      <section className="l-sec" id="secondSection">
+      <section
+        className="l-sec"
+        id="secondSection"
+        style={{ backgroundImage: `url(/images/royal_rice.png)` }}
+      >
         <Navbar />
         <motion.div
           style={{ backgroundImage: `url(/images/${transBG.img})` }}

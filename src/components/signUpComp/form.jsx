@@ -19,22 +19,24 @@ export default function () {
     age: "",
     sex: "",
     bio: "",
-    images: []
+    images: [],
   });
 
-  function signIn(){
-    firebase.auth().createUserWithEmailAndPassword(data.email, data.password)
-    .then((userCredential) => {
-      // Signed in 
-      var user = userCredential.user;
-      // ...
-    })
-    .catch((error) => {
-      var errorCode = error.code;
-      var errorMessage = error.message;
-      console.log(errorMessage);
-      // ..
-    });
+  function signIn() {
+    firebase
+      .auth()
+      .createUserWithEmailAndPassword(data.email, data.password)
+      .then((userCredential) => {
+        // Signed in
+        var user = userCredential.user;
+        // ...
+      })
+      .catch((error) => {
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        console.log(errorMessage);
+        // ..
+      });
   }
 
   function next() {
@@ -46,12 +48,19 @@ export default function () {
   }
 
   function sub() {
-    signIn();
+    // signIn();
+    console.log(data);
     //Send data to database
   }
 
   function onChange(e) {
     setData({ ...data, [e.target.name]: e.target.value });
+  }
+
+  function onImgUpload(url, idx) {
+    let newImgArr = data.images;
+    newImgArr[idx] = url;
+    setData({ ...data, images: newImgArr });
   }
 
   function changeDir(val) {
@@ -91,7 +100,22 @@ export default function () {
             prev={prev}
             data={data}
             sub={sub}
+            next={next}
             change={onChange}
+            imgUpload={onImgUpload}
+          />
+        );
+
+      case 3:
+        return (
+          <Page3
+            changeDir={changeDir}
+            var={formVar}
+            prev={prev}
+            data={data}
+            sub={sub}
+            change={onChange}
+            imgUpload={onImgUpload}
           />
         );
 
@@ -109,16 +133,24 @@ export default function () {
   }
 
   const formVar = {
-    initial:  {left: (direction===1) ? "-40%" : "40%" , opacity: 0},
-    enter: {left: "0%", opacity:1, transition: {
-      ease: [0.43, 0.13, 0.23, 0.96],
-      duration: 0.8
-    }},
-    exit: {left: (direction===1) ? "40%" : "-40%", opacity:0, transition: {
-      ease: [0.43, 0.13, 0.23, 0.96],
-      duration: 0.8
-    }}
-  }
+    initial: { left: direction === 1 ? "-40%" : "40%", opacity: 0 },
+    enter: {
+      left: "0%",
+      opacity: 1,
+      transition: {
+        ease: [0.43, 0.13, 0.23, 0.96],
+        duration: 0.8,
+      },
+    },
+    exit: {
+      left: direction === 1 ? "40%" : "-40%",
+      opacity: 0,
+      transition: {
+        ease: [0.43, 0.13, 0.23, 0.96],
+        duration: 0.8,
+      },
+    },
+  };
   console.log("Rendered");
   return content(formVar);
 }

@@ -17,13 +17,13 @@ function App() {
       <BrowserRouter>
         <div className="App">
           <React.Suspense fallback={<div>LLLLLLL..........</div>}>
-            <ChatPage />
+            {/* <ChatPage /> */}
             {/* <ProfilePage /> */}
             {/* <MatchPage /> */}
-            {/* <Switch>
+            <Switch>
               <Route path="/" component={Landing} />
               <Route path="/signup" component={SignUpPage} />
-            </Switch> */}
+            </Switch>
           </React.Suspense>
         </div>
       </BrowserRouter>

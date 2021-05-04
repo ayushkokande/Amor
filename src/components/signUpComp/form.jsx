@@ -23,21 +23,6 @@ export default function () {
     images: [],
   });
 
-  // function signIn(){
-  //   firebase.auth().createUserWithEmailAndPassword(data.email, data.password)
-  //   .then((userCredential) => {
-  //     // Signed in
-  //     var user = userCredential.user;
-  //     // ...
-  //   })
-  //   .catch((error) => {
-  //     var errorCode = error.code;
-  //     var errorMessage = error.message;
-  //     console.log(errorMessage);
-  //     // ..
-  //   });
-  // }
-
   function next() {
     setStep(step + 1);
   }
@@ -45,6 +30,7 @@ export default function () {
   function prev() {
     setStep(step - 1);
   }
+
 
   function postDetails(uid) {
     db.collection("profiles").doc(uid).set({
@@ -71,8 +57,20 @@ export default function () {
       .catch((error) => alert(error.message));
   }
 
+  function sub() {
+    // signIn();
+    console.log(data);
+    //Send data to database
+  }
+
   function onChange(e) {
     setData({ ...data, [e.target.name]: e.target.value });
+  }
+
+  function onImgUpload(url, idx) {
+    let newImgArr = data.images;
+    newImgArr[idx] = url;
+    setData({ ...data, images: newImgArr });
   }
 
   function changeDir(val) {
@@ -111,8 +109,10 @@ export default function () {
             var={formVar}
             prev={prev}
             data={data}
+            sub={sub}
             next={next}
             change={onChange}
+            imgUpload={onImgUpload}
           />
         );
 
@@ -123,10 +123,23 @@ export default function () {
             var={formVar}
             prev={prev}
             data={data}
-            signup={signup}
+            sub={sub}
             change={onChange}
+            imgUpload={onImgUpload}
           />
         );
+
+//       case 3:
+//         return (
+//           <Page3
+//             changeDir={changeDir}
+//             var={formVar}
+//             prev={prev}
+//             data={data}
+//             signup={signup}
+//             change={onChange}
+//           />
+//         );
       default:
         return (
           <Page0

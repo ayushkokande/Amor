@@ -6,40 +6,47 @@ import { withStyles } from "@material-ui/core/styles";
 import ImgDialog from "./ImgDialog";
 
 const styles = {
-    conContainer: {
-      position: "absolute",
-      width: "100vw",
-      height: "100vh"
-    },
-    overlayContainer: {
-      position: "absolute",
-      width: "100vw",
-      height: "100vh"
-    },
-    cropContainer: {
-      position: "relative",
-      width: "100%",
-      height: 200,
-      background: "#333"
-    },
-    controls: {
-      display: "flex",
-      flexDirection: "column"
-    },
-    cropButton: {
-      flexShrink: 0,
-      marginLeft: 16
-    },
-    buttonContainer: {
-      position: "absolute",
-      bottom: "5%",
-      left: "50%",
-      transform: "translate(-50%,0%)"
-    }
-  };
-  
+  conContainer: {
+    position: "absolute",
+    width: "100vw",
+    height: "100vh",
+  },
+  overlayContainer: {
+    position: "absolute",
+    width: "100vw",
+    height: "100vh",
+  },
+  cropContainer: {
+    position: "relative",
+    width: "100%",
+    height: 200,
+    background: "#333",
+  },
+  controls: {
+    display: "flex",
+    flexDirection: "column",
+  },
+  cropButton: {
+    flexShrink: 0,
+    marginLeft: 16,
+  },
+  buttonContainer: {
+    position: "absolute",
+    bottom: "5%",
+    left: "50%",
+    transform: "translate(-50%,0%)",
+  },
+};
 
-function Crop({ classes, imgUrl, uploaded, setUploaded, setSt, setDone }) {
+function Crop({
+  classes,
+  imgUrl,
+  uploaded,
+  setUploaded,
+  setSt,
+  setDone,
+  cropImgUploaded,
+}) {
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [rotation, setRotation] = useState(0);
   const [zoom, setZoom] = useState(1);
@@ -73,14 +80,15 @@ function Crop({ classes, imgUrl, uploaded, setUploaded, setSt, setDone }) {
     setCroppedImage(null);
     setSt();
     setUploaded(false);
-    setDone({done: true, url: croppedImage});
+    setDone({ done: true, url: croppedImage });
+    cropImgUploaded(croppedImage);
   }
 
   return uploaded ? (
     <>
-        <div style={{zIndex: 5}}>
+      <div style={{ zIndex: 5 }}>
         <div>
-            <Cropper
+          <Cropper
             image={imgUrl}
             crop={crop}
             rotation={rotation}
@@ -90,34 +98,34 @@ function Crop({ classes, imgUrl, uploaded, setUploaded, setSt, setDone }) {
             onRotationChange={setRotation}
             onCropComplete={onCropComplete}
             onZoomChange={setZoom}
-            />
+          />
         </div>
         <div className={classes.buttonContainer}>
-            <Button
+          <Button
             onClick={showCroppedImage}
             variant="contained"
             color="primary"
-            >
+          >
             Show Result
-            </Button>
-            <Button
+          </Button>
+          <Button
             onClick={() => {
-                setSt();
-                setUploaded(false);
+              setSt();
+              setUploaded(false);
             }}
             variant="contained"
             color="primary"
-            >
+          >
             Close
-            </Button>
+          </Button>
         </div>
         <ImgDialog
-        img={croppedImage}
-        onClose={() => {            
+          img={croppedImage}
+          onClose={() => {
             onClose();
-        }}
-        Continue={Continue}
-      />
+          }}
+          Continue={Continue}
+        />
       </div>
     </>
   ) : null;
@@ -127,6 +135,13 @@ const StyledCrop = withStyles(styles)(Crop);
 
 export default function UploadedImg(props) {
   return (
-    <StyledCrop imgUrl={props.imgUrl} uploaded={props.uploaded} setUploaded={props.setUploaded} setSt={props.setSt} setDone={props.setDone}/>
+    <StyledCrop
+      imgUrl={props.imgUrl}
+      uploaded={props.uploaded}
+      setUploaded={props.setUploaded}
+      setSt={props.setSt}
+      setDone={props.setDone}
+      cropImgUploaded={props.cropImgUploaded}
+    />
   );
 }

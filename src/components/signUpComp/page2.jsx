@@ -95,14 +95,14 @@ export default function (props) {
                   <p>Upload your images!</p>
                   <div className="images">
                     <div className="ROW p2" style={{ marginBottom: "20px" }}>
-                      <FileInput />
-                      <FileInput />
-                      <FileInput />
+                      <FileInput imgUpload={props.imgUpload} idx={0} />
+                      <FileInput imgUpload={props.imgUpload} idx={1} />
+                      <FileInput imgUpload={props.imgUpload} idx={2} />
                     </div>
                     <div className="ROW p2">
-                      <FileInput />
-                      <FileInput />
-                      <FileInput />
+                      <FileInput imgUpload={props.imgUpload} idx={3} />
+                      <FileInput imgUpload={props.imgUpload} idx={4} />
+                      <FileInput imgUpload={props.imgUpload} idx={5} />
                     </div>
                   </div>
                   <div class="form-button">

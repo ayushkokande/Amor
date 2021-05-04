@@ -1,64 +1,14 @@
 import { useTransition, animated, useSpring, interpolate } from "react-spring";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Link, Redirect } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { useSelector } from "react-redux";
 import store from "../../store/store";
-import { makeStyles } from "@material-ui/core/styles";
-import Modal from "@material-ui/core/Modal";
-import { db, auth } from "./firebase";
-import { Input, Button } from "@material-ui/core";
 
 import Navbar from "./navbar";
 
-function getModalStyle() {
-  const top = 50;
-  const left = 50;
-
-  return {
-    top: `${top}%`,
-    left: `${left}%`,
-    transform: `translate(-${top}%, -${left}%)`,
-  };
-}
-
-const useStyles = makeStyles((theme) => ({
-  paper: {
-    position: "absolute",
-    width: 400,
-    backgroundColor: theme.palette.background.paper,
-    border: "2px solid #000",
-    boxShadow: theme.shadows[5],
-    padding: theme.spacing(2, 4, 3),
-  },
-}));
-
 export default function () {
   const [linkChange, setChange] = useState(false);
-  {
-    /* for modal*/
-  }
-  const [open, setOpen] = useState(false);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [user, setUser] = useState(null);
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((authUser) => {
-      if (authUser) {
-        //user has logged in
-        console.log(authUser);
-        setUser(authUser);
-      } else {
-        setUser(null);
-      }
-    });
-    return () => {
-      unsubscribe();
-    };
-  }, [user]);
-
-  const classes = useStyles();
-  const [modalStyle] = useState(getModalStyle);
   let id = useSelector((state) => state.link.link);
 
   const animFirst = useSpring({
@@ -108,12 +58,6 @@ export default function () {
     });
   }
 
-  const signIn = (event) => {
-    event.preventDefault();
-    auth
-      .signInWithEmailAndPassword(email, password)
-      .catch((error) => alert(error.message));
-  };
   function onClick(e) {
     func(e.target.id).then(setChange(true));
   }
@@ -138,30 +82,6 @@ export default function () {
         id="secondSection"
       >
         <Navbar />
-        {/* Code for Modal*/}
-        {/* <Modal open={open} onClose={() => setOpen(false)}>
-          <div style={modalStyle} className={classes.paper}>
-            <form className="app__signup">
-              <Input
-                placeholder="email"
-                type="text"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-              <Input
-                placeholder="password"
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-
-              <Button type="submit" onClick={signup}>
-                SIGN UP
-              </Button>
-            </form>
-          </div>
-        </Modal> */}
-
         <motion.div
           style={{ backgroundImage: `url(/images/${transBG.img})` }}
           variants={abTransVariants1}
@@ -189,11 +109,6 @@ export default function () {
               alt="LoginPage Image"
             />
           </div>
-
-          {/* <Button type="submit" onClick={() => auth.signOut()}>
-              Sign Out{" "}
-            </Button> */}
-
           <div className="signInContent">
             <form method="POST" className="signInForm">
               <h3 className="form-title">Sign In</h3>
@@ -205,8 +120,6 @@ export default function () {
                   type="email"
                   className="inpText"
                   placeholder="Enter email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
                 ></input>
               </div>
               <div className="form-group em_pw">
@@ -216,9 +129,7 @@ export default function () {
                   className=" text-muted inpText"
                   id="exampleInputEmail1"
                   aria-describedby="emailHelp"
-                  value={password}
                   placeholder="Password"
-                  onChange={(e) => setPassword(e.target.value)}
                 ></input>
               </div>
               <div class="form-group check-form">
@@ -226,20 +137,14 @@ export default function () {
                 <label>Remember my password</label>
               </div>
               <div class="form-group form-button">
-                <input
-                  onClick={signIn}
-                  type="submit"
-                  class="form-submit"
-                  value="Login"
-                />
+                <input type="submit" class="form-submit" value="Login" />
               </div>
               <div className="form-group">
                 <p>
                   Don't have an account?{" "}
                   <p onClick={onClick} id="signUp">
-                    SignUp
+                    Sign up.
                   </p>
-                  {/* <p onClick={() => setOpen(true)}>Sign up.</p> */}
                 </p>
               </div>
             </form>
@@ -249,7 +154,11 @@ export default function () {
     </>
   ) : (
     <>
-      {/* <section className="l-sec" id="secondSection">
+      <section
+        style={{ backgroundImage: `url(/images/royal_rice.png)` }}
+        className="l-sec"
+        id="secondSection"
+      >
         <Navbar />
         <motion.div
           style={{ backgroundImage: `url(/images/${transBG.img})` }}
@@ -314,7 +223,7 @@ export default function () {
             </form>
           </div>
         </div>
-      </section> */}
+      </section>
       <Redirect to={`/${id}`} />
     </>
   );

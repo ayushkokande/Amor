@@ -4,7 +4,7 @@ import profileReducer from "./profileReducer";
 import modaleReducer from "./modaleReducer";
 import socketReducer from "./socketReducer";
 import linkReducer from "./linkReducer";
-import idReducer from "./idReducer";
+import userReducer from "./userReducer";
 import { combineReducers } from "redux";
 
 const allReducers = combineReducers({
@@ -14,7 +14,7 @@ const allReducers = combineReducers({
   modal: modaleReducer,
   link: linkReducer,
   socket: socketReducer,
-  id: idReducer,
+  user: userReducer,
 });
 
 export default allReducers;

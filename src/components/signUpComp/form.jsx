@@ -5,13 +5,14 @@ import Page2 from "./page2";
 import Page3 from "./page3";
 import firebase from "firebase/app";
 import { db, auth } from "../landingComp/firebase";
+import store from "../../store/store";
+import { Redirect } from "react-router";
 
 export default function () {
   const [step, setStep] = useState(0);
   const [direction, setDirection] = useState(1);
 
-  const [user, setUser] = useState(null);
-  const arr = [Page0, Page1];
+  const [redirect, setRedirect] = useState(false);
   const [data, setData] = useState({
     f_name: "",
     l_name: "",
@@ -31,8 +32,8 @@ export default function () {
     setStep(step - 1);
   }
 
-
   function postDetails(uid) {
+    setRedirect(true);
     db.collection("profiles").doc(uid).set({
       f_name: data.f_name,
       l_name: data.l_name,
@@ -41,6 +42,7 @@ export default function () {
       age: data.age,
       sex: data.sex,
       bio: data.bio,
+      images: data.images,
       //images remain
     });
 
@@ -123,23 +125,11 @@ export default function () {
             var={formVar}
             prev={prev}
             data={data}
-            sub={sub}
+            signup={signup}
             change={onChange}
-            imgUpload={onImgUpload}
+            redirect={redirect}
           />
         );
-
-//       case 3:
-//         return (
-//           <Page3
-//             changeDir={changeDir}
-//             var={formVar}
-//             prev={prev}
-//             data={data}
-//             signup={signup}
-//             change={onChange}
-//           />
-//         );
       default:
         return (
           <Page0

@@ -2,13 +2,14 @@ import { useState, useEffect } from "react";
 import "./chatStyles.css";
 import useLocalStorage from "../../hooks/useLocalStorage";
 import { v4 } from "uuid";
-import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import axios from "axios";
+import io from "socket.io-client";
 
 const Conv = () => {};
 
 export default function () {
-  const socket = useSelector((state) => state.socket);
+  const socket = io("http://localhost:4000");
   const [id, setID] = useLocalStorage("id");
 
   const user1 = "c856d200-6b1a-45f9-bb4e-4120cf236a41";
@@ -167,7 +168,9 @@ export default function () {
             <div className="col-sm-3 leftComp">
               <div>
                 <div className="backMatch">
-                  <i class="fas fa-arrow-left"></i> Match section
+                  <Link to="/match">
+                    <i class="fas fa-arrow-left"></i> Match section
+                  </Link>
                 </div>
               </div>
               <div className="yourChatProfile">

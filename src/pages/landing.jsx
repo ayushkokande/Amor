@@ -1,5 +1,5 @@
 import "./landingStyles.css";
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import ReactLoading from "react-loading";
 
@@ -21,11 +21,12 @@ import { AnimatePresence } from "framer-motion";
 // const SignUpPage = React.lazy(()=>import("./signUpPage"));
 
 function Landing() {
-  const [isLoading,setIsLoading] = useState(true);
+  console.log("LanddingPage");
+  const [isLoading, setIsLoading] = useState(true);
 
   async function cacheImages(srcArray) {
-    const promises = await srcArray.map((src)=>{
-      return new Promise(function(resolve,reject){
+    const promises = await srcArray.map((src) => {
+      return new Promise(function (resolve, reject) {
         const img = new Image();
 
         img.src = src;
@@ -37,39 +38,45 @@ function Landing() {
     Promise.all(promises).then(setIsLoading(false));
   }
 
-  useEffect(()=>{
+  useEffect(() => {
     const imgs = [
       "/images/pink_rice.png",
       "/images/blue_rice.png",
       "/images/royal_rice.png",
-      "/images/noisy.png"
+      "/images/noisy.png",
     ];
 
     // cacheImages(imgs);
-  },[]);
+  }, []);
 
-  return (
-    !isLoading ? 
-    <div style={{backgroundColor: "#2E2C2C", height: "100vh", width: "100vw", display: "flex", justifyContent: "center", alignItems: "center"}}><ReactLoading type={"spinningBubbles"} color="grey" /></div>
-    :
+  return !isLoading ? (
+    <div
+      style={{
+        backgroundColor: "#2E2C2C",
+        height: "100vh",
+        width: "100vw",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <ReactLoading type={"spinningBubbles"} color="grey" />
+    </div>
+  ) : (
     <BrowserRouter>
-        <Route
+      <Route
         render={({ location }) => (
-          
           <AnimatePresence exitBeforeEnter>
-          
             <Switch location={location} key={location.key}>
-              <Route exact path='/' render={() => <FirstSection />} />
-              <Route path='/about' render={() => <About />} />
-              <Route path='/login' render={() => <SecondSection />} />
+              <Route exact path="/" render={() => <FirstSection />} />
+              <Route path="/about" render={() => <About />} />
+              <Route path="/login" render={() => <SecondSection />} />
               <Route path="/signUp" render={() => <SignUpPage />} />
             </Switch>
-            
           </AnimatePresence>
-          
         )}
       />
-      </BrowserRouter>
+    </BrowserRouter>
   );
 }
 

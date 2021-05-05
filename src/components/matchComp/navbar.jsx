@@ -1,24 +1,27 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 function Navbar() {
   return (
     <nav class="navbar m-nav">
       <div class="container-fluid">
         <li className="nav-item">
-          <a className="active" href="#" className="yourProfile">
+          <Link to="/profile" className="yourProfile">
             <img
               src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQz3Gjad-GAHH-b4aguHoIhVn3zLOivYmAuAA&usqp=CAU"
               alt=""
             />
-          </a>
+          </Link>
         </li>
 
-        <a class="navbar-brand" href="#">
+        <Link class="navbar-brand" to="/match">
           amor
-        </a>
+        </Link>
 
         <li className="nav-item">
-          <a href="#">Chat</a>
+          <Link to="/chat" id="chat">
+            <i class="fas fa-comments"></i>
+          </Link>
         </li>
       </div>
     </nav>

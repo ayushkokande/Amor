@@ -49,6 +49,18 @@ body {
   box-shadow: 5px 3px 15px #101010;
 }
 
+.profileImg .conBtn {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 20px;
+}
+
+.profileImg .conBtn p {
+  font-size: 20px;
+}
+
 .profileDesc {
   font-family: "Assistant", sans-serif;
   position: absolute;
@@ -111,6 +123,12 @@ body {
   margin: 0;
   align-self: center;
 }
+
+/* .listTemp img {
+  width: 130px;
+  height: 120px;
+  border-radius: 40$;
+} */
 
 /*ddd*/
 .m-nav {
@@ -207,8 +225,7 @@ body {
   font-family: "Redressed", cursive;
   color: black;
   font-size: 1.8rem;
-  margin: 0;
-  margin: auto 0;
+  margin: auto 20vw;
 }
 
 /* .modale {

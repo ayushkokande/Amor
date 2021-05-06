@@ -1,10 +1,10 @@
-const userReducer = (state = { user: false, id: null }, action) => {
+const userReducer = (state = { user: false, id: null, sex: null }, action) => {
   switch (action.type) {
     default:
       return state;
 
     case "signedIn":
-      return { user: true, id: action.id };
+      return { user: true, id: action.id, sex: action.sex };
   }
 };
 

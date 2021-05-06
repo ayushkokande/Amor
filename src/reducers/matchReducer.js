@@ -1,32 +1,30 @@
-const matchReducer = (
-  state = { matchList: [-1, -1, -1, -1, -1, -1] },
-  action
-) => {
+const matchReducer = (state = { pImg: ["", "", "", "", "", ""] }, action) => {
+  let arr = [];
   switch (action.type) {
-    case "1":
-      let arr = [0, ...state.matchList.slice(1, 6)];
+    case "p1":
+      arr = [action.img, ...state.pImg.slice(1, 6)];
       console.log(arr);
-      return { matchList: arr };
+      return { pImg: arr };
 
-    case "2":
-      arr = [...state.matchList.slice(0, 1), 0, ...state.matchList.slice(2, 6)];
-      return { matchList: arr };
+    case "p2":
+      arr = [...state.pImg.slice(0, 1), action.img, ...state.pImg.slice(2, 6)];
+      return { pImg: arr };
 
-    case "3":
-      arr = [...state.matchList.slice(0, 2), 0, ...state.matchList.slice(3, 6)];
-      return { matchList: arr };
+    case "p3":
+      arr = [...state.pImg.slice(0, 2), action.img, ...state.pImg.slice(3, 6)];
+      return { pImg: arr };
 
-    case "4":
-      arr = [...state.matchList.slice(0, 3), 0, ...state.matchList.slice(4, 6)];
-      return { matchList: arr };
+    case "p4":
+      arr = [...state.pImg.slice(0, 3), action.img, ...state.pImg.slice(4, 6)];
+      return { pImg: arr };
 
-    case "5":
-      arr = [...state.matchList.slice(0, 4), 0, ...state.matchList.slice(5, 6)];
-      return { matchList: arr };
+    case "p5":
+      arr = [...state.pImg.slice(0, 4), action.img, ...state.pImg.slice(5, 6)];
+      return { pImg: arr };
 
-    case "6":
-      arr = [...state.matchList.slice(0, 5), 0];
-      return { matchList: arr };
+    case "p6":
+      arr = [...state.pImg.slice(0, 5), action.img];
+      return { pImg: arr };
 
     default:
       return state;

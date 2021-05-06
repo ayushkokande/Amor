@@ -2,9 +2,12 @@
 
 # dependencies
 .eslintcache
+node_modules
 node_modules/
 /node_modules
-/server/node_modules
+server/node_modules
+serviceAccountKey.json
+server/serviceAccountKey.json
 /.pnp
 .pnp.js
 

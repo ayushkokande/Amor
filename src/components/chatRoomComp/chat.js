@@ -5,6 +5,8 @@ import { v4 } from "uuid";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import io from "socket.io-client";
+import { db } from "../landingComp/firebase";
+import { useSelector } from "react-redux";
 
 const Conv = () => {};
 
@@ -82,69 +84,100 @@ export default function () {
     setID(v4());
   }
 
-  let matches = [
-    {
-      img:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRo0_5BYd7bOleC0BHCHb_yhnKTDy3JaULing&usqp=CAU",
-      name: "Mural",
-      messages: [{ text: "whatcha up to dawg??" }],
-    },
-    {
-      img:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRo0_5BYd7bOleC0BHCHb_yhnKTDy3JaULing&usqp=CAU",
-      name: "Mural",
-      messages: [{ text: "whatcha up to dawg??" }],
-    },
-    {
-      img:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRo0_5BYd7bOleC0BHCHb_yhnKTDy3JaULing&usqp=CAU",
-      name: "Mural",
-      messages: [{ text: "whatcha up to dawg??" }],
-    },
-    {
-      img:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRo0_5BYd7bOleC0BHCHb_yhnKTDy3JaULing&usqp=CAU",
-      name: "Mural",
-      messages: [{ text: "whatcha up to dawg??" }],
-    },
-    {
-      img:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRo0_5BYd7bOleC0BHCHb_yhnKTDy3JaULing&usqp=CAU",
-      name: "Mural",
-      messages: [{ text: "whatcha up to dawg??" }],
-    },
-    {
-      img:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRo0_5BYd7bOleC0BHCHb_yhnKTDy3JaULing&usqp=CAU",
-      name: "Mural",
-      messages: [{ text: "whatcha up to dawg??" }],
-    },
-    {
-      img:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRo0_5BYd7bOleC0BHCHb_yhnKTDy3JaULing&usqp=CAU",
-      name: "Mural",
-      messages: [{ text: "whatcha up to dawg??" }],
-    },
-    {
-      img:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRo0_5BYd7bOleC0BHCHb_yhnKTDy3JaULing&usqp=CAU",
-      name: "Mural",
-      messages: [{ text: "whatcha up to dawg??" }],
-    },
-    {
-      img:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRo0_5BYd7bOleC0BHCHb_yhnKTDy3JaULing&usqp=CAU",
-      name: "Mural",
-      messages: [{ text: "whatcha up to dawg??" }],
-    },
-  ];
+  // let matches = [
+  //   {
+  //     img:
+  //       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRo0_5BYd7bOleC0BHCHb_yhnKTDy3JaULing&usqp=CAU",
+  //     name: "Mural",
+  //     messages: [{ text: "whatcha up to dawg??" }],
+  //   },
+  //   {
+  //     img:
+  //       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRo0_5BYd7bOleC0BHCHb_yhnKTDy3JaULing&usqp=CAU",
+  //     name: "Mural",
+  //     messages: [{ text: "whatcha up to dawg??" }],
+  //   },
+  //   {
+  //     img:
+  //       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRo0_5BYd7bOleC0BHCHb_yhnKTDy3JaULing&usqp=CAU",
+  //     name: "Mural",
+  //     messages: [{ text: "whatcha up to dawg??" }],
+  //   },
+  //   {
+  //     img:
+  //       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRo0_5BYd7bOleC0BHCHb_yhnKTDy3JaULing&usqp=CAU",
+  //     name: "Mural",
+  //     messages: [{ text: "whatcha up to dawg??" }],
+  //   },
+  //   {
+  //     img:
+  //       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRo0_5BYd7bOleC0BHCHb_yhnKTDy3JaULing&usqp=CAU",
+  //     name: "Mural",
+  //     messages: [{ text: "whatcha up to dawg??" }],
+  //   },
+  //   {
+  //     img:
+  //       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRo0_5BYd7bOleC0BHCHb_yhnKTDy3JaULing&usqp=CAU",
+  //     name: "Mural",
+  //     messages: [{ text: "whatcha up to dawg??" }],
+  //   },
+  //   {
+  //     img:
+  //       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRo0_5BYd7bOleC0BHCHb_yhnKTDy3JaULing&usqp=CAU",
+  //     name: "Mural",
+  //     messages: [{ text: "whatcha up to dawg??" }],
+  //   },
+  //   {
+  //     img:
+  //       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRo0_5BYd7bOleC0BHCHb_yhnKTDy3JaULing&usqp=CAU",
+  //     name: "Mural",
+  //     messages: [{ text: "whatcha up to dawg??" }],
+  //   },
+  //   {
+  //     img:
+  //       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRo0_5BYd7bOleC0BHCHb_yhnKTDy3JaULing&usqp=CAU",
+  //     name: "Mural",
+  //     messages: [{ text: "whatcha up to dawg??" }],
+  //   },
+  // ];
+
+  let uid = useSelector((state) => state.user.id);
+  const [matches, setMatches] = useState(null);
+  const fetchData = async () => {
+    const REFER = db.collection("profiles").doc(uid);
+    const response = await REFER.get();
+    let matchIDs = response.data().matches;
+    let matchArray = [];
+    matchIDs.map(async (m_uid) => {
+      if (m_uid) {
+        const mRef = db.collection("profiles").doc(m_uid);
+        const mResponse = await mRef.get();
+        if (mResponse)
+          matchArray.push({ ...mResponse.data(), id: mResponse.id });
+      }
+    });
+    setMatches(matchArray);
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   const [convClick, setConv] = useState(null);
+
+  // Make a call to server to get the conversations
 
   function enlistConv(item, idx) {
     return (
       <>
-        <div className="conv" id={`convo${idx}`} onClick={() => setConv(idx)}>
+        <div
+          className="conv"
+          id={item.id}
+          onClick={() => {
+            createRoom(uid, item.id);
+            setConv(idx);
+          }}
+        >
           <img src={item.img} />
           <div>
             <div>{item.name}</div>
@@ -156,98 +189,100 @@ export default function () {
     );
   }
 
-  return convClick === null ? (
-    <>
-      {/* <h3>{id}</h3>
+  return matches ? (
+    convClick === null ? (
+      <>
+        {/* <h3>{id}</h3>
             <div>
                 <button onClick={createID}>Create new ID</button>
             </div> */}
-      <section className="chatContainer">
-        <div className="container" id="chat">
-          <div className="row">
-            <div className="col-sm-3 leftComp">
-              <div>
-                <div className="backMatch">
-                  <Link to="/match">
-                    <i class="fas fa-arrow-left"></i> Match section
-                  </Link>
-                </div>
-              </div>
-              <div className="yourChatProfile">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtlZ-FbrdANEQyrPlJsiE178eELi01ZVugtQ&usqp=CAU" />
+        <section className="chatContainer">
+          <div className="container" id="chat">
+            <div className="row">
+              <div className="col-sm-3 leftComp">
                 <div>
-                  <h4>Hilary</h4>
-                  <div className="profDets">
-                    <p>22</p>
-                    <p>Location, World</p>
+                  <div className="backMatch">
+                    <Link to="/match">
+                      <i class="fas fa-arrow-left"></i> Match section
+                    </Link>
                   </div>
                 </div>
+                <div className="yourChatProfile">
+                  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtlZ-FbrdANEQyrPlJsiE178eELi01ZVugtQ&usqp=CAU" />
+                  <div>
+                    <h4>Hilary</h4>
+                    <div className="profDets">
+                      <p>22</p>
+                      <p>Location, World</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="matches">
+                  <div className="text-center">Your Matches</div>
+                  {matches.map(enlistConv)}
+                </div>
               </div>
-              <div className="matches">
-                <div className="text-center">Your Matches</div>
-                {matches.map(enlistConv)}
-              </div>
-            </div>
-            <div className="col-sm-9 rightComp">
-              <div className="chatWSomeone">
-                <h3>It's lonely out here.</h3>
-                <h5>Why not woo your matches?</h5>
+              <div className="col-sm-9 rightComp">
+                <div className="chatWSomeone">
+                  <h3>It's lonely out here.</h3>
+                  <h5>Why not woo your matches?</h5>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </section>
-    </>
-  ) : (
-    <>
-      {/* <h3>{id}</h3>
+        </section>
+      </>
+    ) : (
+      <>
+        {/* <h3>{id}</h3>
         <div>
             <button onClick={createID}>Create new ID</button>
         </div> */}
-      <section className="chatContainer">
-        <div className="container" id="chat">
-          <div className="row">
-            <div className="col-sm-3 leftComp">
-              <div>
-                <div className="backMatch">
-                  <i class="fas fa-arrow-left"></i> Match section
-                </div>
-              </div>
-              <div className="yourChatProfile">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtlZ-FbrdANEQyrPlJsiE178eELi01ZVugtQ&usqp=CAU" />
+        <section className="chatContainer">
+          <div className="container" id="chat">
+            <div className="row">
+              <div className="col-sm-3 leftComp">
                 <div>
-                  <h4>Hillary</h4>
-                  <div className="profDets">
-                    <p>22</p>
-                    <p>Location, World</p>
+                  <div className="backMatch">
+                    <i class="fas fa-arrow-left"></i> Match section
                   </div>
                 </div>
-              </div>
-              <div className="matches">
-                <div className="text-center">Your Matches</div>
-                {matches.map(enlistConv)}
-              </div>
-            </div>
-            <div className="col-sm-9 rightComp">
-              <div className="matchProf">
-                <img src={matches[convClick].img} />
-                <div>
-                  <h3>{matches[convClick].name}</h3>
-                  <p>19</p>
-                  <p>Delhi</p>
+                <div className="yourChatProfile">
+                  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtlZ-FbrdANEQyrPlJsiE178eELi01ZVugtQ&usqp=CAU" />
+                  <div>
+                    <h4>Hillary</h4>
+                    <div className="profDets">
+                      <p>22</p>
+                      <p>Location, World</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="matches">
+                  <div className="text-center">Your Matches</div>
+                  {matches.map(enlistConv)}
                 </div>
               </div>
-              <div id="messages">{showMessages()}</div>
-              <div className="messageBox">
-                <textarea id="input" />
-                <button onSubmit>
-                  <i class="zmdi zmdi-mail-send"></i>
-                </button>
+              <div className="col-sm-9 rightComp">
+                <div className="matchProf">
+                  <img src={matches[convClick].img} />
+                  <div>
+                    <h3>{matches[convClick].name}</h3>
+                    <p>19</p>
+                    <p>Delhi</p>
+                  </div>
+                </div>
+                <div id="messages">{showMessages()}</div>
+                <div className="messageBox">
+                  <textarea id="input" />
+                  <button onSubmit>
+                    <i class="zmdi zmdi-mail-send"></i>
+                  </button>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </section>
-    </>
-  );
+        </section>
+      </>
+    )
+  ) : null;
 }

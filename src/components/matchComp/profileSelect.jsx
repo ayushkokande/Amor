@@ -1,11 +1,7 @@
-export default function () {
-    return (
-      <div className="profileSelect">
-        <img
-          src="https://photogenicsmedia.com/wp-content/uploads/2020/08/ALISSAIRIS.jpg"
-          alt=""
-        />
-      </div>
-    );
-  }
-  
+export default function (props) {
+  return (
+    <div className="profileSelect">
+      <img src={props.img} alt="" />
+    </div>
+  );
+}

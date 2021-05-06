@@ -22,6 +22,7 @@ export default function () {
     sex: "",
     bio: "",
     images: [],
+    matches: [],
   });
 
   function next() {

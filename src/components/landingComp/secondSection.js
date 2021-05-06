@@ -4,24 +4,16 @@ import { Link, Redirect } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { useSelector } from "react-redux";
 import store from "../../store/store";
+import { auth } from "./firebase";
 
 import Navbar from "./navbar";
 
 export default function () {
   const [linkChange, setChange] = useState(false);
+  const [email, setEmail] = useState("");
+  const [pw, setPw] = useState("");
+  const [redirect, setRedirect] = useState(false);
   let id = useSelector((state) => state.link.link);
-
-  const animFirst = useSpring({
-    config: { friction: 30 },
-    from: { t: 0 },
-    to: { t: 200000 },
-  });
-
-  const animSec = useSpring({
-    config: { friction: 30 },
-    from: { t: 0 },
-    to: { t: 200000 },
-  });
 
   const abTransVariants1 = {
     initial: { translateX: "100%" },
@@ -74,6 +66,21 @@ export default function () {
     },
   };
 
+  function signIn(e) {
+    store.dispatch({ type: "loginBtn" });
+    e.preventDefault();
+    auth
+      .signInWithEmailAndPassword(email, pw)
+      .then((userCredential) => {
+        // Signed in
+        setChange(true);
+        // ...
+      })
+      .catch((error) => {
+        alert(error);
+      });
+  }
+
   return !linkChange ? (
     <>
       <section
@@ -120,6 +127,7 @@ export default function () {
                   type="email"
                   className="inpText"
                   placeholder="Enter email"
+                  onChange={(e) => setEmail(e.target.value)}
                 ></input>
               </div>
               <div className="form-group em_pw">
@@ -130,6 +138,7 @@ export default function () {
                   id="exampleInputEmail1"
                   aria-describedby="emailHelp"
                   placeholder="Password"
+                  onChange={(e) => setPw(e.target.value)}
                 ></input>
               </div>
               <div class="form-group check-form">
@@ -137,7 +146,12 @@ export default function () {
                 <label>Remember my password</label>
               </div>
               <div class="form-group form-button">
-                <input type="submit" class="form-submit" value="Login" />
+                <input
+                  type="submit"
+                  onClick={signIn}
+                  class="form-submit"
+                  value="Login"
+                />
               </div>
               <div className="form-group">
                 <p>

@@ -19,6 +19,7 @@ function App() {
   auth.onAuthStateChanged((user) => {
     if (user) {
       console.log("Signed In");
+      store.dispatch({ type: "loginBtn" });
       store.dispatch({ type: "signedIn", id: user.uid });
       setUserState(true);
     } else setUserState(false);

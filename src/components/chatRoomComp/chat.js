@@ -11,7 +11,7 @@ import { useSelector } from "react-redux";
 const Conv = () => {};
 
 export default function () {
-  const socket = io("http://localhost:4000");
+  const socket = io("/api");
   // const [id, setID] = useLocalStorage("id");
   let uid = useSelector((state) => state.user.id);
   const [other_uid, setOtherUid] = useState(null);

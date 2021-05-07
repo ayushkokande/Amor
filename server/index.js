@@ -57,7 +57,7 @@ var db = firebase.firestore();
 // );
 
 //Send messages on request from db
-app.get("/rooms/:room", (req, res) => {
+app.get("/api/rooms/:room", (req, res) => {
   let arr_data = [];
 
   const roomsRef = db
@@ -101,7 +101,7 @@ let uid;
 let sendSex;
 const { v4, v1 } = require("uuid");
 
-app.post("/giveID", (req, res) => {
+app.post("/api/giveID", (req, res) => {
   uid = req.body.id;
   console.log("S", uid);
   res.send({ success: true });
@@ -299,7 +299,7 @@ const LOOP = async (result, group) => {
   return true;
 };
 
-app.post("/algo", (req, res) => {
+app.post("/api/algo", (req, res) => {
   res.send(`<h1>Booty ${Date.now()}</h1>`);
   console.log("After Res");
   let group = req.body.group;
@@ -357,7 +357,7 @@ app.post("/algo", (req, res) => {
 //   }
 // };
 
-app.get("/getGroup", async (req, res) => {
+app.get("/api/getGroup", async (req, res) => {
   console.log("YAHA");
   // let s = await no();
   // console.log(s);

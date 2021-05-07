@@ -137,7 +137,7 @@ export default function (props) {
       props.setGroup([]);
       props.setGetData(Math.random() * 99);
       axios
-        .post("http://localhost:4000/algo", { group: res_group })
+        .post("/api/algo", { group: res_group })
         .then((res) => console.log(res.data));
     } else {
       props.setGroup([]);

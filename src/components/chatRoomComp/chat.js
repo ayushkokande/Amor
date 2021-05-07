@@ -166,7 +166,7 @@ export default function () {
 
   const clickChat = async (roomId) => {
     setConvLoaded(false);
-    axios.get(`/rooms/${roomId}`).then((res) => {
+    axios.get(`/api/rooms/${roomId}`).then((res) => {
       console.log(...res.data.messages);
       setMsg(res.data.messages);
       // setMsg(res)

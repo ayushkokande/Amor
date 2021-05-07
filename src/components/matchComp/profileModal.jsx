@@ -14,7 +14,7 @@ export default function (props) {
   //   "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQTkLS70KdHik9_P33l7yCZSfw_zEsfkisM9A&usqp=CAU",
   //   "https://res.cloudinary.com/select-models/image/fetch/w_2560,c_limit/f_auto/https://select.solarnet.app/files/gallery/15007/expanded_medium/gallery_model_g0TNVX_Z4n8t.jpeg",
   // ];
-  let images = props.profile.images;
+  let images = props.profile !== undefined ? props.profile.images : [];
   let n = images.length;
 
   function upArr() {

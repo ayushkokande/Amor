@@ -1,5 +1,7 @@
 // server/index.js
 
+const stableSelection = require("./algo");
+
 const express = require("express");
 const app = express();
 const cors = require("cors");
@@ -69,7 +71,8 @@ app.get("/rooms/:room", (req, res) => {
       querySnapshot.forEach((doc) => {
         arr_data = [...arr_data, doc.data()];
       });
-      res.send(arr_data);
+      // console.log(arr_data);
+      res.send({ messages: arr_data });
     });
 });
 
@@ -99,8 +102,8 @@ let sendSex;
 const { v4, v1 } = require("uuid");
 
 app.post("/giveID", (req, res) => {
-  console.log(req.body);
   uid = req.body.id;
+  console.log("S", uid);
   res.send({ success: true });
 });
 
@@ -117,18 +120,29 @@ const addMembers = (response, count, newGroup, listUID) => {
   // console.log(arr[0].f_name);
 
   let newArr = [];
-  let i = 1;
+  let i = 0;
   let j = 0;
-  while (i <= count && i <= size) {
-    // let idx = Math.floor(Math.random() * size) + 0;
-    i++;
-    newArr.push({ ...arr[j].data, uid: arr[j].id });
-    listUID.push(arr[j].id);
-    j++;
-    // newGroup[SEX].push(arr[idx]);
+
+  for (i = 0; j < count && i < size; i++) {
+    if (uid !== arr[i].id) {
+      newArr.push({ ...arr[i].data, uid: arr[i].id });
+      listUID.push(arr[i].id);
+      j++;
+    }
   }
+
+  // while (i < count && i < size) {
+  //   // let idx = Math.floor(Math.random() * size) + 0;
+
+  //   if (uid !== arr[i].id) {
+  //     newArr.push({ ...arr[i].data, uid: arr[i - 1].id });
+  //     listUID.push(arr[i - 1].id);
+  //   }
+  //   i++;
+  //   // newGroup[SEX].push(arr[idx]);
+  // }
   // console.log(size, newArr);
-  newGroup[SEX] = newArr;
+  newGroup[SEX] = [...newGroup[SEX], ...newArr];
   return newGroup;
 };
 
@@ -136,21 +150,47 @@ const group = async () => {
   try {
     let Ref = db.collection("profiles").doc(uid);
     let response = await Ref.get();
-    console.log(response.data().sex);
+    // console.log(response.data().sex);
     let groupArr = [];
     let gender = response.data().sex;
     sendSex = gender;
 
     let listUID = [];
 
-    if (response.data().groups) {
+    // if (response.data().groups) {
+    //   console.log("Exists");
+    //   if (response.data().marked) return [];
+    //   let ret_group = await db
+    //     .collection("groups")
+    //     .doc(response.data().groups[0].id)
+    //     .get();
+    //   return ret_group.data();
+    // } else {
+    //   console.log("Not exist");
+    //   return 3;
+    // }
+
+    if (response.data().groups && response.data().groups.length !== 0) {
       groupArr = response.data().groups;
       console.log("if");
-      let i = 0;
-      for (i = 0; i < group.length; i++) {
-        if (!groupArr[i].marked) break;
-      }
-      return groupArr[i];
+
+      if (response.data().marked) return [];
+
+      // let i = 0;
+      // for (i = 0; i < group.length; i++) {
+      //   console.log(groupArr[i].)
+      //   if (groupArr[i].marked === false) {
+      //     console.log("D", i);
+      //     break;
+      //   }
+      // }
+      // if (i === group.length) {
+      //   console.log("i equal");
+      //   return [];
+      // }
+
+      let ret_group = await db.collection("groups").doc(groupArr[0].id).get();
+      return ret_group.data();
     } else {
       // Randomly pick 6 opposite gendered users and make and add a group
       let newRef = db.collection("profiles");
@@ -163,8 +203,11 @@ const group = async () => {
         f_pref: ["", "", "", "", "", ""],
         cnt: 0,
       };
-      if (sendSex === "Male") newGroup.Male.push(response.data());
-      else newGroup.Female.push(response.data());
+      if (sendSex === "Male")
+        newGroup.Male.push({ ...response.data(), uid: uid });
+      else newGroup.Female.push({ ...response.data(), uid: uid });
+
+      listUID.push(uid);
 
       let newResponse = await newRef.where("sex", "==", gender).get();
       newGroup = addMembers(newResponse, 5, newGroup, listUID);
@@ -172,7 +215,7 @@ const group = async () => {
       let newOtherResponse = await newRef.where("sex", "!=", gender).get();
       newGroup = addMembers(newOtherResponse, 6, newGroup, listUID);
 
-      console.log(listUID);
+      // console.log(listUID);
       // let wow = db.collection("profiles").doc(listUID[0]);
       // let wres = await wow.get();
       // if (wres.data().marked) console.log(wres.data());
@@ -181,7 +224,7 @@ const group = async () => {
       listUID.forEach((id) => {
         db.collection("profiles")
           .doc(id)
-          .update({ groups: [newGroup] });
+          .update({ groups: [{ id: newGroup.id }] });
       });
       return newGroup;
     }
@@ -190,6 +233,115 @@ const group = async () => {
   }
 };
 
+//
+
+const updateMatches = async (woman, match, group) => {
+  let female = woman;
+  let male = match;
+
+  let u1 = group.Female[female].uid.toString();
+  let u2 = group.Male[male].uid.toString();
+  let room = u1.localeCompare(u2) < 0 ? u1 + "@" + u2 : u2 + "@" + u1;
+
+  await db
+    .collection("rooms")
+    .doc(room)
+    .collection("messages")
+    .add({ message: "Collection Created!", timestamp: Date.now() });
+
+  await db
+    .collection("profiles")
+    .doc(group.Female[female].uid)
+    .collection("matches")
+    .doc(v4())
+    .set({ uid: group.Male[male].uid, roomId: room });
+  await db
+    .collection("profiles")
+    .doc(group.Male[male].uid)
+    .collection("matches")
+    .doc(v4())
+    .set({ uid: group.Female[female].uid, roomId: room });
+
+  let response = await db
+    .collection("profiles")
+    .doc(group.Female[female].uid)
+    .get();
+  let groups = response.data().groups;
+  let newGroups = [];
+  for (let i = 0; i < groups.length; i++) {
+    if (groups[i].id === group.id) continue;
+    newGroups.push(groups[i]);
+  }
+  await db
+    .collection("profiles")
+    .doc(group.Female[female].uid)
+    .update({ groups: newGroups });
+
+  response = await db.collection("profiles").doc(group.Male[male].uid).get();
+  groups = response.data().groups;
+  newGroups = [];
+  for (let i = 0; i < groups.length; i++) {
+    if (groups[i].id === group.id) continue;
+    newGroups.push(groups[i]);
+  }
+  await db
+    .collection("profiles")
+    .doc(group.Male[male].uid)
+    .update({ groups: newGroups });
+};
+
+const LOOP = async (result, group) => {
+  for (let i = 0; i < 6; i++) {
+    let d = await updateMatches(i, result[i], group);
+  }
+  console.log("Matches added");
+  await db.collection("groups").doc(group.id).delete();
+  return true;
+};
+
+app.post("/algo", (req, res) => {
+  res.send(`<h1>Booty ${Date.now()}</h1>`);
+  console.log("After Res");
+  let group = req.body.group;
+  let m_pref = [];
+  for (let i = 0; i < 6; i++) {
+    let arr = [];
+    for (let j = 0; j < 6; j++) {
+      arr.push(parseInt(group.m_pref[i][j]) + 6);
+    }
+    m_pref.push(arr);
+  }
+
+  let f_pref = [];
+  for (let i = 0; i < 6; i++) {
+    let arr = [];
+    for (let j = 0; j < 6; j++) {
+      arr.push(parseInt(group.f_pref[i][j]));
+    }
+    f_pref.push(arr);
+  }
+
+  let matrix = [...m_pref, ...f_pref];
+  let result = stableSelection(matrix);
+  console.log(result);
+  // for (let i = 0; i < 6; i++) {
+  //   await updateMatches(i, result[i], group);
+  // }
+  LOOP(result, group);
+  console.log("Added all matches");
+});
+
+// const admin = require("firebase-admin");
+// const fieldValue = admin.firestore.FieldValue;
+
+// app.get("/deleteALL", async (req, res) => {
+//   let resp = await db.collection("profiles").get();
+//   resp.forEach((doc) => {
+//     console.log(doc.ref);
+//     doc.ref.update({ groups: fieldValue.delete() });
+//   });
+//   res.send(`<h1>${Date.now()}</h1>`);
+// });
 // const func = () => {
 //   console.log("Hey");
 // };
@@ -210,6 +362,7 @@ app.get("/getGroup", async (req, res) => {
   // let s = await no();
   // console.log(s);
   let done = await group();
+  // res.send({ message: done });
   // console.log(done);
   res.send({ success: true, done, sex: sendSex });
 });
@@ -218,48 +371,60 @@ app.get("/getGroup", async (req, res) => {
 
 io.on("connection", (socket) => {
   // console.log(socket);
-  console.log("a user connected");
+  // console.log("a user connected");
 
   socket.on("hi", () => {
     console.log("baby");
   });
 
-  socket.on("send_message", (message) => {
-    const date = new Date();
-    const now = Date.now();
-    console.log(now);
-    io.to(message.room).emit("retrieve_message_from_sv", {
-      u_id: message.id,
-      text: message.text,
-      date: date,
+  socket.on("send_message", (receivedMessage) => {
+    // const date = new Date();
+    // const now = Date.now();
+    // console.log(now);
+    // console.log(receivedMessage.roomId);
+    let { message, roomId, timestamp } = receivedMessage;
+    let arr = [
+      { message, senderUid: receivedMessage.senderUid, timestamp },
+      ...receivedMessage.array,
+    ];
+    console.log("SSSSS", arr);
+
+    // io.to(receivedMessage.roomId
+
+    io.to(receivedMessage.roomId).emit("svMessage", {
+      senderUid: receivedMessage.senderUid,
+      message: receivedMessage.message,
+      timestamp: receivedMessage.timestamp,
+      array: arr,
     });
-    db.collection("rooms").doc(message.room).collection("messages").add({
-      u_id: message.id,
-      text: message.text,
-      date: date,
-      id: v1(),
-      timestamp: now,
-    });
+    db.collection("rooms")
+      .doc(receivedMessage.roomId)
+      .collection("messages")
+      .add({
+        message: receivedMessage.message,
+        timestamp: receivedMessage.timestamp,
+        senderUid: receivedMessage.senderUid,
+      });
   });
 
   socket.on("joinRoom", (room) => {
-    console.log(room);
+    // console.log(room);
     socket.join(room);
 
     const roomsRef = db.collection("rooms").doc(room);
 
-    roomsRef.get().then((docSnapshot) => {
-      if (docSnapshot.exists) {
-        roomsRef.onSnapshot((doc) => {
-          // do stuff with the data
-          return;
-        });
-      } else {
-        roomsRef.set({ room: room }); // create the document
-      }
-    });
-
-    console.log("Someone joined the room");
+    // roomsRef.get().then((docSnapshot) => {
+    //   if (docSnapshot.exists) {
+    //     roomsRef.onSnapshot((doc) => {
+    //       // do stuff with the data
+    //       return;
+    //     });
+    //   } else {
+    //     roomsRef.set({ room: room }); // create the document
+    //   }
+    // });
+    // io.to(room).emit("alert", { message: "HI" });
+    console.log("Someone joined the room", room);
   });
 });
 

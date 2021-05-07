@@ -5,6 +5,9 @@ const groupReducer = (state = { group: [] }, action) => {
 
     case "groupMatch":
       return { group: action.group };
+
+    case "groupDone":
+      return { group: [] };
   }
 };
 

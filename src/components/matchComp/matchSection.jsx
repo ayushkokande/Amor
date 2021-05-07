@@ -16,6 +16,7 @@ export default function (props) {
           pref={props.pref}
           setPref={props.setPref}
           og={props.og}
+          setGetData={props.setGetData}
         />
       </div>
       <div style={{ display: "flex", alignItems: "center" }}>

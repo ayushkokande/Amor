@@ -258,6 +258,7 @@
   display: flex;
   flex-direction: column;
   flex-grow: 1;
+  overflow-y: scroll;
 }
 
 .msg {
@@ -294,16 +295,19 @@
   resize: none;
 }
 
-.messageBox textarea::-webkit-scrollbar {
+.messageBox textarea::-webkit-scrollbar,
+#messages::-webkit-scrollbar {
   -webkit-appearance: none;
   width: 14px;
 }
 
-.messageBox textarea::-webkit-scrollbar-track {
+.messageBox textarea::-webkit-scrollbar-track,
+#messages::-webkit-scrollbar-track {
   margin: 7px 0;
 }
 
-.messageBox textarea::-webkit-scrollbar-thumb {
+.messageBox textarea::-webkit-scrollbar-thumb,
+#messages::-webkit-scrollbar-thumb {
   border-radius: 12px;
   border: 4px solid rgba(255, 255, 255, 0);
   background-clip: content-box;

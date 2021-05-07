@@ -26,6 +26,9 @@ const matchReducer = (state = { pImg: ["", "", "", "", "", ""] }, action) => {
       arr = [...state.pImg.slice(0, 5), action.img];
       return { pImg: arr };
 
+    case "pDone":
+      return { pImg: ["", "", "", "", "", ""] };
+
     default:
       return state;
   }

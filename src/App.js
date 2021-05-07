@@ -3,8 +3,9 @@ import { useEffect, useState } from "react";
 import ReactLoading from "react-loading";
 import React from "react";
 import SignedIn from "./pages/signedIn";
-import { auth } from "./components/landingComp/firebase";
+import { auth, db } from "./components/landingComp/firebase";
 import store from "./store/store";
+import axios from "axios";
 
 let initialVal = auth.currentUser !== null ? true : false;
 
@@ -16,13 +17,25 @@ function App() {
   );
   console.log(userState);
 
+  // useEffect(() => {
+  //   db.collection("profiles")
+  //     .get()
+  //     .then((snapshot) => {
+  //       snapshot.forEach((doc) => doc.ref.update({ marked: true }));
+  //     });
+  // }, []);
+
   auth.onAuthStateChanged((user) => {
     if (user) {
       console.log("Signed In");
       store.dispatch({ type: "loginBtn" });
       store.dispatch({ type: "signedIn", id: user.uid });
+      axios.post("http://localhost:4000/giveID", { id: user.uid });
       setUserState(true);
-    } else setUserState(false);
+    } else {
+      store.dispatch({ type: "pDone" });
+      setUserState(false);
+    }
   });
 
   return !userState ? (

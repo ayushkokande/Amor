@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import "./chatStyles.css";
 import useLocalStorage from "../../hooks/useLocalStorage";
 import { v4 } from "uuid";
@@ -12,76 +12,50 @@ const Conv = () => {};
 
 export default function () {
   const socket = io("http://localhost:4000");
-  const [id, setID] = useLocalStorage("id");
+  // const [id, setID] = useLocalStorage("id");
+  let uid = useSelector((state) => state.user.id);
+  const [other_uid, setOtherUid] = useState(null);
+  const [inputText, setInput] = useState("");
 
-  const user1 = "c856d200-6b1a-45f9-bb4e-4120cf236a41";
-  const user2 = "d5e7b728-a95b-48e1-863b-f22c9c470757";
-
-  const [msg, setMsg] = useState([
-    {
-      class: "otherUser",
-      message:
-        "Everybody's got opinions on our thing Say we're flying down a path with no ending And if I die before I wake Ooh, don't let me wake up from this dream",
-    },
-    {
-      class: "ogUser",
-      message:
-        "When we collide When we collide, it's a beautiful disaster When I crash into you, you, you Crash into you, you",
-    },
-  ]);
-
-  function createRoom(user1, user2) {
-    if (user1.localeCompare(user2) < 0) return user1 + "@" + user2;
-    return user2 + "@" + user1;
-  }
-
-  const room = createRoom(user1, user2);
-  socket.emit("joinRoom", room);
-
-  useEffect(() => {
-    axios.get(`http://localhost:4000/rooms/${room}`).then((res) => {
-      console.log(res.data);
-      setMsg(res.data);
-    });
-  }, []);
+  const [msg, setMsg] = useState([]);
 
   function showMessages() {
     let i = msg.length < 50 ? msg.length : 50;
     let el = [];
-    for (i = i - 1; i >= 0; i--) el.push(getMessage(msg[i]));
+    for (i = i - 1; i >= 0; i--) el.push(getMessage(msg[i], i));
     return el;
   }
 
-  function getMessage(item) {
+  function getMessage(item, i) {
+    if (!item.senderUid) return null;
     let CLS;
-    if (item.u_id === id) CLS = "ogUser";
+    if (uid === item.senderUid) CLS = "ogUser";
     else CLS = "otherUser";
     return (
-      <div className={`msg ${CLS}`} key={item.id}>
-        {item.text}
+      <div ref={i === 0 ? messagesRef : null} className={`msg ${CLS}`}>
+        {item.message}
       </div>
     );
   }
 
-  function sendMessage(e) {
-    e.preventDefault();
-    socket.emit("send_message", {
-      room: room,
-      text: e.target.input.value,
-      id: id,
-    });
-  }
-
-  socket.on("retrieve_message_from_sv", (message) => {
-    let CLS;
-    if (id === message.u_id) CLS = "ogUser";
-    else CLS = "otherUser";
-
-    setMsg([message, ...msg]);
+  socket.on("svMessage", (message) => {
+    // let CLS;
+    // if (uid === message.senderUid) CLS = "ogUser";
+    // else CLS = "otherUser";
+    // console.log("newMsg", message.array);
+    setMsg(message.array);
   });
 
-  function createID() {
-    setID(v4());
+  function sendMessage(roomId) {
+    socket.emit("send_message", {
+      roomId: roomId,
+      message: inputText,
+      timestamp: Date.now(),
+      senderUid: uid,
+      array: msg,
+      // id: id,
+    });
+    console.log(msg);
   }
 
   // let matches = [
@@ -141,52 +115,129 @@ export default function () {
   //   },
   // ];
 
-  let uid = useSelector((state) => state.user.id);
   const [matches, setMatches] = useState(null);
-  const fetchData = async () => {
-    const REFER = db.collection("profiles").doc(uid);
-    const response = await REFER.get();
-    let matchIDs = response.data().matches;
-    let matchArray = [];
-    matchIDs.map(async (m_uid) => {
-      if (m_uid) {
-        const mRef = db.collection("profiles").doc(m_uid);
-        const mResponse = await mRef.get();
-        if (mResponse)
-          matchArray.push({ ...mResponse.data(), id: mResponse.id });
-      }
-    });
-    setMatches(matchArray);
+  let matchArray = [];
+  const [dummy, setDummy] = useState(false);
+
+  const sMatches = async (item) => {
+    try {
+      console.log(item.uid);
+      const mRef = db.collection("profiles").doc(item.uid);
+      let mResponse = await mRef.get();
+      matchArray.push({
+        ...mResponse.data(),
+        id: item.uid,
+        roomId: item.roomId,
+      });
+      setDummy(true);
+      return { ...mResponse.data(), uid: item.uid };
+      // setArr([...matchArray, { ...mResponse.data(), id: item.uid }]);
+    } catch (err) {
+      console.error(err);
+    }
   };
 
-  useEffect(() => {
-    fetchData();
+  const fetchData = async () => {
+    const REFER = db.collection("profiles").doc(uid).collection("matches");
+    const response = await REFER.get();
+    let matchIDs = [];
+    response.forEach((doc) => {
+      matchIDs.push(doc.data());
+    });
+    console.log("A", matchIDs);
+    let local_arr = [];
+    matchIDs.forEach((item) =>
+      local_arr.push(
+        (async () => {
+          return await sMatches(item);
+        })()
+      )
+    );
+    let results = await Promise.all([local_arr]);
+
+    console.log(local_arr);
+    console.log(Promise.resolve(results));
+    return results;
+    // setMatches(results);
+    // console.log(matchArray);
+    // setMatches(matchArray);
+    // return matchArray;
+  };
+
+  const clickChat = async (roomId) => {
+    setConvLoaded(false);
+    axios.get(`http://localhost:4000/rooms/${roomId}`).then((res) => {
+      console.log(...res.data.messages);
+      setMsg(res.data.messages);
+      // setMsg(res)
+    });
+  };
+
+  useEffect(async () => {
+    let data = await fetchData();
+    console.log(matchArray);
+    setMatches(matchArray);
+    console.log(data);
   }, []);
 
+  useEffect(() => {
+    if (matches) console.log(matches[0]);
+    console.log(matchArray);
+  }, [matches]);
+
+  // useEffect(() => {
+  //   console.log(msg);
+  // }, [inputText]);
+
+  useEffect(() => {
+    console.log("NoNo", msg);
+    if (msg) {
+      setConvLoaded(true);
+      console.log(messagesRef.current);
+      if (messagesRef.current !== undefined && convLoaded === true)
+        messagesRef.current.scrollIntoView({ smooth: true });
+    }
+  }, [msg]);
+
   const [convClick, setConv] = useState(null);
+  const [convLoaded, setConvLoaded] = useState(false);
+  const textRef = useRef();
+  const messagesRef = useRef();
+
+  useEffect(() => {
+    if (messagesRef.current !== undefined && convLoaded === true)
+      messagesRef.current.scrollIntoView({ smooth: true });
+    console.log(messagesRef.current);
+  }, [convLoaded]);
 
   // Make a call to server to get the conversations
 
   function enlistConv(item, idx) {
-    return (
+    // console.log(item, idx);
+    return matches ? (
       <>
         <div
           className="conv"
-          id={item.id}
+          id={item.roomId}
           onClick={() => {
-            createRoom(uid, item.id);
+            // createRoom(uid, item.id);
+            socket.emit("joinRoom", item.roomId);
+            setOtherUid(item.id);
+            clickChat(item.roomId);
             setConv(idx);
           }}
         >
-          <img src={item.img} />
+          <img src={item ? item.images[0] : ``} />
           <div>
-            <div>{item.name}</div>
-            <div>{item.messages[0].text}</div>
+            <div>
+              {item.f_name} {item.l_name}
+            </div>
+            <div>{`item.messages[0].text`}</div>
             <div>21:30</div>
           </div>
         </div>
       </>
-    );
+    ) : null;
   }
 
   return matches ? (
@@ -232,7 +283,7 @@ export default function () {
           </div>
         </section>
       </>
-    ) : (
+    ) : convLoaded ? (
       <>
         {/* <h3>{id}</h3>
         <div>
@@ -264,19 +315,75 @@ export default function () {
               </div>
               <div className="col-sm-9 rightComp">
                 <div className="matchProf">
-                  <img src={matches[convClick].img} />
+                  <img src={matches[convClick].images[0]} />
                   <div>
-                    <h3>{matches[convClick].name}</h3>
-                    <p>19</p>
+                    <h3>
+                      {matches[convClick].f_name} {matches[convClick].l_name}
+                    </h3>
+                    <p>{matches[convClick].age}</p>
                     <p>Delhi</p>
                   </div>
                 </div>
                 <div id="messages">{showMessages()}</div>
                 <div className="messageBox">
-                  <textarea id="input" />
-                  <button onSubmit>
+                  <textarea
+                    id="input"
+                    onInput={(e) => setInput(e.target.value)}
+                    ref={textRef}
+                    autoFocus
+                  />
+                  <button
+                    onClick={() => {
+                      setInput("");
+                      console.log(textRef.current.value);
+                      textRef.current.value = "";
+                      textRef.current.focus();
+                      sendMessage(matches[convClick].roomId);
+                    }}
+                  >
                     <i class="zmdi zmdi-mail-send"></i>
                   </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </>
+    ) : (
+      <>
+        {/* <h3>{id}</h3>
+        <div>
+            <button onClick={createID}>Create new ID</button>
+        </div> */}
+        <section className="chatContainer">
+          <div className="container" id="chat">
+            <div className="row">
+              <div className="col-sm-3 leftComp">
+                <div>
+                  <div className="backMatch">
+                    <Link to="/match">
+                      <i class="fas fa-arrow-left"></i> Match section
+                    </Link>
+                  </div>
+                </div>
+                <div className="yourChatProfile">
+                  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtlZ-FbrdANEQyrPlJsiE178eELi01ZVugtQ&usqp=CAU" />
+                  <div>
+                    <h4>Hilary</h4>
+                    <div className="profDets">
+                      <p>22</p>
+                      <p>Location, World</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="matches">
+                  <div className="text-center">Your Matches</div>
+                  {matches.map(enlistConv)}
+                </div>
+              </div>
+              <div className="col-sm-9 rightComp">
+                <div className="chatWSomeone">
+                  <h3>Loading</h3>
                 </div>
               </div>
             </div>

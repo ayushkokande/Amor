@@ -32,14 +32,14 @@
     "web-vitals": "^1.1.0"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "npm run dev",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "server": "nodemon server/index.js",
-    "dev": "concurrently --kill-others-on-fail \"npm start\" \"npm run server\""
+    "dev": "concurrently --kill-others-on-fail \"react-scripts start\" \"npm run server\""
   },
   "eslintConfig": {
     "extends": [

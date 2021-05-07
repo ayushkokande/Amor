@@ -18,8 +18,8 @@ export default function MatchPage() {
   const [getdata, setGetData] = useState(1);
 
   useEffect(() => {
-    axios.post("http://localhost:4000/giveID", { id: uid }).then(() => {
-      axios.get("http://localhost:4000/getGroup").then((res) => {
+    axios.post("/giveID", { id: uid }).then(() => {
+      axios.get("/getGroup").then((res) => {
         store.dispatch({ type: "groupMatch", group: res.data.done });
 
         if (res.data.done.length === 0) {

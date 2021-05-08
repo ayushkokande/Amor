@@ -3,12 +3,13 @@ import store from "../../store/store";
 import { useState } from "react";
 import { db } from "../landingComp/firebase";
 import axios from "axios";
+import { v4 } from "uuid";
 
 export default function (props) {
-  const [cl, setCL] = useState("");
-
   // let profileList = useSelector((state) => state.match.matchList);
   let arr = [1, 2, 3, 4, 5, 6];
+
+  const [profile, setProfile] = useState();
 
   let GR = useSelector((state) => state.group.group);
   let uid = useSelector((state) => state.user.id);
@@ -70,7 +71,11 @@ export default function (props) {
 
   function buttons(item, index) {
     return (
-      <button className="profileBtn" onClick={() => clickHandler(index)}>
+      <button
+        key={v4()}
+        className="profileBtn"
+        onClick={() => clickHandler(index)}
+      >
         {item}
       </button>
     );

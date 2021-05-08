@@ -1,11 +1,11 @@
 import Profile from "./Profile.jsx";
 import List from "./list";
-import { useState } from "react";
+import { v4 } from "uuid";
 
 export default function (props) {
   return (
     <section className="matchSection">
-      <div>
+      <div key={v4()}>
         <Profile
           profile={props.profile}
           idx={props.idx}
@@ -19,7 +19,7 @@ export default function (props) {
           setGetData={props.setGetData}
         />
       </div>
-      <div style={{ display: "flex", alignItems: "center" }}>
+      <div key={v4()} style={{ display: "flex", alignItems: "center" }}>
         <List />
       </div>
     </section>

@@ -1,7 +1,9 @@
+import { v4 } from "uuid";
+
 export default function (props) {
   return (
-    <div className="profileSelect">
-      <img src={props.img} alt="" />
+    <div key={v4()} className="profileSelect">
+      <img src={props.img} alt="profile" />
     </div>
   );
 }

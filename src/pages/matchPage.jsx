@@ -18,8 +18,8 @@ export default function MatchPage() {
   const [getdata, setGetData] = useState(1);
 
   useEffect(() => {
-    axios.post("/api/giveID", { id: uid }).then(() => {
-      axios.get("/api/getGroup").then((res) => {
+    axios.post("http://localhost:4000/giveID", { id: uid }).then(() => {
+      axios.get("http://localhost:4000/getGroup").then((res) => {
         store.dispatch({ type: "groupMatch", group: res.data.done });
 
         if (res.data.done.length === 0) {
@@ -60,11 +60,11 @@ export default function MatchPage() {
     //     console.log(res.data.message);
     //   });
     // });
-  }, [getdata]);
+  }, [getdata, uid]);
 
-  useEffect(() => {
-    if (group !== null) setProfile(group[idx]);
-  }, [idx]);
+  // useEffect(() => {
+  //   if (group !== null) setProfile(group[idx]);
+  // }, [idx,group]);
 
   useEffect(() => {
     if (group !== null && group[idx] !== undefined) setProfile(group[idx]);
@@ -72,7 +72,7 @@ export default function MatchPage() {
       setProfile(group[idx - 1]);
       setIdx(idx - 1);
     }
-  }, [group]);
+  }, [group, idx]);
 
   return group !== null ? (
     group.length > 0 ? (

@@ -1,13 +1,10 @@
-import { BrowserRouter, Route, Switch, useLocation } from "react-router-dom";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { useEffect, useState } from "react";
-import ReactLoading from "react-loading";
 import React from "react";
 import SignedIn from "./pages/signedIn";
 import { auth, db } from "./components/landingComp/firebase";
 import store from "./store/store";
 import axios from "axios";
-
-let initialVal = auth.currentUser !== null ? true : false;
 
 function App() {
   const Landing = React.lazy(() => import("./pages/landing"));
@@ -25,9 +22,18 @@ function App() {
   //     });
   // }, []);
 
+  const storeUser = async (id) => {
+    console.log(id);
+    let response = await db.collection("profiles").doc(id).get();
+    console.log(response.data());
+    store.dispatch({ type: "signedIn", id: id, data: response.data() });
+  };
+
   auth.onAuthStateChanged((user) => {
     if (user) {
-      console.log("Signed In");
+      // console.log("Signed In");
+      // console.log(user.uid);
+      storeUser(user.uid);
       store.dispatch({ type: "loginBtn" });
       store.dispatch({ type: "signedIn", id: user.uid });
       axios.post("http://localhost:4000/giveID", { id: user.uid });

@@ -2,6 +2,7 @@
 
 const stableSelection = require("./algo");
 
+// const { createProxyMiddleware } = require("http-proxy-middleware");
 const express = require("express");
 const app = express();
 const cors = require("cors");
@@ -16,6 +17,7 @@ const io = new Server(server, {
   },
 });
 
+// app.use('/api', createProxyMiddleware({ target: 'http://www.example.org', changeOrigin: true }));
 app.use(cors());
 app.use(express.json());
 
@@ -57,7 +59,7 @@ var db = firebase.firestore();
 // );
 
 //Send messages on request from db
-app.get("/api/rooms/:room", (req, res) => {
+app.get("/rooms/:room", (req, res) => {
   let arr_data = [];
 
   const roomsRef = db
@@ -99,15 +101,16 @@ app.get("/api/rooms/:room", (req, res) => {
 
 let uid;
 let sendSex;
+let otherSex;
 const { v4, v1 } = require("uuid");
 
-app.post("/api/giveID", (req, res) => {
+app.post("/giveID", (req, res) => {
   uid = req.body.id;
   console.log("S", uid);
   res.send({ success: true });
 });
 
-const addMembers = (response, count, newGroup, listUID) => {
+const addMembers = (response, count, newGroup, listUID, SEX) => {
   let size = response.size;
   let arr = [];
   response.forEach((doc) => {
@@ -115,13 +118,14 @@ const addMembers = (response, count, newGroup, listUID) => {
     arr.push({ data: doc.data(), id: doc.id });
   });
   if (arr.length <= 0) return newGroup;
-  let SEX = arr[0].data.sex;
-  // console.log(newGroup[SEX]);
+  // console.log(SEX, ...newGroup[SEX]);
   // console.log(arr[0].f_name);
 
   let newArr = [];
   let i = 0;
   let j = 0;
+
+  // console.log(sendSex, typeof newGroup[SEX.toString()]);
 
   for (i = 0; j < count && i < size; i++) {
     if (uid !== arr[i].id) {
@@ -143,6 +147,7 @@ const addMembers = (response, count, newGroup, listUID) => {
   // }
   // console.log(size, newArr);
   newGroup[SEX] = [...newGroup[SEX], ...newArr];
+  // console.log("now", newGroup[sendSex]);
   return newGroup;
 };
 
@@ -154,6 +159,7 @@ const group = async () => {
     let groupArr = [];
     let gender = response.data().sex;
     sendSex = gender;
+    otherSex = sendSex === "Male" ? "Female" : "Male";
 
     let listUID = [];
 
@@ -210,10 +216,10 @@ const group = async () => {
       listUID.push(uid);
 
       let newResponse = await newRef.where("sex", "==", gender).get();
-      newGroup = addMembers(newResponse, 5, newGroup, listUID);
+      newGroup = addMembers(newResponse, 5, newGroup, listUID, sendSex);
 
       let newOtherResponse = await newRef.where("sex", "!=", gender).get();
-      newGroup = addMembers(newOtherResponse, 6, newGroup, listUID);
+      newGroup = addMembers(newOtherResponse, 6, newGroup, listUID, otherSex);
 
       // console.log(listUID);
       // let wow = db.collection("profiles").doc(listUID[0]);
@@ -232,6 +238,16 @@ const group = async () => {
     console.log(err);
   }
 };
+
+app.get("/getGroup", async (req, res) => {
+  console.log("YAHA");
+  // let s = await no();
+  // console.log(s);
+  let done = await group();
+  // res.send({ message: done });
+  // console.log(done);
+  res.send({ success: true, done, sex: sendSex });
+});
 
 //
 
@@ -299,7 +315,7 @@ const LOOP = async (result, group) => {
   return true;
 };
 
-app.post("/api/algo", (req, res) => {
+app.post("/algo", (req, res) => {
   res.send(`<h1>Booty ${Date.now()}</h1>`);
   console.log("After Res");
   let group = req.body.group;
@@ -356,16 +372,6 @@ app.post("/api/algo", (req, res) => {
 //     console.log(err);
 //   }
 // };
-
-app.get("/api/getGroup", async (req, res) => {
-  console.log("YAHA");
-  // let s = await no();
-  // console.log(s);
-  let done = await group();
-  // res.send({ message: done });
-  // console.log(done);
-  res.send({ success: true, done, sex: sendSex });
-});
 
 // Socket Connection
 

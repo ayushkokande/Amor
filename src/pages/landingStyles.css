@@ -1,7 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Nunito:wght@300&family=Work+Sans:wght@300&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Neuton:wght@200&family=Yeseva+One&display=swap");
-@import url('https://fonts.googleapis.com/css2?family=Gotu&family=Quicksand&family=Sansita&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Slabo+27px&family=Thasadith&family=Titillium+Web&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Gotu&family=Quicksand&family=Sansita&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Slabo+27px&family=Thasadith&family=Titillium+Web&display=swap");
 * {
   margin: 0;
   padding: 0;
@@ -51,7 +51,7 @@ body {
   opacity: 77%;
 } */
 #firstSection .textcenter {
-  font-family: 'Quicksand', sans-serif;
+  font-family: "Quicksand", sans-serif;
   text-align: center;
   margin-top: 8vh;
   margin-bottom: 16px;
@@ -153,11 +153,11 @@ body {
   outline: none;
   appearance: unset !important;
 }
-#secondSection .signInBox .signInContent input[type=checkbox] {
+#secondSection .signInBox .signInContent input[type="checkbox"] {
   appearance: checkbox;
   margin-right: 16px;
 }
-#secondSection .signInBox .signInContent input[type=checkbox]:checked {
+#secondSection .signInBox .signInContent input[type="checkbox"]:checked {
   background-color: black;
   color: brown;
 }
@@ -168,15 +168,15 @@ body {
 #secondSection .signInBox .signInContent .check-form {
   margin: 30px 0;
 }
-#secondSection .signInBox .signInContent .form-submit {
-  display: inline-block;
-  background: #805252;
+#loginBtn {
+  background: #b66c6c;
+  position: relative;
   color: #fff;
   border: none;
-  width: auto;
   padding: 10px 20px;
   border-radius: 5px;
   margin-bottom: 10px;
+  transition: all 0.2s ease-in-out;
 }
 
 .scrolled {
@@ -223,19 +223,19 @@ body {
 #thirdSection svg {
   position: absolute;
   z-index: 0;
-  top:0;
-  right:0;
+  top: 0;
+  right: 0;
   width: 100px;
   height: 100px;
   transform-origin: top right;
   opacity: 0.6;
 }
 
-#thirdSection svg>circle {
+#thirdSection svg > circle {
   stroke-width: 0;
-  fill: #E8F7FF;
+  fill: #e8f7ff;
   position: absolute;
-  top:0;
+  top: 0;
   right: 0;
 }
 
@@ -245,14 +245,14 @@ body {
 }
 
 #thirdSection .oneLiner {
-  font-family: 'Titillium Web', sans-serif;
+  font-family: "Titillium Web", sans-serif;
   font-weight: 700;
   margin-top: 100px;
   overflow: hidden;
 }
 
 #thirdSection .motto {
-  font-family: 'Slabo 27px', serif;
+  font-family: "Slabo 27px", serif;
   margin-bottom: 70px;
   overflow: hidden;
 }
@@ -263,7 +263,7 @@ body {
 }
 
 #thirdSection .desc h3 {
-  font-family: 'Quicksand', sans-serif;
+  font-family: "Quicksand", sans-serif;
   margin-bottom: 28px;
 }
 
@@ -272,11 +272,11 @@ body {
 }
 
 #thirdSection .amor {
-  font-family: 'Sansita', sans-serif;
+  font-family: "Sansita", sans-serif;
   position: relative;
 }
 
-#thirdSection .amor::before{
+#thirdSection .amor::before {
   content: "";
   width: 100%;
   background-color: black;
@@ -287,13 +287,14 @@ body {
 }
 
 #thirdSection .desc p {
-  font-family: 'Thasadith', sans-serif;
+  font-family: "Thasadith", sans-serif;
   font-size: 18px;
 }
 
 /* NAVBAR */
 
-.navbar, .NAV {
+.navbar,
+.NAV {
   position: relative;
   display: flex;
   justify-content: center;
@@ -311,7 +312,7 @@ body {
 
 .navbar-brand {
   /* font-family: "Yeseva One", cursive; */
-  font-family: 'Sansita', sans-serif;
+  font-family: "Sansita", sans-serif;
   padding: 0;
   margin: 0 6rem;
   color: #303030;
@@ -336,7 +337,7 @@ body {
 }
 
 .nav-item {
-  font-family: 'Gotu', sans-serif;
+  font-family: "Gotu", sans-serif;
   position: relative;
   top: 3px;
   padding: 0;
@@ -346,6 +347,22 @@ body {
   margin: 0;
   justify-content: center;
   align-items: center;
+}
+
+.nav-item::before {
+  content: "";
+  width: 0px;
+  background-color: rgb(36, 36, 36);
+  height: 1.4px;
+  position: absolute;
+  bottom: 10px;
+  transition: all 0.5s ease;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.nav-item:hover::before {
+  width: 100%;
 }
 
 a.nav-link {
@@ -370,7 +387,8 @@ p.nav-link:hover {
   cursor: pointer;
 }
 
-.first::before, .rest::before {
+.first::before,
+.rest::before {
   position: absolute;
   content: attr(data-content);
   color: #f39189;
@@ -378,7 +396,8 @@ p.nav-link:hover {
   transition: clip-path 275ms ease;
 }
 
-a.nav-link:hover > .first::before, a.nav-link:hover > .rest::before {
+a.nav-link:hover > .first::before,
+a.nav-link:hover > .rest::before {
   clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
 }
 
@@ -408,7 +427,8 @@ rect {
   transform: translate(0, 48%);
 } */
 
-a.nav-link:hover ~ svg, a.nav-link:hover ~ svg rect {
+a.nav-link:hover ~ svg,
+a.nav-link:hover ~ svg rect {
   stroke-dashoffset: 0;
 }
 
@@ -432,9 +452,22 @@ a.nav-link:hover ~ svg, a.nav-link:hover ~ svg rect {
   width: 100vw;
 }
 
+#signUp {
+  color: cornflowerblue;
+  text-decoration: underline;
+}
+
+#signUp:hover {
+  cursor: pointer;
+}
+
+#loginBtn:hover {
+  background-color: #805252;
+}
+
 @media (max-width: 468px) {
   .l-sec img {
-    height:73.6vh;
+    height: 73.6vh;
   }
   #firstImg {
     bottom: 0;

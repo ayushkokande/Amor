@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import RightArr from "./rightArr";
 import store from "../../store/store";
+import { v4 } from "uuid";
 
 export default function (props) {
   const [idx, setIdx] = useState(0);
@@ -43,7 +44,7 @@ export default function (props) {
 
   function modalImg() {
     return (
-      <div className="swipeImage">
+      <div className="swipeImage" key={v4()}>
         <img src={images[idx]} alt="D" />
       </div>
     );

@@ -4,7 +4,7 @@ import MatchPage from "./matchPage";
 import ChatPage from "./chatPage";
 import ProfilePage from "./profilePage";
 
-export default function () {
+export default function SignedIn() {
   console.log("SignedInPage");
   return (
     <BrowserRouter>

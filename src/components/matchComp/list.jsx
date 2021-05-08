@@ -1,5 +1,4 @@
 import ListTemplate from "./listTemplate";
-import Profile from "./Profile";
 import ProfileSelect from "./profileSelect";
 import { useSelector } from "react-redux";
 

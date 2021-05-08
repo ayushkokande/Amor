@@ -1,20 +1,17 @@
 import { useState, useEffect, useRef } from "react";
 import "./chatStyles.css";
-import useLocalStorage from "../../hooks/useLocalStorage";
-import { v4 } from "uuid";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import io from "socket.io-client";
 import { db } from "../landingComp/firebase";
 import { useSelector } from "react-redux";
+import { v4 } from "uuid";
 
-const Conv = () => {};
-
-export default function () {
-  const socket = io("/api");
+export default function Chat() {
+  const socket = io("http://localhost:4000");
   // const [id, setID] = useLocalStorage("id");
   let uid = useSelector((state) => state.user.id);
-  const [other_uid, setOtherUid] = useState(null);
+  // const [other_uid, setOtherUid] = useState(null);
   const [inputText, setInput] = useState("");
 
   const [msg, setMsg] = useState([]);
@@ -32,7 +29,11 @@ export default function () {
     if (uid === item.senderUid) CLS = "ogUser";
     else CLS = "otherUser";
     return (
-      <div ref={i === 0 ? messagesRef : null} className={`msg ${CLS}`}>
+      <div
+        key={v4()}
+        ref={i === 0 ? messagesRef : null}
+        className={`msg ${CLS}`}
+      >
         {item.message}
       </div>
     );
@@ -166,7 +167,7 @@ export default function () {
 
   const clickChat = async (roomId) => {
     setConvLoaded(false);
-    axios.get(`/api/rooms/${roomId}`).then((res) => {
+    axios.get(`http://localhost:4000/rooms/${roomId}`).then((res) => {
       console.log(...res.data.messages);
       setMsg(res.data.messages);
       // setMsg(res)
@@ -193,7 +194,6 @@ export default function () {
     console.log("NoNo", msg);
     if (msg) {
       setConvLoaded(true);
-      console.log(messagesRef.current);
       if (messagesRef.current !== undefined && convLoaded === true)
         messagesRef.current.scrollIntoView({ smooth: true });
     }
@@ -207,7 +207,6 @@ export default function () {
   useEffect(() => {
     if (messagesRef.current !== undefined && convLoaded === true)
       messagesRef.current.scrollIntoView({ smooth: true });
-    console.log(messagesRef.current);
   }, [convLoaded]);
 
   // Make a call to server to get the conversations
@@ -219,15 +218,16 @@ export default function () {
         <div
           className="conv"
           id={item.roomId}
+          key={item.roomId}
           onClick={() => {
             // createRoom(uid, item.id);
             socket.emit("joinRoom", item.roomId);
-            setOtherUid(item.id);
+            // setOtherUid(item.id);
             clickChat(item.roomId);
             setConv(idx);
           }}
         >
-          <img src={item ? item.images[0] : ``} />
+          <img src={item ? item.images[0] : ``} alt="Profile" />
           <div>
             <div>
               {item.f_name} {item.l_name}
@@ -254,12 +254,15 @@ export default function () {
                 <div>
                   <div className="backMatch">
                     <Link to="/match">
-                      <i class="fas fa-arrow-left"></i> Match section
+                      <i className="fas fa-arrow-left"></i> Match section
                     </Link>
                   </div>
                 </div>
                 <div className="yourChatProfile">
-                  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtlZ-FbrdANEQyrPlJsiE178eELi01ZVugtQ&usqp=CAU" />
+                  <img
+                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtlZ-FbrdANEQyrPlJsiE178eELi01ZVugtQ&usqp=CAU"
+                    alt="Profile"
+                  />
                   <div>
                     <h4>Hilary</h4>
                     <div className="profDets">
@@ -295,11 +298,14 @@ export default function () {
               <div className="col-sm-3 leftComp">
                 <div>
                   <div className="backMatch">
-                    <i class="fas fa-arrow-left"></i> Match section
+                    <i className="fas fa-arrow-left"></i> Match section
                   </div>
                 </div>
                 <div className="yourChatProfile">
-                  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtlZ-FbrdANEQyrPlJsiE178eELi01ZVugtQ&usqp=CAU" />
+                  <img
+                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtlZ-FbrdANEQyrPlJsiE178eELi01ZVugtQ&usqp=CAU"
+                    alt="Profile"
+                  />
                   <div>
                     <h4>Hillary</h4>
                     <div className="profDets">
@@ -315,7 +321,7 @@ export default function () {
               </div>
               <div className="col-sm-9 rightComp">
                 <div className="matchProf">
-                  <img src={matches[convClick].images[0]} />
+                  <img src={matches[convClick].images[0]} alt="Profile" />
                   <div>
                     <h3>
                       {matches[convClick].f_name} {matches[convClick].l_name}
@@ -341,7 +347,7 @@ export default function () {
                       sendMessage(matches[convClick].roomId);
                     }}
                   >
-                    <i class="zmdi zmdi-mail-send"></i>
+                    <i className="zmdi zmdi-mail-send"></i>
                   </button>
                 </div>
               </div>
@@ -362,12 +368,15 @@ export default function () {
                 <div>
                   <div className="backMatch">
                     <Link to="/match">
-                      <i class="fas fa-arrow-left"></i> Match section
+                      <i className="fas fa-arrow-left"></i> Match section
                     </Link>
                   </div>
                 </div>
                 <div className="yourChatProfile">
-                  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtlZ-FbrdANEQyrPlJsiE178eELi01ZVugtQ&usqp=CAU" />
+                  <img
+                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtlZ-FbrdANEQyrPlJsiE178eELi01ZVugtQ&usqp=CAU"
+                    alt="Profile"
+                  />
                   <div>
                     <h4>Hilary</h4>
                     <div className="profDets">

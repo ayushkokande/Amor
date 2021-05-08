@@ -38,7 +38,17 @@ function App() {
     }
   });
 
-  return !userState ? (
+  return userState ? (
+    <BrowserRouter>
+      <div className="App">
+        <React.Suspense fallback={<div>LLLLLLL..........</div>}>
+          <Switch>
+            <Route path="/" component={SignedIn} />
+          </Switch>
+        </React.Suspense>
+      </div>
+    </BrowserRouter>
+  ) : (
     <BrowserRouter>
       <div className="App">
         <React.Suspense fallback={<div>LLLLLLL..........</div>}>
@@ -48,16 +58,6 @@ function App() {
           <Switch>
             <Route path="/" component={Landing} />
             <Route exact path="/signup" component={SignUpPage} />
-          </Switch>
-        </React.Suspense>
-      </div>
-    </BrowserRouter>
-  ) : (
-    <BrowserRouter>
-      <div className="App">
-        <React.Suspense fallback={<div>LLLLLLL..........</div>}>
-          <Switch>
-            <Route path="/" component={SignedIn} />
           </Switch>
         </React.Suspense>
       </div>

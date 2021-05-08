@@ -3,17 +3,17 @@ import { useSelector } from "react-redux";
 import RightArr from "./viewRightArr";
 import store from "../../store/store";
 
-export default function () {
+export default function (props) {
   const [idx, setIdx] = useState(0);
   const [cardFront, setCardFront] = useState("Card card-front");
   const [cardBack, setCardBack] = useState("Card card-back");
 
   let CL = "modale" + useSelector((state) => state.modal.cl);
-  let images = [
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQTkLS70KdHik9_P33l7yCZSfw_zEsfkisM9A&usqp=CAU",
-    "https://res.cloudinary.com/select-models/image/fetch/w_2560,c_limit/f_auto/https://select.solarnet.app/files/gallery/15007/expanded_medium/gallery_model_g0TNVX_Z4n8t.jpeg",
-  ];
-  let n = images.length;
+  // let images = [
+  //   "https://images-eu.ssl-images-amazon.com/images/I/81rgE1bGnbL.png",
+  //   "https://res.cloudinary.com/select-models/image/fetch/w_2560,c_limit/f_auto/https://select.solarnet.app/files/gallery/15007/expanded_medium/gallery_model_g0TNVX_Z4n8t.jpeg",
+  // ];
+  let n = props.data.images.length;
 
   function upArr() {
     if (idx != 0)
@@ -42,7 +42,7 @@ export default function () {
   function modalImg() {
     return (
       <div className="swipeImage">
-        <img src={images[idx]} alt="D" />
+        <img src={props.data.images[idx]} alt="D" />
       </div>
     );
   }
@@ -125,7 +125,7 @@ export default function () {
           }}
           className={cardBack}
         >
-          <div className="content">Iris, 19</div>
+          <div className="content">{props.data.bio}</div>
         </div>
         <RightArr
           cardBack={cardBack}

@@ -78,7 +78,7 @@ export default function () {
       <>
         <section className="profilePage">
           <Navbar />
-          <ViewModal />
+          <ViewModal data={profileData} />
 
           <div className="profCon container">
             <div className="profilePic">

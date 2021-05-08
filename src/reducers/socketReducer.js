@@ -1,5 +1,3 @@
-import io from "socket.io-client";
-
 const socketReducer = (state = null, action) => {
   // const newSocket = io(
   //     'http://localhost:4000'

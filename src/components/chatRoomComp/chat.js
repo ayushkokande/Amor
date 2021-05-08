@@ -1,23 +1,21 @@
 import { useState, useEffect, useRef } from "react";
 import "./chatStyles.css";
-import useLocalStorage from "../../hooks/useLocalStorage";
-import { v4 } from "uuid";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import io from "socket.io-client";
 import { db } from "../landingComp/firebase";
 import { useSelector } from "react-redux";
+import { v4 } from "uuid";
 
-const Conv = () => {};
-
-export default function () {
+export default function Chat() {
   const socket = io("http://localhost:4000");
   // const [id, setID] = useLocalStorage("id");
   let uid = useSelector((state) => state.user.id);
-  const [other_uid, setOtherUid] = useState(null);
+  let profile = useSelector((state) => state.user.data);
+  // const [other_uid, setOtherUid] = useState(null);
   const [inputText, setInput] = useState("");
-
   const [msg, setMsg] = useState([]);
+  const [matchId, setMatchId] = useState();
 
   function showMessages() {
     let i = msg.length < 50 ? msg.length : 50;
@@ -32,8 +30,18 @@ export default function () {
     if (uid === item.senderUid) CLS = "ogUser";
     else CLS = "otherUser";
     return (
-      <div ref={i === 0 ? messagesRef : null} className={`msg ${CLS}`}>
-        {item.message}
+      <div className={`msgContainer ${CLS}`} style={{ width: "auto" }}>
+        <div key={v4()} ref={i === 0 ? messagesRef : null} className={`msg`}>
+          {item.message}
+        </div>
+
+        <div className="text-muted">
+          {uid === item.senderUid ? "You | " : "Them | "}
+          {new Date(item.timestamp)
+            .toLocaleString("en-GB")
+            .split(" ")[1]
+            .slice(0, -3)}
+        </div>
       </div>
     );
   }
@@ -53,67 +61,11 @@ export default function () {
       timestamp: Date.now(),
       senderUid: uid,
       array: msg,
+      matchId: matchId,
       // id: id,
     });
     console.log(msg);
   }
-
-  // let matches = [
-  //   {
-  //     img:
-  //       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRo0_5BYd7bOleC0BHCHb_yhnKTDy3JaULing&usqp=CAU",
-  //     name: "Mural",
-  //     messages: [{ text: "whatcha up to dawg??" }],
-  //   },
-  //   {
-  //     img:
-  //       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRo0_5BYd7bOleC0BHCHb_yhnKTDy3JaULing&usqp=CAU",
-  //     name: "Mural",
-  //     messages: [{ text: "whatcha up to dawg??" }],
-  //   },
-  //   {
-  //     img:
-  //       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRo0_5BYd7bOleC0BHCHb_yhnKTDy3JaULing&usqp=CAU",
-  //     name: "Mural",
-  //     messages: [{ text: "whatcha up to dawg??" }],
-  //   },
-  //   {
-  //     img:
-  //       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRo0_5BYd7bOleC0BHCHb_yhnKTDy3JaULing&usqp=CAU",
-  //     name: "Mural",
-  //     messages: [{ text: "whatcha up to dawg??" }],
-  //   },
-  //   {
-  //     img:
-  //       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRo0_5BYd7bOleC0BHCHb_yhnKTDy3JaULing&usqp=CAU",
-  //     name: "Mural",
-  //     messages: [{ text: "whatcha up to dawg??" }],
-  //   },
-  //   {
-  //     img:
-  //       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRo0_5BYd7bOleC0BHCHb_yhnKTDy3JaULing&usqp=CAU",
-  //     name: "Mural",
-  //     messages: [{ text: "whatcha up to dawg??" }],
-  //   },
-  //   {
-  //     img:
-  //       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRo0_5BYd7bOleC0BHCHb_yhnKTDy3JaULing&usqp=CAU",
-  //     name: "Mural",
-  //     messages: [{ text: "whatcha up to dawg??" }],
-  //   },
-  //   {
-  //     img:
-  //       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRo0_5BYd7bOleC0BHCHb_yhnKTDy3JaULing&usqp=CAU",
-  //     name: "Mural",
-  //     messages: [{ text: "whatcha up to dawg??" }],
-  //   },
-  //   {
-  //     img:
-  //       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRo0_5BYd7bOleC0BHCHb_yhnKTDy3JaULing&usqp=CAU",
-  //     name: "Mural",
-  //     messages: [{ text: "whatcha up to dawg??" }],
-  //   },
-  // ];
 
   const [matches, setMatches] = useState(null);
   let matchArray = [];
@@ -124,10 +76,12 @@ export default function () {
       console.log(item.uid);
       const mRef = db.collection("profiles").doc(item.uid);
       let mResponse = await mRef.get();
+      console.log(mResponse.id);
       matchArray.push({
         ...mResponse.data(),
         id: item.uid,
         roomId: item.roomId,
+        matchId: mResponse.id,
       });
       setDummy(true);
       return { ...mResponse.data(), uid: item.uid };
@@ -164,8 +118,9 @@ export default function () {
     // return matchArray;
   };
 
-  const clickChat = async (roomId) => {
+  const clickChat = async (roomId, gmatchId) => {
     setConvLoaded(false);
+    setMatchId(gmatchId);
     axios.get(`http://localhost:4000/rooms/${roomId}`).then((res) => {
       console.log(...res.data.messages);
       setMsg(res.data.messages);
@@ -193,7 +148,6 @@ export default function () {
     console.log("NoNo", msg);
     if (msg) {
       setConvLoaded(true);
-      console.log(messagesRef.current);
       if (messagesRef.current !== undefined && convLoaded === true)
         messagesRef.current.scrollIntoView({ smooth: true });
     }
@@ -207,7 +161,6 @@ export default function () {
   useEffect(() => {
     if (messagesRef.current !== undefined && convLoaded === true)
       messagesRef.current.scrollIntoView({ smooth: true });
-    console.log(messagesRef.current);
   }, [convLoaded]);
 
   // Make a call to server to get the conversations
@@ -219,15 +172,16 @@ export default function () {
         <div
           className="conv"
           id={item.roomId}
+          key={item.roomId}
           onClick={() => {
             // createRoom(uid, item.id);
             socket.emit("joinRoom", item.roomId);
-            setOtherUid(item.id);
-            clickChat(item.roomId);
+            // setOtherUid(item.id);
+            clickChat(item.roomId, item.matchId);
             setConv(idx);
           }}
         >
-          <img src={item ? item.images[0] : ``} />
+          <img src={item ? item.images[0] : ``} alt="Profile" />
           <div>
             <div>
               {item.f_name} {item.l_name}
@@ -254,16 +208,20 @@ export default function () {
                 <div>
                   <div className="backMatch">
                     <Link to="/match">
-                      <i class="fas fa-arrow-left"></i> Match section
+                      <i className="fas fa-arrow-left"></i> Match section
                     </Link>
                   </div>
                 </div>
                 <div className="yourChatProfile">
-                  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtlZ-FbrdANEQyrPlJsiE178eELi01ZVugtQ&usqp=CAU" />
+                  <Link to="/profile" className="chat_profile">
+                    <img src={profile.images[0]} alt="Profile" />
+                  </Link>
                   <div>
-                    <h4>Hilary</h4>
+                    <h4>
+                      {profile.f_name} {profile.l_name}
+                    </h4>
                     <div className="profDets">
-                      <p>22</p>
+                      <p>{profile.age}</p>
                       <p>Location, World</p>
                     </div>
                   </div>
@@ -295,15 +253,19 @@ export default function () {
               <div className="col-sm-3 leftComp">
                 <div>
                   <div className="backMatch">
-                    <i class="fas fa-arrow-left"></i> Match section
+                    <i className="fas fa-arrow-left"></i> Match section
                   </div>
                 </div>
                 <div className="yourChatProfile">
-                  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtlZ-FbrdANEQyrPlJsiE178eELi01ZVugtQ&usqp=CAU" />
+                  <Link to="/profile" className="chat_profile">
+                    <img src={profile.images[0]} alt="Profile" />
+                  </Link>
                   <div>
-                    <h4>Hillary</h4>
+                    <h4>
+                      {profile.f_name} {profile.l_name}
+                    </h4>
                     <div className="profDets">
-                      <p>22</p>
+                      <p>{profile.age}</p>
                       <p>Location, World</p>
                     </div>
                   </div>
@@ -315,7 +277,7 @@ export default function () {
               </div>
               <div className="col-sm-9 rightComp">
                 <div className="matchProf">
-                  <img src={matches[convClick].images[0]} />
+                  <img src={matches[convClick].images[0]} alt="Profile" />
                   <div>
                     <h3>
                       {matches[convClick].f_name} {matches[convClick].l_name}
@@ -341,7 +303,7 @@ export default function () {
                       sendMessage(matches[convClick].roomId);
                     }}
                   >
-                    <i class="zmdi zmdi-mail-send"></i>
+                    <i className="zmdi zmdi-mail-send"></i>
                   </button>
                 </div>
               </div>
@@ -362,16 +324,20 @@ export default function () {
                 <div>
                   <div className="backMatch">
                     <Link to="/match">
-                      <i class="fas fa-arrow-left"></i> Match section
+                      <i className="fas fa-arrow-left"></i> Match section
                     </Link>
                   </div>
                 </div>
                 <div className="yourChatProfile">
-                  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtlZ-FbrdANEQyrPlJsiE178eELi01ZVugtQ&usqp=CAU" />
+                  <Link to="/profile" className="chat_profile">
+                    <img src={profile.images[0]} alt="Profile" />
+                  </Link>
                   <div>
-                    <h4>Hilary</h4>
+                    <h4>
+                      {profile.f_name} {profile.l_name}
+                    </h4>
                     <div className="profDets">
-                      <p>22</p>
+                      <p>{profile.age}</p>
                       <p>Location, World</p>
                     </div>
                   </div>

@@ -158,6 +158,10 @@ body {
   list-style: none;
 }
 
+#pro_pic::before {
+  background-color: transparent;
+}
+
 .m-nav li.nav-item a {
   text-decoration: none;
   font-family: "Assistant", sans-serif;

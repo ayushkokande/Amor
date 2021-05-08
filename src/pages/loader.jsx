@@ -2,8 +2,8 @@ import "./loaderStyles.css";
 
 export default function () {
   return (
-    <div class="Loadcontent">
-      <div class="loading">
+    <div className="Loadcontent">
+      <div className="loading">
         <p>Loading</p>
         <span></span>
       </div>

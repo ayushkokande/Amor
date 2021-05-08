@@ -118,7 +118,9 @@ export default function () {
           </div>
           <div className="signInContent">
             <form method="POST" className="signInForm">
-              <h3 className="form-title">Sign In</h3>
+              <h3 className="form-title" className="SignIn">
+                Sign In
+              </h3>
               <div className="form-group em_pw">
                 <label for="email">
                   <i className="zmdi zmdi-email"></i>
@@ -141,19 +143,19 @@ export default function () {
                   onChange={(e) => setPw(e.target.value)}
                 ></input>
               </div>
-              <div class="form-group check-form">
+              <div className="form-group check-form">
                 <input type="checkbox" />
                 <label>Remember my password</label>
               </div>
-              <div class="form-group form-button">
-                <input
-                  type="submit"
-                  onClick={signIn}
-                  class="form-submit"
-                  value="Login"
-                />
+              <div className="form-group form-button">
+                <div onClick={signIn} className="form-submit btn" id="loginBtn">
+                  Login
+                </div>
               </div>
-              <div className="form-group">
+              <div
+                className="form-group text-center"
+                style={{ fontSize: "12px", color: "rgb(65, 65, 65)" }}
+              >
                 <p>
                   Don't have an account?{" "}
                   <p onClick={onClick} id="signUp">
@@ -198,7 +200,9 @@ export default function () {
           </div>
           <div className="signInContent">
             <form method="POST" className="signInForm">
-              <h3 className="form-title">Sign In</h3>
+              <h3 className="form-title" className="SignIn">
+                Sign In
+              </h3>
               <div className="form-group em_pw">
                 <label for="email">
                   <i className="zmdi zmdi-email"></i>
@@ -219,14 +223,19 @@ export default function () {
                   placeholder="Password"
                 ></input>
               </div>
-              <div class="form-group check-form">
+              <div className="form-group check-form">
                 <input type="checkbox" />
                 <label>Remember my password</label>
               </div>
-              <div class="form-group form-button">
-                <input type="submit" class="form-submit" value="Login" />
+              <div className="form-group form-button">
+                <div onClick={signIn} className="form-submit btn" id="loginBtn">
+                  Login
+                </div>
               </div>
-              <div className="form-group">
+              <div
+                className="form-group text-center"
+                style={{ fontSize: "12px", color: "rgb(65, 65, 65)" }}
+              >
                 <p>
                   Don't have an account?{" "}
                   <p onClick={onClick} id="signUp">

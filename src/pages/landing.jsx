@@ -21,7 +21,6 @@ import { AnimatePresence } from "framer-motion";
 // const SignUpPage = React.lazy(()=>import("./signUpPage"));
 
 function Landing() {
-  console.log("LanddingPage");
   const [isLoading, setIsLoading] = useState(true);
 
   async function cacheImages(srcArray) {
@@ -38,7 +37,7 @@ function Landing() {
     Promise.all(promises).then(setIsLoading(false));
   }
 
-  useEffect(() => {
+  useEffect(async () => {
     const imgs = [
       "/images/pink_rice.png",
       "/images/blue_rice.png",
@@ -46,7 +45,11 @@ function Landing() {
       "/images/noisy.png",
     ];
 
-    // cacheImages(imgs);
+    imgs.forEach((item) => {
+      new Image().src = item;
+    });
+    setIsLoading(true);
+    // await cacheImages(imgs);
   }, []);
 
   return !isLoading ? (

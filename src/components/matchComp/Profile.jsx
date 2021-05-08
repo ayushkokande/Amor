@@ -9,17 +9,21 @@ export default function (props) {
   // let profileList = useSelector((state) => state.match.matchList);
   let arr = [1, 2, 3, 4, 5, 6];
 
-  const [profile, setProfile] = useState();
+  console.log(props.og);
+  const [profile, setProfile] = useState(props.group[0]);
+  // const [pref, setPref] = useState([]);
+  let idx = 0;
 
   let GR = useSelector((state) => state.group.group);
   let uid = useSelector((state) => state.user.id);
-  const [n, setN] = useState(props.group.length);
+  // const [n, setN] = useState(props.group.length);
   function upArr() {
-    if (props.idx != 0)
+    if (idx != 0)
       return (
         <i
           onClick={() => {
-            props.setIdx(props.idx - 1);
+            idx = idx - 1;
+            setProfile(props.group[idx]);
           }}
           className="upArr fas fa-angle-up"
         ></i>
@@ -27,11 +31,12 @@ export default function (props) {
   }
 
   function downArr() {
-    if (props.idx != n - 1)
+    if (idx != props.group.length - 1)
       return (
         <i
           onClick={() => {
-            props.setIdx(props.idx + 1);
+            idx = idx + 1;
+            setProfile(props.group[idx]);
           }}
           className="downArr fas fa-angle-down"
         ></i>
@@ -41,7 +46,7 @@ export default function (props) {
   function yesSubmit(arr) {
     let i = 0;
     let newArr = [];
-    for (i = 0; i < arr.length; i++) if (i !== props.idx) newArr.push(arr[i]);
+    for (i = 0; i < arr.length; i++) if (i !== idx) newArr.push(arr[i]);
     return newArr;
   }
 
@@ -51,11 +56,11 @@ export default function (props) {
 
   function clickHandler(index) {
     let numb = index;
-    props.setPref([
-      ...props.pref,
-      { obj: { idx: props.profile.idx, pref: numb } },
-    ]);
-    setN(n - 1);
+    props.setPref([...props.pref, { obj: { idx: profile.idx, pref: numb } }]);
+    // setN(n - 1);
+    store.dispatch({ type: `p${index + 1}`, img: profile.images[0] });
+    idx = idx !== 0 ? idx - 1 : idx;
+    setProfile(props.group[idx]);
     props.setGroup(yesSubmit(props.group));
 
     // props.setProfile(props.group[props.idx]);
@@ -66,7 +71,6 @@ export default function (props) {
     //     ...props.group.slice(0, index),
     //     ...props.group.slice(index + 1, 6),
     //   ]);
-    store.dispatch({ type: `p${index + 1}`, img: props.profile.images[0] });
   }
 
   function buttons(item, index) {
@@ -135,7 +139,7 @@ export default function (props) {
 
     // make call if cnt === 12;
     await REF.update({ marked: true });
-    alert(n);
+    console.log(res_group);
 
     if (res_group.cnt === 12) {
       await db.collection("groups").doc(res_group.id).delete();
@@ -153,13 +157,13 @@ export default function (props) {
 
   console.log(props.group.length);
 
-  return props.profile !== undefined ? (
+  return props.group.length !== 0 && profile !== undefined ? (
     <div className="profile">
       <div className="profileImg">
         {upArr()}
         <img
           onClick={modalView}
-          src={props.profile ? props.profile.images[0] : ``}
+          src={profile ? profile.images[0] : ``}
           alt="Profile"
         />
         {/* <img
@@ -169,8 +173,7 @@ export default function (props) {
 
         <div className="profileDesc">
           <h3>
-            {props.profile ? props.profile.f_name : ``},{" "}
-            {props.profile ? props.profile.age : ``}
+            {profile ? profile.f_name : ``}, {profile ? profile.age : ``}
           </h3>
         </div>
         {downArr()}
@@ -184,7 +187,7 @@ export default function (props) {
     <div className="profile">
       <div className="profileImg">
         {upArr()}
-        {/* <img src={props.profile.images[0]} alt="Profile" /> */}
+        {/* <img src={profile.images[0]} alt="Profile" /> */}
         <img
           style={{ opacity: 0 }}
           src="https://photogenicsmedia.com/wp-content/uploads/2020/08/ALISSAIRIS.jpg"
@@ -199,7 +202,14 @@ export default function (props) {
           >
             Yes
           </div>
-          <div className="btn btn-primary">No</div>
+          <div
+            className="btn btn-primary"
+            onClick={() => {
+              console.log(props.pref);
+            }}
+          >
+            No
+          </div>
         </div>
         <div className="profileDesc">
           <h3>{/* {props.profile.name}, {props.profile.age} */}SS</h3>

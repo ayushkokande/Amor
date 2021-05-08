@@ -29,6 +29,13 @@
   width: 100vw;
 }
 
+.chat_profile {
+  cursor: initial;
+}
+
+.chat_profile img {
+  cursor: pointer;
+}
 /* LEFT SIDE | Contacts */
 .leftComp {
   display: flex;
@@ -261,21 +268,51 @@
   overflow-y: scroll;
 }
 
-.msg {
+.msgContainer {
+  position: relative;
   max-width: 40%;
+  margin: 10px;
+}
+
+.msg {
+  /* max-width: 40%; */
   padding: 15px;
   border-radius: 30px;
   background-color: cornflowerblue;
-  margin: 10px;
+  margin-bottom: 20px;
+}
+
+.ogUser .msg {
+  background-color: white;
 }
 
 .ogUser {
   align-self: flex-end;
 }
 
+.msg ~ .text-muted {
+  position: absolute;
+  bottom: 0;
+  width: 70px;
+}
+
+.ogUser .text-muted {
+  text-align: right;
+  font-size: 12px;
+  margin-right: 10px;
+  right: 0;
+}
+
 .otherUser {
   align-self: flex-start;
 }
+
+.otherUser .text-muted {
+  text-align: left;
+  font-size: 12px;
+  margin-left: 10px;
+}
+
 .messageBox {
   width: 100%;
   display: flex;

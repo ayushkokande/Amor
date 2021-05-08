@@ -11,10 +11,11 @@ export default function Chat() {
   const socket = io("http://localhost:4000");
   // const [id, setID] = useLocalStorage("id");
   let uid = useSelector((state) => state.user.id);
+  let profile = useSelector((state) => state.user.data);
   // const [other_uid, setOtherUid] = useState(null);
   const [inputText, setInput] = useState("");
-
   const [msg, setMsg] = useState([]);
+  const [matchId, setMatchId] = useState();
 
   function showMessages() {
     let i = msg.length < 50 ? msg.length : 50;
@@ -29,12 +30,18 @@ export default function Chat() {
     if (uid === item.senderUid) CLS = "ogUser";
     else CLS = "otherUser";
     return (
-      <div
-        key={v4()}
-        ref={i === 0 ? messagesRef : null}
-        className={`msg ${CLS}`}
-      >
-        {item.message}
+      <div className={`msgContainer ${CLS}`} style={{ width: "auto" }}>
+        <div key={v4()} ref={i === 0 ? messagesRef : null} className={`msg`}>
+          {item.message}
+        </div>
+
+        <div className="text-muted">
+          {uid === item.senderUid ? "You | " : "Them | "}
+          {new Date(item.timestamp)
+            .toLocaleString("en-GB")
+            .split(" ")[1]
+            .slice(0, -3)}
+        </div>
       </div>
     );
   }
@@ -54,67 +61,11 @@ export default function Chat() {
       timestamp: Date.now(),
       senderUid: uid,
       array: msg,
+      matchId: matchId,
       // id: id,
     });
     console.log(msg);
   }
-
-  // let matches = [
-  //   {
-  //     img:
-  //       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRo0_5BYd7bOleC0BHCHb_yhnKTDy3JaULing&usqp=CAU",
-  //     name: "Mural",
-  //     messages: [{ text: "whatcha up to dawg??" }],
-  //   },
-  //   {
-  //     img:
-  //       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRo0_5BYd7bOleC0BHCHb_yhnKTDy3JaULing&usqp=CAU",
-  //     name: "Mural",
-  //     messages: [{ text: "whatcha up to dawg??" }],
-  //   },
-  //   {
-  //     img:
-  //       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRo0_5BYd7bOleC0BHCHb_yhnKTDy3JaULing&usqp=CAU",
-  //     name: "Mural",
-  //     messages: [{ text: "whatcha up to dawg??" }],
-  //   },
-  //   {
-  //     img:
-  //       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRo0_5BYd7bOleC0BHCHb_yhnKTDy3JaULing&usqp=CAU",
-  //     name: "Mural",
-  //     messages: [{ text: "whatcha up to dawg??" }],
-  //   },
-  //   {
-  //     img:
-  //       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRo0_5BYd7bOleC0BHCHb_yhnKTDy3JaULing&usqp=CAU",
-  //     name: "Mural",
-  //     messages: [{ text: "whatcha up to dawg??" }],
-  //   },
-  //   {
-  //     img:
-  //       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRo0_5BYd7bOleC0BHCHb_yhnKTDy3JaULing&usqp=CAU",
-  //     name: "Mural",
-  //     messages: [{ text: "whatcha up to dawg??" }],
-  //   },
-  //   {
-  //     img:
-  //       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRo0_5BYd7bOleC0BHCHb_yhnKTDy3JaULing&usqp=CAU",
-  //     name: "Mural",
-  //     messages: [{ text: "whatcha up to dawg??" }],
-  //   },
-  //   {
-  //     img:
-  //       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRo0_5BYd7bOleC0BHCHb_yhnKTDy3JaULing&usqp=CAU",
-  //     name: "Mural",
-  //     messages: [{ text: "whatcha up to dawg??" }],
-  //   },
-  //   {
-  //     img:
-  //       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRo0_5BYd7bOleC0BHCHb_yhnKTDy3JaULing&usqp=CAU",
-  //     name: "Mural",
-  //     messages: [{ text: "whatcha up to dawg??" }],
-  //   },
-  // ];
 
   const [matches, setMatches] = useState(null);
   let matchArray = [];
@@ -125,10 +76,12 @@ export default function Chat() {
       console.log(item.uid);
       const mRef = db.collection("profiles").doc(item.uid);
       let mResponse = await mRef.get();
+      console.log(mResponse.id);
       matchArray.push({
         ...mResponse.data(),
         id: item.uid,
         roomId: item.roomId,
+        matchId: mResponse.id,
       });
       setDummy(true);
       return { ...mResponse.data(), uid: item.uid };
@@ -165,8 +118,9 @@ export default function Chat() {
     // return matchArray;
   };
 
-  const clickChat = async (roomId) => {
+  const clickChat = async (roomId, gmatchId) => {
     setConvLoaded(false);
+    setMatchId(gmatchId);
     axios.get(`http://localhost:4000/rooms/${roomId}`).then((res) => {
       console.log(...res.data.messages);
       setMsg(res.data.messages);
@@ -223,7 +177,7 @@ export default function Chat() {
             // createRoom(uid, item.id);
             socket.emit("joinRoom", item.roomId);
             // setOtherUid(item.id);
-            clickChat(item.roomId);
+            clickChat(item.roomId, item.matchId);
             setConv(idx);
           }}
         >
@@ -259,14 +213,15 @@ export default function Chat() {
                   </div>
                 </div>
                 <div className="yourChatProfile">
-                  <img
-                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtlZ-FbrdANEQyrPlJsiE178eELi01ZVugtQ&usqp=CAU"
-                    alt="Profile"
-                  />
+                  <Link to="/profile" className="chat_profile">
+                    <img src={profile.images[0]} alt="Profile" />
+                  </Link>
                   <div>
-                    <h4>Hilary</h4>
+                    <h4>
+                      {profile.f_name} {profile.l_name}
+                    </h4>
                     <div className="profDets">
-                      <p>22</p>
+                      <p>{profile.age}</p>
                       <p>Location, World</p>
                     </div>
                   </div>
@@ -302,14 +257,15 @@ export default function Chat() {
                   </div>
                 </div>
                 <div className="yourChatProfile">
-                  <img
-                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtlZ-FbrdANEQyrPlJsiE178eELi01ZVugtQ&usqp=CAU"
-                    alt="Profile"
-                  />
+                  <Link to="/profile" className="chat_profile">
+                    <img src={profile.images[0]} alt="Profile" />
+                  </Link>
                   <div>
-                    <h4>Hillary</h4>
+                    <h4>
+                      {profile.f_name} {profile.l_name}
+                    </h4>
                     <div className="profDets">
-                      <p>22</p>
+                      <p>{profile.age}</p>
                       <p>Location, World</p>
                     </div>
                   </div>
@@ -373,14 +329,15 @@ export default function Chat() {
                   </div>
                 </div>
                 <div className="yourChatProfile">
-                  <img
-                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtlZ-FbrdANEQyrPlJsiE178eELi01ZVugtQ&usqp=CAU"
-                    alt="Profile"
-                  />
+                  <Link to="/profile" className="chat_profile">
+                    <img src={profile.images[0]} alt="Profile" />
+                  </Link>
                   <div>
-                    <h4>Hilary</h4>
+                    <h4>
+                      {profile.f_name} {profile.l_name}
+                    </h4>
                     <div className="profDets">
-                      <p>22</p>
+                      <p>{profile.age}</p>
                       <p>Location, World</p>
                     </div>
                   </div>

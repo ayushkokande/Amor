@@ -2,6 +2,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Neuton:wght@200&family=Yeseva+One&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Gotu&family=Quicksand&family=Sansita&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Slabo+27px&family=Thasadith&family=Titillium+Web&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Martel&display=swap");
 * {
   margin: 0;
   padding: 0;
@@ -334,6 +335,7 @@ body {
 }
 .navbar-brand:hover {
   color: black;
+  cursor: pointer;
 }
 
 .nav-item {
@@ -463,6 +465,11 @@ a.nav-link:hover ~ svg rect {
 
 #loginBtn:hover {
   background-color: #805252;
+}
+
+.SignIn {
+  font-family: "Martel", serif;
+  font-size: 1.5rem;
 }
 
 @media (max-width: 468px) {

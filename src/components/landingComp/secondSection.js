@@ -118,7 +118,9 @@ export default function () {
           </div>
           <div className="signInContent">
             <form method="POST" className="signInForm">
-              <h3 className="form-title">Sign In</h3>
+              <h3 className="form-title" className="SignIn">
+                Sign In
+              </h3>
               <div className="form-group em_pw">
                 <label for="email">
                   <i className="zmdi zmdi-email"></i>
@@ -198,7 +200,9 @@ export default function () {
           </div>
           <div className="signInContent">
             <form method="POST" className="signInForm">
-              <h3 className="form-title">Sign In</h3>
+              <h3 className="form-title" className="SignIn">
+                Sign In
+              </h3>
               <div className="form-group em_pw">
                 <label for="email">
                   <i className="zmdi zmdi-email"></i>

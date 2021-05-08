@@ -411,6 +411,8 @@ io.on("connection", (socket) => {
         timestamp: receivedMessage.timestamp,
         senderUid: receivedMessage.senderUid,
       });
+
+    // db.collection("")
   });
 
   socket.on("joinRoom", (room) => {

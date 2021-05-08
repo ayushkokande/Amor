@@ -25,7 +25,7 @@ function App() {
   const storeUser = async (id) => {
     console.log(id);
     let response = await db.collection("profiles").doc(id).get();
-    console.log(response.data());
+    // console.log(response.data());
     store.dispatch({ type: "signedIn", id: id, data: response.data() });
   };
 

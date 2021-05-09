@@ -14,7 +14,7 @@ export default function (props) {
   //   "https://images-eu.ssl-images-amazon.com/images/I/81rgE1bGnbL.png",
   //   "https://res.cloudinary.com/select-models/image/fetch/w_2560,c_limit/f_auto/https://select.solarnet.app/files/gallery/15007/expanded_medium/gallery_model_g0TNVX_Z4n8t.jpeg",
   // ];
-  let n = user.images.length;
+  let n = user !== null ? user.images.length : 0;
 
   function upArr() {
     if (idx != 0)
@@ -43,7 +43,7 @@ export default function (props) {
   function modalImg() {
     return (
       <div className="swipeImage">
-        <img src={user.images[idx]} alt="D" />
+        <img src={user !== null ? user.images[idx] : null} alt="D" />
       </div>
     );
   }
@@ -126,7 +126,7 @@ export default function (props) {
           }}
           className={cardBack}
         >
-          <div className="content">{user.bio}</div>
+          <div className="content">{user !== null ? user.bio : null}</div>
         </div>
         <RightArr
           cardBack={cardBack}

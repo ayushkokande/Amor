@@ -253,7 +253,9 @@ export default function Chat() {
               <div className="col-sm-3 leftComp">
                 <div>
                   <div className="backMatch">
-                    <i className="fas fa-arrow-left"></i> Match section
+                    <Link to="/match">
+                      <i className="fas fa-arrow-left"></i> Match section
+                    </Link>
                   </div>
                 </div>
                 <div className="yourChatProfile">

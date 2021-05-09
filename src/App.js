@@ -39,6 +39,7 @@ function App() {
       axios.post("http://localhost:4000/giveID", { id: user.uid });
       setUserState(true);
     } else {
+      store.dispatch({ type: "signedOut" });
       store.dispatch({ type: "pDone" });
       setUserState(false);
     }

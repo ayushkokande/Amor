@@ -35,6 +35,10 @@ export default function () {
 
   function postDetails(uid) {
     setRedirect(true);
+    db.collection("groupcount")
+      .doc("0")
+      .collection("users")
+      .add({ uid: uid, sex: data.sex });
     db.collection("profiles").doc(uid).set({
       f_name: data.f_name,
       l_name: data.l_name,

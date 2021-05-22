@@ -18,7 +18,27 @@ function App() {
   //   db.collection("profiles")
   //     .get()
   //     .then((snapshot) => {
-  //       snapshot.forEach((doc) => doc.ref.update({ marked: true }));
+  //       snapshot.forEach((doc) => doc.ref.update({ groups: [] }));
+  //     });
+  // }, []);
+
+  // const idArr = [];
+  // useEffect(() => {
+  //   db.collection("profiles")
+  //     .get()
+  //     .then((snapshot) => {
+  //       snapshot.forEach((doc) =>
+  //         idArr.push({ id: doc.id, sex: doc.data().sex })
+  //       );
+  //     })
+  //     .then(() => {
+  //       idArr.forEach(async (obj) => {
+  //         await db
+  //           .collection("groupcount")
+  //           .doc("0")
+  //           .collection("users")
+  //           .add({ uid: obj.id, sex: obj.sex });
+  //       });
   //     });
   // }, []);
 

@@ -9,21 +9,17 @@ export default function (props) {
   // let profileList = useSelector((state) => state.match.matchList);
   let arr = [1, 2, 3, 4, 5, 6];
 
-  console.log(props.og);
-  const [profile, setProfile] = useState(props.group[0]);
-  // const [pref, setPref] = useState([]);
-  let idx = 0;
+  const [profile, setProfile] = useState();
 
   let GR = useSelector((state) => state.group.group);
   let uid = useSelector((state) => state.user.id);
-  // const [n, setN] = useState(props.group.length);
+  const [n, setN] = useState(props.group.length);
   function upArr() {
-    if (idx != 0)
+    if (props.idx != 0)
       return (
         <i
           onClick={() => {
-            idx = idx - 1;
-            setProfile(props.group[idx]);
+            props.setIdx(props.idx - 1);
           }}
           className="upArr fas fa-angle-up"
         ></i>
@@ -31,12 +27,11 @@ export default function (props) {
   }
 
   function downArr() {
-    if (idx != props.group.length - 1)
+    if (props.idx != n - 1)
       return (
         <i
           onClick={() => {
-            idx = idx + 1;
-            setProfile(props.group[idx]);
+            props.setIdx(props.idx + 1);
           }}
           className="downArr fas fa-angle-down"
         ></i>
@@ -46,7 +41,7 @@ export default function (props) {
   function yesSubmit(arr) {
     let i = 0;
     let newArr = [];
-    for (i = 0; i < arr.length; i++) if (i !== idx) newArr.push(arr[i]);
+    for (i = 0; i < arr.length; i++) if (i !== props.idx) newArr.push(arr[i]);
     return newArr;
   }
 
@@ -56,11 +51,11 @@ export default function (props) {
 
   function clickHandler(index) {
     let numb = index;
-    props.setPref([...props.pref, { obj: { idx: profile.idx, pref: numb } }]);
-    // setN(n - 1);
-    store.dispatch({ type: `p${index + 1}`, img: profile.images[0] });
-    idx = idx !== 0 ? idx - 1 : idx;
-    setProfile(props.group[idx]);
+    props.setPref([
+      ...props.pref,
+      { obj: { idx: props.profile.idx, pref: numb } },
+    ]);
+    setN(n - 1);
     props.setGroup(yesSubmit(props.group));
 
     // props.setProfile(props.group[props.idx]);
@@ -71,6 +66,7 @@ export default function (props) {
     //     ...props.group.slice(0, index),
     //     ...props.group.slice(index + 1, 6),
     //   ]);
+    store.dispatch({ type: `p${index + 1}`, img: props.profile.images[0] });
   }
 
   function buttons(item, index) {
@@ -94,6 +90,7 @@ export default function (props) {
   }
 
   const onSubmit = async () => {
+    alert("S");
     let arr = ["", "", "", "", "", ""];
     props.pref.map((item) => {
       arr[item.obj.idx] = item.obj.pref.toString();
@@ -101,6 +98,7 @@ export default function (props) {
 
     let str = arr[0];
     for (let i = 1; i < 6; i++) str = str.concat(arr[i]);
+    console.log(str);
 
     props.setGroup(null);
     store.dispatch({ type: "pDone" });
@@ -127,27 +125,31 @@ export default function (props) {
       temp_pref = res_group.m_pref;
       temp_pref[props.og.idx] = str;
       res_group.m_pref = temp_pref;
+      console.log(res_group.m_pref);
     } else {
       temp_pref = res_group.f_pref;
-      console.log(res_group.f_pref);
       temp_pref[props.og.idx] = str;
       res_group.f_pref = temp_pref;
+      console.log(res_group.f_pref);
     }
 
     res_group.cnt = res_group.cnt + 1;
     // groupData[IX] = res_group;
 
     // make call if cnt === 12;
-    await REF.update({ marked: true });
-    console.log(res_group);
+    for (let i = 0; i < groupData.length; i++) {
+      if (groupData[i].id === GR.id) groupData[i].marked = true;
+    }
+    await REF.update({ groups: groupData });
+    alert(n);
 
     if (res_group.cnt === 12) {
-      await db.collection("groups").doc(res_group.id).delete();
       props.setGroup([]);
-      props.setGetData(Math.random() * 99);
+      await db.collection("groups").doc(res_group.id).set(res_group);
       axios
-        .post("/api/algo", { group: res_group })
+        .post("http://localhost:4000/algo", { group: res_group })
         .then((res) => console.log(res.data));
+      props.setGetData(Math.random() * 99);
     } else {
       props.setGroup([]);
       props.setGetData(Math.random() * 99);
@@ -157,13 +159,13 @@ export default function (props) {
 
   console.log(props.group.length);
 
-  return props.group.length !== 0 && profile !== undefined ? (
+  return n !== 0 ? (
     <div className="profile">
       <div className="profileImg">
         {upArr()}
         <img
           onClick={modalView}
-          src={profile ? profile.images[0] : ``}
+          src={props.profile ? props.profile.images[0] : ``}
           alt="Profile"
         />
         {/* <img
@@ -173,7 +175,8 @@ export default function (props) {
 
         <div className="profileDesc">
           <h3>
-            {profile ? profile.f_name : ``}, {profile ? profile.age : ``}
+            {props.profile ? props.profile.f_name : ``},{" "}
+            {props.profile ? props.profile.age : ``}
           </h3>
         </div>
         {downArr()}
@@ -186,9 +189,9 @@ export default function (props) {
   ) : GR.length !== 0 ? (
     <div className="profile">
       <div className="profileImg">
-        {upArr()}
-        {/* <img src={profile.images[0]} alt="Profile" /> */}
+        {/* <img src={props.profile.images[0]} alt="Profile" /> */}
         <img
+          style={{ opacity: 0 }}
           style={{ opacity: 0 }}
           src="https://photogenicsmedia.com/wp-content/uploads/2020/08/ALISSAIRIS.jpg"
           alt=""
@@ -202,19 +205,11 @@ export default function (props) {
           >
             Yes
           </div>
-          <div
-            className="btn btn-primary"
-            onClick={() => {
-              console.log(props.pref);
-            }}
-          >
-            No
-          </div>
+          <div className="btn btn-primary">No</div>
         </div>
         <div className="profileDesc">
-          <h3>{/* {props.profile.name}, {props.profile.age} */}SS</h3>
+          <h3>{/* {props.profile.name}, {props.profile.age} */}</h3>
         </div>
-        {downArr()}
       </div>
 
       <div className="profileBtnList">{arr.map(buttons)}</div>
@@ -224,7 +219,6 @@ export default function (props) {
   ) : (
     <div className="profile">
       <div className="profileImg">
-        {upArr()}
         {/* <img src={props.profile.images[0]} alt="Profile" /> */}
         <img
           style={{ opacity: 0 }}
@@ -235,9 +229,8 @@ export default function (props) {
           <p>Sorry! You do not have any groups right now.</p>
         </div>
         <div className="profileDesc">
-          <h3>{/* {props.profile.name}, {props.profile.age} */}SS</h3>
+          <h3>{/* {props.profile.name}, {props.profile.age} */}</h3>
         </div>
-        {downArr()}
       </div>
 
       <div className="profileBtnList">{arr.map(buttons)}</div>

@@ -15,14 +15,13 @@ export default function MatchPage() {
   const [profile, setProfile] = useState(null);
   const [pref, setPref] = useState([]);
   const [og, setOg] = useState(null);
-  // let og;
   const [getdata, setGetData] = useState(1);
 
   useEffect(() => {
     axios.post("http://localhost:4000/giveID", { id: uid }).then(() => {
       axios.get("http://localhost:4000/getGroup").then((res) => {
         store.dispatch({ type: "groupMatch", group: res.data.done });
-
+        console.log(res.data.done);
         if (res.data.done.length === 0) {
           setGroup([]);
         } else {
@@ -37,7 +36,7 @@ export default function MatchPage() {
             for (let i = 0; i < 6; i++)
               if (res.data.done.Male[i].uid === uid) {
                 setOg({ idx: i, sex: res.data.sex });
-                // console.log(i);
+                console.log(i);
                 break;
               }
           } else {
@@ -49,7 +48,7 @@ export default function MatchPage() {
             for (let i = 0; i < 6; i++)
               if (res.data.done.Female[i].uid === uid) {
                 setOg({ idx: i, sex: res.data.sex });
-                // console.log(i);
+                console.log(i);
                 break;
               }
           }
@@ -67,13 +66,14 @@ export default function MatchPage() {
   //   if (group !== null) setProfile(group[idx]);
   // }, [idx,group]);
 
-  // useEffect(() => {
-  //   if (group !== null && group[idx] !== undefined) setProfile(group[idx]);
-  //   else if (group !== null) {
-  //     setProfile(group[idx - 1]);
-  //     setIdx(idx - 1);
-  //   }
-  // }, [group, idx]);
+  useEffect(() => {
+    if (group !== null && group[idx] !== undefined) setProfile(group[idx]);
+    else if (group !== null && idx != 0) {
+      setProfile(group[idx - 1]);
+      setIdx(idx - 1);
+    }
+    console.log("HHHH", idx, group);
+  }, [group, idx]);
 
   return group !== null ? (
     group.length > 0 ? (
@@ -85,16 +85,16 @@ export default function MatchPage() {
         <Navbar />
         <h3 className="matchHeading">Mark your preferences!</h3>
         <MatchSec
-          // profile={profile}
-          // setProfile={setProfile}
-          // idx={idx}
-          // setIdx={setIdx}
+          profile={profile}
+          setProfile={setProfile}
+          idx={idx}
+          setIdx={setIdx}
           group={group}
           setGroup={setGroup}
-          setGetData={setGetData}
-          og={og}
           pref={pref}
           setPref={setPref}
+          setGetData={setGetData}
+          og={og}
         />
       </div>
     ) : (
@@ -105,10 +105,10 @@ export default function MatchPage() {
         <Navbar />
         <h3 className="matchHeading">Mark your preferences!</h3>
         <MatchSec
-          // profile={profile}
-          // setProfile={setProfile}
-          // idx={idx}
-          // setIdx={setIdx}
+          profile={profile}
+          setProfile={setProfile}
+          idx={idx}
+          setIdx={setIdx}
           group={group}
           setGroup={setGroup}
           pref={pref}

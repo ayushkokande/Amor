@@ -204,7 +204,7 @@ body {
 .yourProfile::before {
   content: "Your";
   position: absolute;
-  left: calc(-5px + -100%);
+  left: calc(0px + -100%);
   bottom: 30%;
   opacity: 0;
   transform: translate(0, 50%);
@@ -214,7 +214,7 @@ body {
 .yourProfile::after {
   content: "Profile";
   position: absolute;
-  right: calc(-10px + -100%);
+  right: calc(-12px + -100%);
   bottom: 30%;
   opacity: 0;
   transform: translate(0, 50%);

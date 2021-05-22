@@ -1,17 +1,18 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 function Navbar() {
+  let UserImg = useSelector((state) =>
+    state.user.data ? state.user.data.images[0] : ""
+  );
   return (
     <nav className="navbar m-nav">
       <div className="container-fluid">
         <ul className="navbar-nav">
           <li className="nav-item" id="pro_pic">
             <Link to="/profile" className="yourProfile">
-              <img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQz3Gjad-GAHH-b4aguHoIhVn3zLOivYmAuAA&usqp=CAU"
-                alt=""
-              />
+              <img src={UserImg} alt="" />
             </Link>
           </li>
 

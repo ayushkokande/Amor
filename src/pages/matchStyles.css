@@ -38,6 +38,8 @@ body {
 
 .profileImg {
   position: relative;
+  min-width: 350px;
+  min-height: 450px;
 }
 
 .profileImg img {

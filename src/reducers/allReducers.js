@@ -6,6 +6,7 @@ import socketReducer from "./socketReducer";
 import linkReducer from "./linkReducer";
 import userReducer from "./userReducer";
 import groupReducer from "./groupReducer";
+import profileModalReducer from "./profileModalReducer";
 import { combineReducers } from "redux";
 
 const allReducers = combineReducers({
@@ -17,6 +18,7 @@ const allReducers = combineReducers({
   socket: socketReducer,
   user: userReducer,
   group: groupReducer,
+  prIdx: profileReducer,
 });
 
 export default allReducers;

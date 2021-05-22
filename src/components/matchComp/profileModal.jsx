@@ -95,20 +95,6 @@ export default function (props) {
       return false;
     });
 
-  let uparr = document.querySelector(".upArr");
-  if (uparr != null)
-    uparr.addEventListener("click", (e) => {
-      setIdx(idx - 1);
-      return false;
-    });
-
-  let downarr = document.querySelector(".downArr");
-  if (downarr != null)
-    downarr.addEventListener("click", (e) => {
-      setIdx(idx + 1);
-      return false;
-    });
-
   return (
     <div className={CL} aria-hidden="true">
       <div className="modalContent">

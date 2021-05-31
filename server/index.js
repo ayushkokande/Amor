@@ -20,8 +20,10 @@ const io = new Server(server, {
 });
 
 // app.use('/api', createProxyMiddleware({ target: 'http://www.example.org', changeOrigin: true }));
+app.set("port", port);
 app.use(cors());
 app.use(express.json());
+app.use(express.static(path.join(__dirname, "public")));
 
 //Initialisation of database
 

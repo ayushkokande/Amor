@@ -59,8 +59,15 @@ body {
 }
 
 #firstImg {
-  position: absolute;
-  left: 50%;
+  position: relative;
+  /* left: 50%; */
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .imgOverlay {
@@ -69,7 +76,7 @@ body {
   width: 100%;
   height: 100%;
   background-color: rgb(139, 139, 139);
-  opacity: 0.3;
+  opacity: 0;
 }
 
 .Trans1 {
@@ -474,7 +481,8 @@ a.nav-link:hover ~ svg rect {
 
 @media (max-width: 468px) {
   .l-sec img {
-    height: 73.6vh;
+    height: 80vh;
+    /* width: 100v; */
   }
   #firstImg {
     bottom: 0;
@@ -485,6 +493,10 @@ a.nav-link:hover ~ svg rect {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+  }
+
+  #thirdSection .oneLiner {
+    margin-top: 40px;
   }
 
   #thirdSection .desc {

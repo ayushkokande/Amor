@@ -37,9 +37,9 @@ export default function () {
   // let mQ = (mediaQ) ? 1.4 : 1;
 
   const imgVariants = {
-    initial: { translateX: "-50%", translateY: "100%", opacity: 0 },
+    initial: { translateX: "0%", translateY: "100%", opacity: 0 },
     enter: {
-      translateX: "-50%",
+      translateX: "0%",
       translateY: "0%",
       opacity: 1,
       transition: {

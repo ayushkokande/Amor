@@ -42,6 +42,10 @@ firebase.initializeApp({
 
 var db = firebase.firestore();
 
+app.get("/no", (req, res) => {
+  res.send("<h1>No</h1>");
+});
+
 //Send messages on request from db
 app.get("/rooms/:room", (req, res) => {
   let arr_data = [];

@@ -56,7 +56,7 @@ function App() {
       storeUser(user.uid);
       store.dispatch({ type: "loginBtn" });
       store.dispatch({ type: "signedIn", id: user.uid });
-      axios.post(`http://localhost:${process.env.PORT}/giveID`, {
+      axios.post(`http://localhost:5000/giveID`, {
         id: user.uid,
       });
       setUserState(true);

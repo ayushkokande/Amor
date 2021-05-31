@@ -121,7 +121,7 @@ export default function Chat() {
   const clickChat = async (roomId, gmatchId) => {
     setConvLoaded(false);
     setMatchId(gmatchId);
-    axios.get(`http://amor007.herokuapp.com/rooms/${roomId}`).then((res) => {
+    axios.get(`http://localhost:5000/rooms/${roomId}`).then((res) => {
       console.log(...res.data.messages);
       setMsg(res.data.messages);
       // setMsg(res)

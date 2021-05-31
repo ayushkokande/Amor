@@ -10,7 +10,7 @@ const cors = require("cors");
 const http = require("http");
 const server = http.createServer(app);
 const { Server } = require("socket.io");
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 8080;
 const io = new Server(server, {
   cors: {
     origin: "*",
@@ -23,7 +23,7 @@ const io = new Server(server, {
 app.set("port", port);
 app.use(cors());
 app.use(express.json());
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(__dirname + "/public"));
 
 //Initialisation of database
 

@@ -8,7 +8,7 @@ import { useSelector } from "react-redux";
 import { v4 } from "uuid";
 
 export default function Chat() {
-  const socket = io("http://amor007.herokuapp.com");
+  const socket = io("http://localhost:8080");
   // const [id, setID] = useLocalStorage("id");
   let uid = useSelector((state) => state.user.id);
   let profile = useSelector((state) => state.user.data);
@@ -121,7 +121,7 @@ export default function Chat() {
   const clickChat = async (roomId, gmatchId) => {
     setConvLoaded(false);
     setMatchId(gmatchId);
-    axios.get(`http://localhost:5000/rooms/${roomId}`).then((res) => {
+    axios.get(`http://localhost:8080/rooms/${roomId}`).then((res) => {
       console.log(...res.data.messages);
       setMsg(res.data.messages);
       // setMsg(res)

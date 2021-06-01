@@ -293,7 +293,7 @@
 .msg ~ .text-muted {
   position: absolute;
   bottom: 0;
-  width: 70px;
+  width: 80px;
 }
 
 .ogUser .text-muted {
@@ -368,5 +368,6 @@
 @media (max-width: 468px) {
   .chatContainer {
     height: 200vh;
+    overflow: hidden;
   }
 }

@@ -130,14 +130,17 @@ body {
   border-radius: 5%;
 }
 #secondSection .signInBox {
-  position: relative;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  margin: 0;
   background-color: white;
   display: flex;
   max-width: 950px;
   left: 50%;
   transform: translateX(-50%);
   box-shadow: 0px 15px 16.83px 0.17px rgba(0, 0, 0, 0.05);
-  margin-top: 35px;
+  /* margin-top: 35px; */
   border-radius: 20px;
 }
 #secondSection .signInBox .imgContainer {
@@ -172,6 +175,7 @@ body {
 #secondSection .signInBox .signInContent .em_pw {
   border-bottom: 1px solid #999;
   margin: 30px 0;
+  display: flex;
 }
 #secondSection .signInBox .signInContent .check-form {
   margin: 30px 0;
@@ -480,12 +484,47 @@ a.nav-link:hover ~ svg rect {
 }
 
 @media (max-width: 468px) {
+  .l-sec .navbar-brand {
+    margin: 0 4.5rem;
+  }
+
+  .imgContainer {
+    visibility: hidden;
+    position: absolute !important;
+  }
+
   .l-sec img {
     height: 80vh;
     /* width: 100v; */
   }
   #firstImg {
     bottom: 0;
+  }
+
+  #secondSection .signInBox {
+    min-width: 80vw;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    margin: 0;
+  }
+
+  #secondSection .signInBox .signInContent {
+    width: 90%;
+  }
+
+  #secondSection form {
+    padding: 1rem;
+  }
+
+  #secondSection .signInBox .signInContent .inpText {
+    width: 100%;
+  }
+
+  .SignIn {
+    text-align: center;
+    font-size: 20px;
+    font-weight: 600;
   }
 
   #thirdSection .container-fluid {
@@ -502,6 +541,14 @@ a.nav-link:hover ~ svg rect {
   #thirdSection .desc {
     margin: 0;
     max-width: 80vw;
+  }
+
+  #thirdSection .motto {
+    max-width: 80vw;
+  }
+
+  #firstSection h2 {
+    max-width: 97vw;
   }
 }
 

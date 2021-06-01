@@ -4,8 +4,8 @@ import { useState } from "react";
 export default function (props) {
   const [toggle, setToggle] = useState(false);
   const variants2 = {
-    anim1: { scale: [1, 1.3, 1], transition: { duration: 0.1 } },
-    stop1: { scale: [1, 1.31, 1], transition: { duration: 0.1 } },
+    anim1: { scale: [1, 1.3, 1], transition: { duration: 0.8 } },
+    stop1: { scale: [1, 1.31, 1], transition: { duration: 0.8 } },
   };
 
   const variants1 = {

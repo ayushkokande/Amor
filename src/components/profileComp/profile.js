@@ -122,7 +122,7 @@ export default function () {
                 <div className="data">{profileData.bio}</div>
               </div>
             </div>
-            <div className="buttons">
+            <div className="btns" id="logoutBtn">
               <div className="logout btn" onClick={signOut}>
                 Log Out
               </div>
@@ -181,7 +181,7 @@ export default function () {
                 <div className="data">{profileData.bio}</div>
               </div>
             </div>
-            <div className="buttons">
+            <div className="btns" id="logoutBtn">
               <div className="logout btn" onClick={signOut}>
                 Log Out
               </div>

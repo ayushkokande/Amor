@@ -147,7 +147,7 @@ export default function (props) {
       props.setGroup([]);
       await db.collection("groups").doc(res_group.id).set(res_group);
       axios
-        .post("http://localhost:4000/algo", { group: res_group })
+        .post("https://amor008.herokuapp.com/algo", { group: res_group })
         .then((res) => console.log(res.data));
       props.setGetData(Math.random() * 99);
     } else {

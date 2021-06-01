@@ -23,7 +23,7 @@
 
 .profCon.container {
   width: 60%;
-  height: 70%;
+  min-height: 70%;
   background-color: white;
   border-radius: 60px;
   position: relative;
@@ -47,7 +47,14 @@
   top: -20px;
 }
 
-.container .buttons .logout.btn {
+#logoutBtn {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.container .btns .logout.btn {
   position: relative;
   transition: color 0.1s ease-in-out;
   transition: box-shadow, color 0.1s ease-in-out;
@@ -55,9 +62,10 @@
   background-color: rgb(48, 48, 48);
   z-index: 0;
   color: white;
+  transition: all 0.3s ease-in-out;
 }
 
-.container .buttons .logout.btn::before {
+.container .btns .logout.btn::before {
   position: absolute;
   content: "";
   width: 0%;
@@ -70,9 +78,13 @@
   z-index: -1;
 }
 
-.container .buttons .logout.btn:active {
+.container .btns .logout.btn:active {
   box-shadow: inset -4px -4px 8px rgba(12, 12, 12, 0.6),
     inset 8px 8px 16px rgba(184, 0, 0, 0.479);
+}
+
+.container .btns .logout.btn:hover::before {
+  width: 100%;
 }
 
 .container .buttons :nth-child(1) {
@@ -239,5 +251,23 @@
   }
   .container .buttons :nth-child(1) {
     margin-right: 2vw;
+  }
+
+  .modalContent {
+    margin: 0%;
+    left: 50%;
+    transform: translate(-50%, -500%);
+    width: 320px;
+    height: 440px;
+  }
+
+  .modalContent img {
+    width: 320px;
+    height: 440px;
+  }
+
+  .card-back {
+    width: 320px;
+    height: 440px;
   }
 }

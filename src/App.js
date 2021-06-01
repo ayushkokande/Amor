@@ -1,10 +1,12 @@
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import React from "react";
 import SignedIn from "./pages/signedIn";
 import { auth, db } from "./components/landingComp/firebase";
 import store from "./store/store";
 import axios from "axios";
+import Loading from "./spinLoad";
+import { useSelector } from "react-redux";
 
 function App() {
   const Landing = React.lazy(() => import("./pages/landing"));
@@ -67,10 +69,18 @@ function App() {
     }
   });
 
-  return userState ? (
+  const user = useSelector((state) => state.user.user);
+
+  return user ? (
     <BrowserRouter>
       <div className="App">
-        <React.Suspense fallback={<div>LLLLLLL..........</div>}>
+        <React.Suspense
+          fallback={
+            <div>
+              <Loading />
+            </div>
+          }
+        >
           <Switch>
             <Route path="/" component={SignedIn} />
           </Switch>
@@ -80,7 +90,13 @@ function App() {
   ) : (
     <BrowserRouter>
       <div className="App">
-        <React.Suspense fallback={<div>LLLLLLL..........</div>}>
+        <React.Suspense
+          fallback={
+            <div>
+              <Loading />
+            </div>
+          }
+        >
           {/* <ChatPage /> */}
           {/* <ProfilePage /> */}
           {/* <MatchPage /> */}

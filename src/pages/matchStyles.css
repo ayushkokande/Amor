@@ -310,11 +310,24 @@ body {
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
   position: absolute;
   transform: rotateY(180deg);
-  background-color: brown;
+  background-color: whitesmoke;
   z-index: 12;
   visibility: hidden;
   transform-style: preserve-3d;
   transition: all 0.8s ease;
+}
+
+.card-back .content {
+  position: relative;
+  top: 50%;
+  left: 10%;
+  transform: translateY(-50%) translateZ(150px);
+  max-width: 90%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
 }
 
 .modalContent:hover {
@@ -337,6 +350,11 @@ body {
 .modalContent:hover .card-back {
   transform: rotateY(0deg);
 } */
+
+.profileImg .upArr,
+.profileImg .downArr {
+  z-index: 10;
+}
 
 .upArr,
 .downArr {
@@ -386,8 +404,57 @@ body {
   transform: rotateY(-180deg);
 }
 
-.content {
-  transform: translateZ(150px);
+@media (max-width: 468px) {
+  html,
+  body {
+    min-height: 100%;
+    height: 100%;
+  }
+  .MatchContainer {
+    height: auto;
+  }
+
+  .matchSection {
+    flex-direction: column;
+  }
+
+  .matchList {
+    padding: 10px;
+  }
+
+  .listTemp {
+    width: 100px;
+    height: 110px;
+  }
+
+  .profileImg {
+    position: relative;
+    min-width: 315px;
+    min-height: 420px;
+    width: 300px;
+    height: 420px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .downArr {
+    bottom: 30px;
+  }
+
+  .opened .modalContent {
+    -webkit-transform: translate(-50%, 0);
+    -ms-transform: translate(-50%, 0);
+    transform: translate(-50%, 0);
+  }
+
+  .yourProfile {
+    font-size: 17px;
+  }
+
+  .profileSelect img {
+    width: 100px;
+    height: 110px;
+  }
 }
 
 /* .swipeImage {

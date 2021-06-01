@@ -57,9 +57,10 @@ export default function () {
   const transBG = useSelector((state) => state.link);
 
   const boxVar = {
-    initial: { translateX: "-50%", scale: 0.7, opacity: 0 },
+    initial: { translateX: "-50%", translateY: "-50%", scale: 0.7, opacity: 0 },
     enter: {
       translateX: "-50%",
+      translateY: "-50%",
       scale: 1,
       opacity: 1,
       transition: { delay: 0.8, duration: 1, type: "spring" },
@@ -190,7 +191,12 @@ export default function () {
           exit="exit"
           className="Trans2"
         ></motion.div>
-        <div className="signInBox">
+        <motion.div
+          className="signInBox"
+          variants={boxVar}
+          initial="initial"
+          animate="enter"
+        >
           <div className="imgContainer">
             <img
               id="loginImg"
@@ -211,6 +217,7 @@ export default function () {
                   type="email"
                   className="inpText"
                   placeholder="Enter email"
+                  onChange={(e) => setEmail(e.target.value)}
                 ></input>
               </div>
               <div className="form-group em_pw">
@@ -221,6 +228,7 @@ export default function () {
                   id="exampleInputEmail1"
                   aria-describedby="emailHelp"
                   placeholder="Password"
+                  onChange={(e) => setPw(e.target.value)}
                 ></input>
               </div>
               <div className="form-group check-form">
@@ -245,7 +253,7 @@ export default function () {
               </div>
             </form>
           </div>
-        </div>
+        </motion.div>
       </section>
       <Redirect to={`/${id}`} />
     </>

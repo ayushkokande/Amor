@@ -68,7 +68,12 @@ export default function (props) {
                   ></input>
                 </div>
                 <div className="form-group">
-                  <label for="sex">Sex:</label>
+                  <label for="sex">
+                    Sex:{" "}
+                    <div className="muteText">
+                      (Please enter "Male" or "Female")
+                    </div>
+                  </label>
                   <input
                     type="text"
                     name="sex"

@@ -116,6 +116,10 @@ export default function (props) {
         >
           <div className="content">
             {/* {user.f_name}, {user.age} */}
+            <p>Name: {props.profile.f_name}</p>
+            <p>Age: {props.profile.age}</p>
+            <p>Sex: {props.profile.sex}</p>
+            <p>Bio: {props.profile.bio}</p>
             Iris, 20
           </div>
         </div>

@@ -126,7 +126,12 @@ export default function (props) {
           }}
           className={cardBack}
         >
-          <div className="content">{user !== null ? user.bio : null}</div>
+          <div className="content">
+            <p>Name: {user !== null ? user.f_name : null}</p>
+            <p>Age: {user !== null ? user.age : null}</p>
+            <p>Sex: {user !== null ? user.sex : null}</p>
+            <p>Bio: {user !== null ? user.bio : null}</p>
+          </div>
         </div>
         <RightArr
           cardBack={cardBack}

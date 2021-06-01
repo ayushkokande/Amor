@@ -8,7 +8,7 @@ import Navbar from "./navbar";
 import { useSelector } from "react-redux";
 
 export default function () {
-  let title = "we all need love to raw dog our hearts";
+  let title = "we all need love to overwhelm our hearts";
   title = title.split(" ");
 
   function titleAnim(item, ind) {

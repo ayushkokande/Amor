@@ -18,7 +18,7 @@ export default function () {
     },
   };
 
-  let title = "motto motto as beautiful as the moon motto motto";
+  let title = "as beautiful as the moon";
   title = title.split(" ");
 
   const mq = window.matchMedia("(max-width: 468px)");
@@ -151,7 +151,7 @@ export default function () {
             initial="initial"
             animate="enter"
           >
-            One Liner
+            amor
           </motion.h1>
           <h3 className="motto text-center">{title.map(titleAnim)}</h3>
           <div className="desc">
@@ -159,16 +159,19 @@ export default function () {
               About <span className="amor">amor</span>
             </motion.h3>
             <motion.p variants={contVar} initial="initial" animate="enter">
-              amor is an online social dating site. amor is an online social
-              dating site. amor is an online social dating site. amor is an
-              online social dating site. amor is an online social dating site.
-              amor is an online social dating site. amor is an online social
-              dating site. amor is an online social dating site. amor is an
-              online social dating site. amor is an online social dating site.
-              amor is an online social dating site. amor is an online social
-              dating site. amor is an online social dating site. amor is an
-              online social dating site. amor is an online social dating site.
-              amor is an online social dating site.
+              <span>amor</span> is a dating web application, co-developed by
+              Neejor Chakma and Ayush Kokande. It employs Gale-Shapley matching
+              algorithm to attain the most stable matches for the users present
+              in a group.
+              <br />
+              Users are requested to fill their subjective preferences over the
+              members of the opposite group. For a better rate of matches, the
+              number of{" "}
+              <strong>
+                <u>active</u>
+              </strong>{" "}
+              groups a user can be a part of, has been limited to 3. Most stable
+              matches are then made accordingly.
             </motion.p>
           </div>
         </div>

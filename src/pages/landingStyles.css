@@ -487,7 +487,7 @@ a.nav-link:hover ~ svg rect {
 
 .MuiAppBar-colorPrimary,
 .Crop-buttonContainer-6 button,
-.form-button button {
+#thirdSection .form-button button {
   background-color: indianred !important;
 }
 
@@ -497,7 +497,7 @@ a.nav-link:hover ~ svg rect {
 
 .ImgDialog-btn-11:hover,
 .Crop-buttonContainer-6 button:hover,
-.form-button button:hover {
+#thirdSection .form-button button:hover {
   background-color: rgb(233, 119, 119) !important;
 }
 .form-button button {
@@ -508,7 +508,7 @@ a.nav-link:hover ~ svg rect {
 }
 .ImgDialog-btn-11:focus,
 .Crop-buttonContainer-6 button:focus,
-.form-button button:focus {
+#thirdSection .form-button button:focus {
   border: none !important;
   outline: none !important;
 }

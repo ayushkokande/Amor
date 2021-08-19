@@ -19,7 +19,7 @@ export default function (props) {
               variants={formVar}
               initial="initial"
               animate="enter"
-              // exit="exit"
+              exit="exit"
               className="Container"
             >
               <div id="signUpForm">

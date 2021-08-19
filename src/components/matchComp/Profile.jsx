@@ -5,6 +5,8 @@ import { db } from "../landingComp/firebase";
 import axios from "axios";
 import { v4 } from "uuid";
 
+import Loading from "../../spinLoad";
+
 export default function (props) {
   // let profileList = useSelector((state) => state.match.matchList);
   let arr = [1, 2, 3, 4, 5, 6];
@@ -13,7 +15,7 @@ export default function (props) {
 
   let GR = useSelector((state) => state.group.group);
   let uid = useSelector((state) => state.user.id);
-  const [n, setN] = useState(props.group.length);
+  const [n, setN] = useState(props.group ? props.group.length : 0);
   function upArr() {
     if (props.idx != 0)
       return (
@@ -57,15 +59,6 @@ export default function (props) {
     ]);
     setN(n - 1);
     props.setGroup(yesSubmit(props.group));
-
-    // props.setProfile(props.group[props.idx]);
-    // if (index === 0) props.setGroup([...props.group.slice(1, 6)]);
-    // else if (index === 5) props.setGroup([...props.group.slice(0, 5)]);
-    // else
-    //   props.setGroup([
-    //     ...props.group.slice(0, index),
-    //     ...props.group.slice(index + 1, 6),
-    //   ]);
     store.dispatch({ type: `p${index + 1}`, img: props.profile.images[0] });
   }
 
@@ -90,7 +83,6 @@ export default function (props) {
   }
 
   const onSubmit = async () => {
-    alert("S");
     let arr = ["", "", "", "", "", ""];
     props.pref.map((item) => {
       arr[item.obj.idx] = item.obj.pref.toString();
@@ -107,15 +99,6 @@ export default function (props) {
     let REF = db.collection("profiles").doc(uid);
     let response = await REF.get();
     let groupData = response.data().groups;
-    // let res_group;
-    // let IX;
-    // for (let i = 0; i < groupData.length; i++) {
-    //   if (GR.id === groupData[i].id) {
-    //     res_group = groupData[i];
-    //     IX = i;
-    //     break;
-    //   }
-    // }
 
     let res_group = await db.collection("groups").doc(GR.id).get();
     res_group = res_group.data();
@@ -141,7 +124,6 @@ export default function (props) {
       if (groupData[i].id === GR.id) groupData[i].marked = true;
     }
     await REF.update({ groups: groupData });
-    alert(n);
 
     if (res_group.cnt === 12) {
       props.setGroup([]);
@@ -151,15 +133,22 @@ export default function (props) {
         .then((res) => console.log(res.data));
       props.setGetData(Math.random() * 99);
     } else {
-      props.setGroup([]);
-      props.setGetData(Math.random() * 99);
       await db.collection("groups").doc(res_group.id).set(res_group);
+      props.setGroup(null);
+      props.setGetData(Math.random() * 99);
     }
   };
 
-  console.log(props.group.length);
-
-  return n !== 0 ? (
+  return props.group === null ? (
+    <div className="profile">
+      <div className="profileImg">
+        <Loading />
+      </div>
+      <div className="profileBtnList">{arr.map(buttons)}</div>
+      <p>Choose your preference!</p>
+      <p>1 being the highest, 6 being the lowest.</p>
+    </div>
+  ) : n !== 0 ? (
     <div className="profile">
       <div className="profileImg">
         {upArr()}
@@ -168,10 +157,6 @@ export default function (props) {
           src={props.profile ? props.profile.images[0] : ``}
           alt="Profile"
         />
-        {/* <img
-          src="https://photogenicsmedia.com/wp-content/uploads/2020/08/ALISSAIRIS.jpg"
-          alt=""
-        /> */}
 
         <div className="profileDesc">
           <h3>
@@ -193,7 +178,7 @@ export default function (props) {
         <img
           style={{ opacity: 0 }}
           style={{ opacity: 0 }}
-          src="https://photogenicsmedia.com/wp-content/uploads/2020/08/ALISSAIRIS.jpg"
+          src="https://i.dailymail.co.uk/1s/2019/02/11/04/9653178-6689819-image-m-107_1549859939216.jpg"
           alt=""
         />
         <div className="conBtn">
@@ -222,7 +207,7 @@ export default function (props) {
         {/* <img src={props.profile.images[0]} alt="Profile" /> */}
         <img
           style={{ opacity: 0 }}
-          src="https://photogenicsmedia.com/wp-content/uploads/2020/08/ALISSAIRIS.jpg"
+          src="https://i.dailymail.co.uk/1s/2019/02/11/04/9653178-6689819-image-m-107_1549859939216.jpg"
           alt=""
         />
         <div className="conBtn">

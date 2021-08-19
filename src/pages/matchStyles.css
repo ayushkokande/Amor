@@ -18,7 +18,7 @@ body {
 .matchHeading {
   color: #4e4242;
   margin: 30px;
-  font-family: "Titillium Web", sans-serif;
+  font-family: "Roboto", sans-serif;
 }
 
 .matchList {
@@ -134,6 +134,7 @@ body {
 
 /*ddd*/
 .m-nav {
+  border: none;
   position: relative;
   background-color: transparent;
   display: flex;
@@ -181,6 +182,9 @@ body {
 
 #chat::after {
   content: "Chat";
+  font-family: "Nunito", sans-serif;
+  font-size: 1.01rem;
+  font-weight: 600;
   position: absolute;
   right: calc(-20px + -100%);
   bottom: 30%;
@@ -194,6 +198,7 @@ body {
 }
 
 .yourProfile img {
+  border: solid rgb(108 64 64) 0.3px;
   border-radius: 100%;
   width: 40px;
   height: 40px;
@@ -204,6 +209,9 @@ body {
 .yourProfile::before {
   content: "Your";
   position: absolute;
+  font-family: "Nunito", sans-serif;
+  font-size: 1.01rem;
+  font-weight: 600;
   left: calc(0px + -100%);
   bottom: 30%;
   opacity: 0;
@@ -213,6 +221,9 @@ body {
 
 .yourProfile::after {
   content: "Profile";
+  font-family: "Nunito", sans-serif;
+  font-size: 1.01rem;
+  font-weight: 600;
   position: absolute;
   right: calc(-12px + -100%);
   bottom: 30%;
@@ -228,9 +239,9 @@ body {
 }
 
 .m-nav .navbar-brand {
-  font-family: "Redressed", cursive;
+  font-family: "Sansita", sans-serif;
   color: black;
-  font-size: 1.8rem;
+  font-size: 1.4rem;
   margin: auto 20vw;
 }
 
@@ -252,6 +263,8 @@ body {
 
 .opened:before {
   display: block;
+  position: absolute;
+  z-index: 11;
 }
 .opened .modalContent {
   -webkit-transform: translate(0, 0);
@@ -330,9 +343,9 @@ body {
   align-items: flex-start;
 }
 
-.modalContent:hover {
+/* .modalContent:hover {
   cursor: pointer;
-}
+} */
 
 .flip-front {
   transform: rotateY(-180deg);
@@ -390,6 +403,10 @@ body {
   z-index: 13;
 }
 
+.rightArrDiv:hover {
+  cursor: pointer;
+}
+
 .rightArr {
   position: relative;
   z-index: 13;
@@ -402,6 +419,11 @@ body {
 
 .flip-left {
   transform: rotateY(-180deg);
+}
+
+.profileImg {
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
+    rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
 }
 
 @media (max-width: 468px) {

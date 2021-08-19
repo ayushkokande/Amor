@@ -104,7 +104,7 @@ function Navbar(param) {
           </ul>
         </div>
       </motion.nav>
-      <Redirect to={`/${id}`} />
+      <Redirect push to={`/${id}`} />
     </>
   );
 }

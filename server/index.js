@@ -79,101 +79,125 @@ app.post("/giveID", (req, res) => {
 });
 
 const addMembers = async (count, newGroup, listUID, SEX) => {
-  // console.log("DSSDSDSD", SEX);
-  console.log(uid);
-  let newresponse = await db
-    .collection("groupcount")
-    .doc("0")
-    .collection("users")
-    .where("sex", "==", SEX)
-    .get();
-
-  let arr = [];
-  newresponse.forEach((doc) => {
-    arr.push({ data: doc.data(), id: doc.id });
-  });
-
-  let newArr = [];
-  let i = 0;
+  let newresponse;
   let j = 0;
 
-  for (i = 0; j < count && i < arr.length; i++) {
-    if (uid !== arr[i].data.uid) {
-      let resp = await db.collection("profiles").doc(arr[i].data.uid).get();
-      newArr.push({ ...resp.data(), uid: arr[i].data.uid });
-      listUID.push({ uid: arr[i].data.uid, sex: SEX });
-      j++;
+  for (let num = 0; num < 3; num++) {
+    newresponse = await db
+      .collection("groupcount")
+      .doc(num.toString())
+      .collection("users")
+      .where("sex", "==", SEX)
+      .get();
+
+    let arr = [];
+    newresponse.forEach((doc) => {
+      arr.push({ data: doc.data(), id: doc.id });
+    });
+
+    let newArr = [];
+    let i = 0;
+    for (i = 0; j < count && i < arr.length; i++) {
+      if (uid !== arr[i].data.uid) {
+        let resp = await db.collection("profiles").doc(arr[i].data.uid).get();
+        newArr.push({ ...resp.data(), uid: arr[i].data.uid });
+        listUID.push({ uid: arr[i].data.uid, sex: SEX });
+        j++;
+      }
     }
-  }
 
-  newGroup[SEX] = [...newGroup[SEX], ...newArr];
-  // console.log("0HERe", newGroup[SEX], count);
-
-  if (newGroup[SEX].length === 6) {
-    // console.log("count");
-    return newGroup;
-  }
-
-  newresponse = await db
-    .collection("groupcount")
-    .doc("1")
-    .collection("users")
-    .where("sex", "==", SEX)
-    .get();
-
-  arr = [];
-  newresponse.forEach((doc) => {
-    // console.log("Response: ", doc.data());
-    arr.push({ data: doc.data(), id: doc.id });
-  });
-
-  i = 0;
-  j = 0;
-  newArr = [];
-
-  for (i = 0; j < 6 - newGroup[SEX].length && i < arr.length; i++) {
-    if (uid !== arr[i].data.uid) {
-      let resp = await db.collection("profiles").doc(arr[i].data.uid).get();
-      newArr.push({ ...resp.data(), uid: arr[i].data.uid });
-      listUID.push({ uid: arr[i].data.uid, sex: SEX });
-      j++;
+    newGroup[SEX] = [...newGroup[SEX], ...newArr];
+    if (newGroup[SEX].length === 6) {
+      return newGroup;
     }
+    console.log(newGroup[SEX]);
   }
-
-  newGroup[SEX] = [...newGroup[SEX], ...newArr];
-  // console.log("1heeeeRe", newGroup[SEX]);
-  if (newGroup[SEX].length === 6) return newGroup;
-
-  newresponse = await db
-    .collection("groupcount")
-    .doc("2")
-    .collection("users")
-    .where("sex", "==", SEX)
-    .get();
-
-  arr = [];
-  newresponse.forEach((doc) => {
-    arr.push({ data: doc.data(), id: doc.id });
-  });
-
-  i = 0;
-  j = 0;
-  newArr = [];
-
-  for (i = 0; j < 6 - newGroup[SEX].length && i < arr.length; i++) {
-    if (uid !== arr[i].data.uid) {
-      let resp = await db.collection("profiles").doc(arr[i].data.uid).get();
-      newArr.push({ ...resp.data(), uid: arr[i].data.uid });
-      listUID.push({ uid: arr[i].data.uid, sex: SEX });
-      j++;
-    }
-  }
-
-  newGroup[SEX] = [...newGroup[SEX], ...newArr];
-  if (newGroup[SEX].length === 6) return newGroup;
-  console.log(newGroup[SEX]);
 
   return null;
+
+  // let arr = [];
+  // newresponse.forEach((doc) => {
+  //   arr.push({ data: doc.data(), id: doc.id });
+  // });
+
+  // let newArr = [];
+  // let i = 0;
+  // let j = 0;
+
+  // for (i = 0; j < count && i < arr.length; i++) {
+  //   if (uid !== arr[i].data.uid) {
+  //     let resp = await db.collection("profiles").doc(arr[i].data.uid).get();
+  //     newArr.push({ ...resp.data(), uid: arr[i].data.uid });
+  //     listUID.push({ uid: arr[i].data.uid, sex: SEX });
+  //     j++;
+  //   }
+  // }
+
+  // newGroup[SEX] = [...newGroup[SEX], ...newArr];
+
+  // if (newGroup[SEX].length === 6) {
+  //   // console.log("count");
+  //   return newGroup;
+  // }
+
+  // newresponse = await db
+  //   .collection("groupcount")
+  //   .doc("1")
+  //   .collection("users")
+  //   .where("sex", "==", SEX)
+  //   .get();
+
+  // arr = [];
+  // newresponse.forEach((doc) => {
+  //   // console.log("Response: ", doc.data());
+  //   arr.push({ data: doc.data(), id: doc.id });
+  // });
+
+  // i = 0;
+  // j = 0;
+  // newArr = [];
+
+  // for (i = 0; j < 6 - newGroup[SEX].length && i < arr.length; i++) {
+  //   if (uid !== arr[i].data.uid) {
+  //     let resp = await db.collection("profiles").doc(arr[i].data.uid).get();
+  //     newArr.push({ ...resp.data(), uid: arr[i].data.uid });
+  //     listUID.push({ uid: arr[i].data.uid, sex: SEX });
+  //     j++;
+  //   }
+  // }
+
+  // newGroup[SEX] = [...newGroup[SEX], ...newArr];
+  // // console.log("1heeeeRe", newGroup[SEX]);
+  // if (newGroup[SEX].length === 6) return newGroup;
+
+  // newresponse = await db
+  //   .collection("groupcount")
+  //   .doc("2")
+  //   .collection("users")
+  //   .where("sex", "==", SEX)
+  //   .get();
+
+  // arr = [];
+  // newresponse.forEach((doc) => {
+  //   arr.push({ data: doc.data(), id: doc.id });
+  // });
+
+  // i = 0;
+  // j = 0;
+  // newArr = [];
+
+  // for (i = 0; j < 6 - newGroup[SEX].length && i < arr.length; i++) {
+  //   if (uid !== arr[i].data.uid) {
+  //     let resp = await db.collection("profiles").doc(arr[i].data.uid).get();
+  //     newArr.push({ ...resp.data(), uid: arr[i].data.uid });
+  //     listUID.push({ uid: arr[i].data.uid, sex: SEX });
+  //     j++;
+  //   }
+  // }
+
+  // newGroup[SEX] = [...newGroup[SEX], ...newArr];
+  // if (newGroup[SEX].length === 6) return newGroup;
+  // console.log(newGroup[SEX]);
 };
 
 const group = async () => {
@@ -242,11 +266,11 @@ const group = async () => {
         console.log("nullhai");
         return [];
       }
-      console.log(sendSex, newGroup);
+      // console.log(sendSex, newGroup);
 
       newGroup = await addMembers(6, newGroup, listUID, otherSex, "!=");
       if (newGroup === null) {
-        console.log("nullhai");
+        console.log("nullhaiJi");
         return [];
       }
       console.log(otherSex, newGroup);
@@ -278,66 +302,64 @@ const updateAfterCreation = async (item, ret) => {
   // console.log(gr);
   let newGr = [];
 
-  if (gr === undefined || gr.length === 0) {
-    db.collection("profiles")
-      .doc(id)
-      .update({
-        groups: [{ id: ret.groupId, matched: false, marked: false }],
-      });
-    db.collection("groupcount")
-      .doc((1).toString())
-      .collection("users")
-      .add({ uid: id, sex: sex });
-    db.collection("groupcount")
-      .doc((0).toString())
-      .collection("users")
-      .where("uid", "==", id)
-      .get()
-      .then((snap) => {
-        snap.forEach((doc) => {
-          doc.ref.delete();
-        });
-      });
-  } else if (gr.length < 3) {
-    for (let i = 0; i < gr.length; i++) {
-      if (gr[i].matched !== true) newGr.push(gr[i]);
-    }
-    if (newGr.length + 1 !== gr.length) {
-      db.collection("profiles")
-        .doc(id)
-        .update({
-          groups: [
-            ...newGr,
-            { id: ret.groupId, matched: false, marked: false },
-          ],
-        });
-      db.collection("groupcount")
-        .doc((newGr.length + 1).toString())
-        .collection("users")
-        .add({ uid: id, sex: sex });
-      db.collection("groupcount")
-        .doc(newGr.length.toString())
-        .collection("users")
-        .where("uid", "==", id)
-        .get()
-        .then((snap) => {
-          snap.forEach((doc) => {
-            doc.ref.delete();
-          });
-        });
-    }
-  } else {
-    let i = 0;
-    for (i = 0; i < 3; i++) {
-      if (gr[i].matched === true) {
-        gr[i] = { id: ret.groupId, matched: false, marked: false };
-        break;
-      }
-    }
-    db.collection("profiles")
-      .doc(id)
-      .update({ groups: [...gr] });
+  for (let i = 0; i < gr.length; i++) {
+    if (gr[i].matched !== true) newGr.push(gr[i]);
   }
+  newGr = [...newGr, { id: ret.groupId, matched: false, marked: false }];
+  db.collection("groupcount")
+    .doc(newGr.length.toString())
+    .collection("users")
+    .add({ uid: id, sex: sex });
+  db.collection("groupcount")
+    .doc((newGr.length - 1).toString())
+    .collection("users")
+    .where("uid", "==", id)
+    .get()
+    .then((snap) => {
+      snap.forEach((doc) => {
+        doc.ref.delete();
+      });
+    });
+  db.collection("profiles").doc(id).update({
+    groups: newGr,
+  });
+
+  //   if (newGr.length + 1 !== gr.length) {
+  //     db.collection("profiles")
+  //       .doc(id)
+  //       .update({
+  //         groups: [
+  //           ...newGr,
+  //           { id: ret.groupId, matched: false, marked: false },
+  //         ],
+  //       });
+  //     db.collection("groupcount")
+  //       .doc((newGr.length + 1).toString())
+  //       .collection("users")
+  //       .add({ uid: id, sex: sex });
+  //     db.collection("groupcount")
+  //       .doc(newGr.length.toString())
+  //       .collection("users")
+  //       .where("uid", "==", id)
+  //       .get()
+  //       .then((snap) => {
+  //         snap.forEach((doc) => {
+  //           doc.ref.delete();
+  //         });
+  //       });
+  //   }
+  // } else {
+  //   let i = 0;
+  //   for (i = 0; i < 3; i++) {
+  //     if (gr[i].matched === true) {
+  //       gr[i] = { id: ret.groupId, matched: false, marked: false };
+  //       break;
+  //     }
+  //   }
+  //   db.collection("profiles")
+  //     .doc(id)
+  //     .update({ groups: [...gr] });
+  // }
 };
 
 app.get("/getGroup", async (req, res) => {
@@ -349,12 +371,11 @@ app.get("/getGroup", async (req, res) => {
     res.send({ success: true, done: ret.newGroup, sex: sendSex });
   } else {
     let done = ret.newGroup;
-    res.send({ success: true, done, sex: sendSex });
-
     let listUID = ret.listUID;
     for (let i = 0; i < 12; i++) {
-      updateAfterCreation(listUID[i], ret);
+      await updateAfterCreation(listUID[i], ret);
     }
+    res.send({ success: true, done, sex: sendSex });
   }
 });
 
@@ -554,5 +575,5 @@ io.on("connection", (socket) => {
 });
 
 server.listen(port, () => {
-  console.log("Server listening on *:4000");
+  console.log("Server listening on *:8080");
 });

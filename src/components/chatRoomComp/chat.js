@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 import { v4 } from "uuid";
 import { useHistory } from "react-router";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
+import Loading from "../../spinLoad";
 
 export default function Chat() {
   const socket = io("http://amor008.herokuapp.com");
@@ -309,7 +310,7 @@ export default function Chat() {
               </div>
               <div className="col-sm-9 rightComp">
                 <div className="chatWSomeone">
-                  <h3>Loading</h3>
+                  <Loading />
                 </div>
               </div>
             </div>

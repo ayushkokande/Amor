@@ -11,7 +11,7 @@ import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import Loading from "../../spinLoad";
 
 export default function Chat() {
-  const socket = io("http://amor008.herokuapp.com");
+  const socket = io("https://amor008.herokuapp.com");
   const history = useHistory();
   let uid = useSelector((state) => state.user.id);
   let profile = useSelector((state) => state.user.data);

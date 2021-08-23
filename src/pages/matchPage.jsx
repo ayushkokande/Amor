@@ -55,16 +55,7 @@ export default function MatchPage() {
         }
       });
     });
-    // axios.post("http://localhost:4000/giveID", { id: uid }).then(() => {
-    //   axios.get("http://localhost:4000/getGroup").then((res) => {
-    //     console.log(res.data.message);
-    //   });
-    // });
   }, [getdata, uid]);
-
-  // useEffect(() => {
-  //   if (group !== null) setProfile(group[idx]);
-  // }, [idx,group]);
 
   useEffect(() => {
     if (group !== null && group[idx] !== undefined) setProfile(group[idx]);
@@ -75,50 +66,26 @@ export default function MatchPage() {
     console.log("HHHH", idx, group);
   }, [group, idx]);
 
-  return group !== null ? (
-    group.length > 0 ? (
-      <div
-        className="MatchContainer"
-        style={{ backgroundImage: `url(/images/halftone.png)` }}
-      >
-        <ProfileModal profile={profile} user={group[idx]} />
-        <Navbar />
-        <h3 className="matchHeading">Mark your preferences!</h3>
-        <MatchSec
-          profile={profile}
-          setProfile={setProfile}
-          idx={idx}
-          setIdx={setIdx}
-          group={group}
-          setGroup={setGroup}
-          pref={pref}
-          setPref={setPref}
-          setGetData={setGetData}
-          og={og}
-        />
-      </div>
-    ) : (
-      <div
-        className="MatchContainer"
-        style={{ backgroundImage: `url(/images/halftone.png)` }}
-      >
-        <Navbar />
-        <h3 className="matchHeading">Mark your preferences!</h3>
-        <MatchSec
-          profile={profile}
-          setProfile={setProfile}
-          idx={idx}
-          setIdx={setIdx}
-          group={group}
-          setGroup={setGroup}
-          pref={pref}
-          setPref={setPref}
-          og={og}
-          setGetData={setGetData}
-        />
-      </div>
-    )
-  ) : (
-    <Loader />
+  return (
+    <div
+      className="MatchContainer"
+      style={{ backgroundImage: `url(/images/halftone.png)` }}
+    >
+      <ProfileModal profile={profile} user={group ? group[idx] : null} />
+      <Navbar />
+      <h3 className="matchHeading">Mark your preferences!</h3>
+      <MatchSec
+        profile={profile}
+        setProfile={setProfile}
+        idx={idx}
+        setIdx={setIdx}
+        group={group}
+        setGroup={setGroup}
+        pref={pref}
+        setPref={setPref}
+        setGetData={setGetData}
+        og={og}
+      />
+    </div>
   );
 }

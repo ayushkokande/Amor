@@ -1,6 +1,6 @@
-import { BrowserRouter, Route, Switch } from "react-router-dom";
-import { useState } from "react";
 import React from "react";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { useState, useEffect } from "react";
 import SignedIn from "./pages/signedIn";
 import { auth, db } from "./components/landingComp/firebase";
 import store from "./store/store";
@@ -15,6 +15,20 @@ function App() {
     auth.currentUser ? true : false
   );
   console.log(userState);
+
+  useEffect(async () => {
+    const imgs = [
+      "/images/pink_rice.png",
+      "/images/blue_rice.png",
+      "/images/royal_rice.png",
+      "/images/noisy.png",
+    ];
+
+    imgs.forEach((item) => {
+      new Image().src = item;
+    });
+    // await cacheImages(imgs);
+  }, []);
 
   // useEffect(() => {
   //   db.collection("profiles")
@@ -32,6 +46,9 @@ function App() {
   //       snapshot.forEach((doc) =>
   //         idArr.push({ id: doc.id, sex: doc.data().sex })
   //       );
+  //     })
+  //     .then(() => {
+  //       console.log(idArr);
   //     })
   //     .then(() => {
   //       idArr.forEach(async (obj) => {
@@ -97,13 +114,7 @@ function App() {
             </div>
           }
         >
-          {/* <ChatPage /> */}
-          {/* <ProfilePage /> */}
-          {/* <MatchPage /> */}
-          <Switch>
-            <Route path="/" component={Landing} />
-            <Route exact path="/signup" component={SignUpPage} />
-          </Switch>
+          <Landing />
         </React.Suspense>
       </div>
     </BrowserRouter>

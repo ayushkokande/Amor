@@ -27,8 +27,9 @@
   background-color: white;
   border-radius: 60px;
   position: relative;
-  box-shadow: 0px 15px 16.83px 0.17px rgba(0, 0, 0, 0.315);
-  border: 0.5px solid rgba(5, 5, 5, 0.479);
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px,
+    rgba(0, 0, 0, 0.22) 0px 10px 10px;
+  /* border: 0.5px solid rgba(5, 5, 5, 0.479); */
 }
 
 .container .profilePic img {
@@ -70,7 +71,7 @@
   content: "";
   width: 0%;
   height: 100%;
-  background-color: rgb(90, 90, 90);
+  background-color: rgb(61, 61, 61);
   left: 50%;
   transform: translate(-50%, 0);
   transition: all 0.3s ease-in-out;
@@ -85,6 +86,10 @@
 
 .container .btns .logout.btn:hover::before {
   width: 100%;
+}
+
+.container .btns .logout.btn:hover {
+  border: solid rgb(48, 48, 48) 0.8px;
 }
 
 .container .buttons :nth-child(1) {
@@ -105,7 +110,7 @@
   content: "";
   width: 0%;
   height: 100%;
-  background-color: rgb(150, 42, 42);
+  background-color: #7d0606;
   left: 0;
   top: 0;
   z-index: -1;
@@ -130,7 +135,7 @@
   top: 0;
   z-index: -1;
   transition: width 0.2s ease-in-out 0.5s;
-  background-color: rgb(150, 42, 42);
+  background-color: #7d0606;
 }
 
 .container .buttons .btn:nth-child(2)::before {

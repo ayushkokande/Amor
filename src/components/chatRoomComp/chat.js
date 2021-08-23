@@ -6,10 +6,13 @@ import io from "socket.io-client";
 import { db } from "../landingComp/firebase";
 import { useSelector } from "react-redux";
 import { v4 } from "uuid";
+import { useHistory } from "react-router";
+import ArrowBackIcon from "@material-ui/icons/ArrowBack";
+import Loading from "../../spinLoad";
 
 export default function Chat() {
-  const socket = io("http://amor008.herokuapp.com");
-  // const [id, setID] = useLocalStorage("id");
+  const socket = io("https://amor008.herokuapp.com");
+  const history = useHistory();
   let uid = useSelector((state) => state.user.id);
   let profile = useSelector((state) => state.user.data);
   // const [other_uid, setOtherUid] = useState(null);
@@ -173,10 +176,12 @@ export default function Chat() {
           className="conv"
           id={item.roomId}
           key={item.roomId}
-          onClick={() => {
-            // createRoom(uid, item.id);
+          onClick={(e) => {
+            e.stopPropagation();
+            e.preventDefault();
             socket.emit("joinRoom", item.roomId);
-            // setOtherUid(item.id);
+            if (e.target.className === "conv")
+              e.target.className = "conv clicked";
             clickChat(item.roomId, item.matchId);
             setConv(idx);
           }}
@@ -205,31 +210,15 @@ export default function Chat() {
           <div className="container" id="chat">
             <div className="row">
               <div className="col-sm-3 leftComp">
-                <div>
-                  <div className="backMatch">
-                    <Link to="/match">
-                      <i className="fas fa-arrow-left"></i> Match section
-                    </Link>
-                  </div>
-                </div>
-                <div className="yourChatProfile">
-                  <Link to="/profile" className="chat_profile">
-                    <img src={profile.images[0]} alt="Profile" />
-                  </Link>
+                <div className="chatHeading">
+                  <div>Chat</div>
                   <div>
-                    <h4>
-                      {profile.f_name} {profile.l_name}
-                    </h4>
-                    <div className="profDets">
-                      <p>{profile.age}</p>
-                      <p>Location, World</p>
-                    </div>
+                    <button onClick={() => history.goBack()}>
+                      <ArrowBackIcon />
+                    </button>
                   </div>
                 </div>
-                <div className="matches">
-                  <div className="text-center">Your Matches</div>
-                  {matches.map(enlistConv)}
-                </div>
+                <div className="matches">{matches.map(enlistConv)}</div>
               </div>
               <div className="col-sm-9 rightComp">
                 <div className="chatWSomeone">
@@ -251,62 +240,48 @@ export default function Chat() {
           <div className="container" id="chat">
             <div className="row">
               <div className="col-sm-3 leftComp">
-                <div>
-                  <div className="backMatch">
-                    <Link to="/match">
-                      <i className="fas fa-arrow-left"></i> Match section
-                    </Link>
-                  </div>
-                </div>
-                <div className="yourChatProfile">
-                  <Link to="/profile" className="chat_profile">
-                    <img src={profile.images[0]} alt="Profile" />
-                  </Link>
+                <div className="chatHeading">
+                  <div>Chat</div>
                   <div>
-                    <h4>
-                      {profile.f_name} {profile.l_name}
-                    </h4>
-                    <div className="profDets">
-                      <p>{profile.age}</p>
-                      <p>Location, World</p>
-                    </div>
+                    <button onClick={() => history.goBack()}>
+                      <ArrowBackIcon />
+                    </button>
                   </div>
                 </div>
-                <div className="matches">
-                  <div className="text-center">Your Matches</div>
-                  {matches.map(enlistConv)}
-                </div>
+                <div className="matches">{matches.map(enlistConv)}</div>
               </div>
               <div className="col-sm-9 rightComp">
                 <div className="matchProf">
                   <img src={matches[convClick].images[0]} alt="Profile" />
                   <div>
-                    <h3>
+                    <p>
                       {matches[convClick].f_name} {matches[convClick].l_name}
-                    </h3>
-                    <p>{matches[convClick].age}</p>
-                    <p>Delhi</p>
+                    </p>
                   </div>
                 </div>
-                <div id="messages">{showMessages()}</div>
-                <div className="messageBox">
-                  <textarea
-                    id="input"
-                    onInput={(e) => setInput(e.target.value)}
-                    ref={textRef}
-                    autoFocus
-                  />
-                  <button
-                    onClick={() => {
-                      setInput("");
-                      console.log(textRef.current.value);
-                      textRef.current.value = "";
-                      textRef.current.focus();
-                      sendMessage(matches[convClick].roomId);
-                    }}
-                  >
-                    <i className="zmdi zmdi-mail-send"></i>
-                  </button>
+                <div className="chatArea">
+                  <div className="chatBody">
+                    <div id="messages">{showMessages()}</div>
+                    <div className="messageBox">
+                      <textarea
+                        id="input"
+                        onInput={(e) => setInput(e.target.value)}
+                        ref={textRef}
+                        autoFocus
+                      />
+                      <button
+                        onClick={() => {
+                          setInput("");
+                          console.log(textRef.current.value);
+                          textRef.current.value = "";
+                          textRef.current.focus();
+                          sendMessage(matches[convClick].roomId);
+                        }}
+                      >
+                        <i className="zmdi zmdi-mail-send"></i>
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -323,35 +298,19 @@ export default function Chat() {
           <div className="container" id="chat">
             <div className="row">
               <div className="col-sm-3 leftComp">
-                <div>
-                  <div className="backMatch">
-                    <Link to="/match">
-                      <i className="fas fa-arrow-left"></i> Match section
-                    </Link>
-                  </div>
-                </div>
-                <div className="yourChatProfile">
-                  <Link to="/profile" className="chat_profile">
-                    <img src={profile.images[0]} alt="Profile" />
-                  </Link>
+                <div className="chatHeading">
+                  <div>Chat</div>
                   <div>
-                    <h4>
-                      {profile.f_name} {profile.l_name}
-                    </h4>
-                    <div className="profDets">
-                      <p>{profile.age}</p>
-                      <p>Location, World</p>
-                    </div>
+                    <button onClick={() => history.goBack()}>
+                      <ArrowBackIcon />
+                    </button>
                   </div>
                 </div>
-                <div className="matches">
-                  <div className="text-center">Your Matches</div>
-                  {matches.map(enlistConv)}
-                </div>
+                <div className="matches">{matches.map(enlistConv)}</div>
               </div>
               <div className="col-sm-9 rightComp">
                 <div className="chatWSomeone">
-                  <h3>Loading</h3>
+                  <Loading />
                 </div>
               </div>
             </div>

@@ -116,7 +116,6 @@ export default function () {
             var={formVar}
             prev={prev}
             data={data}
-            sub={sub}
             next={next}
             change={onChange}
             imgUpload={onImgUpload}

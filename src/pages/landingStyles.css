@@ -181,7 +181,7 @@ body {
   margin: 30px 0;
 }
 #loginBtn {
-  background: #b66c6c;
+  background: #7d0606;
   position: relative;
   color: #fff;
   border: none;
@@ -264,8 +264,9 @@ body {
 }
 
 #thirdSection .motto {
-  font-family: "Slabo 27px", serif;
+  font-family: "Thasadith", sans-serif;
   margin-bottom: 70px;
+  font-weight: 600;
   overflow: hidden;
 }
 
@@ -275,7 +276,7 @@ body {
 }
 
 #thirdSection .desc h3 {
-  font-family: "Quicksand", sans-serif;
+  font-family: "Titillium Web", sans-serif;
   margin-bottom: 28px;
 }
 
@@ -475,12 +476,41 @@ a.nav-link:hover ~ svg rect {
 }
 
 #loginBtn:hover {
-  background-color: #805252;
+  background-color: #bd5555;
 }
 
 .SignIn {
-  font-family: "Martel", serif;
+  font-weight: 600;
+  font-family: "Quicksand", sans-serif;
   font-size: 1.5rem;
+}
+
+.MuiAppBar-colorPrimary,
+.Crop-buttonContainer-6 button,
+#thirdSection .form-button button {
+  background-color: indianred !important;
+}
+
+.ImgDialog-btn-11 {
+  background-color: indianred !important;
+}
+
+.ImgDialog-btn-11:hover,
+.Crop-buttonContainer-6 button:hover,
+#thirdSection .form-button button:hover {
+  background-color: rgb(233, 119, 119) !important;
+}
+.form-button button {
+  text-transform: none !important;
+}
+.Crop-buttonContainer-6 button:nth-child(1) {
+  margin-right: 2vw;
+}
+.ImgDialog-btn-11:focus,
+.Crop-buttonContainer-6 button:focus,
+#thirdSection .form-button button:focus {
+  border: none !important;
+  outline: none !important;
 }
 
 @media (max-width: 468px) {

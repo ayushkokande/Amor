@@ -11,11 +11,7 @@ export default function (props) {
   // const [user, setUser] = useState(props.user);
 
   let CL = "modale" + useSelector((state) => state.modal.cl);
-  // let images = [
-  //   "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQTkLS70KdHik9_P33l7yCZSfw_zEsfkisM9A&usqp=CAU",
-  //   "https://res.cloudinary.com/select-models/image/fetch/w_2560,c_limit/f_auto/https://select.solarnet.app/files/gallery/15007/expanded_medium/gallery_model_g0TNVX_Z4n8t.jpeg",
-  // ];
-  let images = props.profile !== undefined ? props.profile.images : [];
+  let images = props.profile ? props.profile.images : [];
   let n = images.length;
 
   function upArr() {
@@ -116,10 +112,10 @@ export default function (props) {
         >
           <div className="content">
             {/* {user.f_name}, {user.age} */}
-            <p>Name: {props.profile.f_name}</p>
-            <p>Age: {props.profile.age}</p>
-            <p>Sex: {props.profile.sex}</p>
-            <p>Bio: {props.profile.bio}</p>
+            <p>Name: {props.profile ? props.profile.f_name : ""}</p>
+            <p>Age: {props.profile ? props.profile.age : ""}</p>
+            <p>Sex: {props.profile ? props.profile.sex : ""}</p>
+            <p>Bio: {props.profile ? props.profile.bio : ""}</p>
             Iris, 20
           </div>
         </div>

@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import RightArr from "./rightArr";
 import store from "../../store/store";
 import { v4 } from "uuid";
+import profile from "../profileComp/profile";
 
 export default function (props) {
   const [idx, setIdx] = useState(0);
@@ -11,29 +12,38 @@ export default function (props) {
   // const [user, setUser] = useState(props.user);
 
   let CL = "modale" + useSelector((state) => state.modal.cl);
-  let images = props.profile ? props.profile.images : [];
-  let n = images.length;
+  // let images = props.profile ? props.profile.images : [];
+  // let n = images.length;
+
+  // useEffect(() => {
+  //   console.log(idx);
+  //   // console.log(n);
+  // }, [idx]);
 
   function upArr() {
+    // console.log(idx);
     if (idx != 0)
       return (
         <i
-          onClick={() => {
+          onClick={(e) => {
             setIdx(idx - 1);
           }}
+          id="UARR"
           className="upArr fas fa-angle-up"
         ></i>
       );
   }
 
   function downArr() {
-    if (idx != n - 1)
+    if (props.profile && idx != props.profile.images.length - 1)
       return (
         <i
-          onClick={() => {
+          onClick={(e) => {
+            console.log(props.profile.images.length);
             setIdx(idx + 1);
           }}
           className="downArr fas fa-angle-down"
+          id="DARR"
         ></i>
       );
   }
@@ -41,7 +51,7 @@ export default function (props) {
   function modalImg() {
     return (
       <div className="swipeImage" key={v4()}>
-        <img src={images[idx]} alt="D" />
+        <img src={props.profile ? props.profile.images[idx] : null} alt="D" />
       </div>
     );
   }

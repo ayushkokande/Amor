@@ -485,6 +485,20 @@ a.nav-link:hover ~ svg rect {
   font-size: 1.5rem;
 }
 
+.profileDesc h3 {
+  font-weight: 700 !important;
+}
+
+#secondSection .signInForm .MuiButton-text {
+  background-color: indianred !important;
+  color: white;
+}
+
+.upArr,
+.downArr {
+  color: black;
+}
+
 .MuiAppBar-colorPrimary,
 .Crop-buttonContainer-6 button,
 #thirdSection .form-button button {

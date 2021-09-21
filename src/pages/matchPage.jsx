@@ -19,7 +19,7 @@ export default function MatchPage() {
 
   useEffect(() => {
     axios.post(`https://amor008.herokuapp.com/giveID`, { id: uid }).then(() => {
-      axios.get(`https://amor008.herokuapp.com/getGroup`).then((res) => {
+      axios.get(`https://amor008.herokuapp.com/getGroup/`).then((res) => {
         store.dispatch({ type: "groupMatch", group: res.data.done });
         console.log(res.data.done);
         if (res.data.done.length === 0) {

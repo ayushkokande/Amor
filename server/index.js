@@ -62,6 +62,7 @@ app.get("/rooms/:room", (req, res) => {
         arr_data = [...arr_data, doc.data()];
       });
       // console.log(arr_data);
+      res.header("Access-Control-Allow-Origin", "*");
       res.send({ messages: arr_data });
     });
 });
@@ -75,6 +76,7 @@ const { response } = require("express");
 app.post("/giveID", (req, res) => {
   uid = req.body.id;
   // console.log("S", uid);
+  res.header("Access-Control-Allow-Origin", "*");
   res.send({ success: true });
 });
 
@@ -362,9 +364,10 @@ const updateAfterCreation = async (item, ret) => {
   // }
 };
 
-app.get("/getGroup", async (req, res) => {
-  console.log("YAHA");
+app.get("/getGroup/", async (req, res) => {
+  // console.log("YAHA");
   let ret = await group();
+  res.header("Access-Control-Allow-Origin", "*");
   if (ret === undefined || ret.length === 0)
     res.send({ success: true, done: [], sex: sendSex });
   else if (ret.exists) {

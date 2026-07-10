@@ -1,9 +1,8 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useSelector } from "react-redux";
 import RightArr from "./rightArr";
 import store from "../../store/store";
 import { v4 } from "uuid";
-import profile from "../profileComp/profile";
 
 export default function (props) {
   const [idx, setIdx] = useState(0);
@@ -126,7 +125,6 @@ export default function (props) {
             <p>Age: {props.profile ? props.profile.age : ""}</p>
             <p>Sex: {props.profile ? props.profile.sex : ""}</p>
             <p>Bio: {props.profile ? props.profile.bio : ""}</p>
-            Iris, 20
           </div>
         </div>
         <RightArr

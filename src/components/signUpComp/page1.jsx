@@ -10,7 +10,7 @@ export default function (props) {
     <>
       <div
         className="formContainer"
-        style={{ backgroundImage: `url(/images/noisy.png)` }}
+        style={{ backgroundImage: `url(/images/pink_rice.png)` }}
       >
         <AnimatePresence exitBeforeEnter>
           {show && (

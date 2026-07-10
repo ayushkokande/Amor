@@ -10,11 +10,7 @@ export default function (props) {
 
   let user = useSelector((state) => state.user.data);
   let CL = "modale" + useSelector((state) => state.modal.cl);
-  // let images = [
-  //   "https://images-eu.ssl-images-amazon.com/images/I/81rgE1bGnbL.png",
-  //   "https://res.cloudinary.com/select-models/image/fetch/w_2560,c_limit/f_auto/https://select.solarnet.app/files/gallery/15007/expanded_medium/gallery_model_g0TNVX_Z4n8t.jpeg",
-  // ];
-  let n = user !== null ? user.images.length : 0;
+  let n = user && user.images ? user.images.length : 0;
 
   function upArr() {
     if (idx != 0)
@@ -43,7 +39,7 @@ export default function (props) {
   function modalImg() {
     return (
       <div className="swipeImage">
-        <img src={user !== null ? user.images[idx] : null} alt="D" />
+        <img src={user?.images?.[idx] || null} alt="D" />
       </div>
     );
   }
@@ -127,10 +123,10 @@ export default function (props) {
           className={cardBack}
         >
           <div className="content">
-            <p>Name: {user !== null ? user.f_name : null}</p>
-            <p>Age: {user !== null ? user.age : null}</p>
-            <p>Sex: {user !== null ? user.sex : null}</p>
-            <p>Bio: {user !== null ? user.bio : null}</p>
+            <p>Name: {user?.f_name ?? null}</p>
+            <p>Age: {user?.age ?? null}</p>
+            <p>Sex: {user?.sex ?? null}</p>
+            <p>Bio: {user?.bio ?? null}</p>
           </div>
         </div>
         <RightArr

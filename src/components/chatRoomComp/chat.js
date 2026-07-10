@@ -1,7 +1,5 @@
 import { useState, useEffect, useRef } from "react";
 import "./chatStyles.css";
-import { Link } from "react-router-dom";
-import axios from "axios";
 import io from "socket.io-client";
 import { db } from "../landingComp/firebase";
 import { useSelector } from "react-redux";
@@ -9,16 +7,27 @@ import { v4 } from "uuid";
 import { useHistory } from "react-router";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import Loading from "../../spinLoad";
+import { SOCKET_URL } from "../../api/client";
+import { fetchRoomMessages } from "../../api/groups";
+import {
+  USE_MOCK_DATA,
+  getMockMatches,
+  getMockMessages,
+} from "../../data/mockDogs";
 
 export default function Chat() {
-  const socket = io("https://amor008.herokuapp.com");
+  const socket = USE_MOCK_DATA ? null : io(SOCKET_URL);
   const history = useHistory();
   let uid = useSelector((state) => state.user.id);
   let profile = useSelector((state) => state.user.data);
-  // const [other_uid, setOtherUid] = useState(null);
   const [inputText, setInput] = useState("");
   const [msg, setMsg] = useState([]);
   const [matchId, setMatchId] = useState();
+  const [matches, setMatches] = useState(null);
+  const [convClick, setConv] = useState(null);
+  const [convLoaded, setConvLoaded] = useState(false);
+  const textRef = useRef();
+  const messagesRef = useRef();
 
   function showMessages() {
     let i = msg.length < 50 ? msg.length : 50;
@@ -49,15 +58,30 @@ export default function Chat() {
     );
   }
 
-  socket.on("svMessage", (message) => {
-    // let CLS;
-    // if (uid === message.senderUid) CLS = "ogUser";
-    // else CLS = "otherUser";
-    // console.log("newMsg", message.array);
-    setMsg(message.array);
-  });
+  useEffect(() => {
+    if (!socket) return undefined;
+    const onMessage = (message) => setMsg(message.array);
+    socket.on("svMessage", onMessage);
+    return () => socket.off("svMessage", onMessage);
+  }, [socket]);
 
   function sendMessage(roomId) {
+    if (!inputText.trim()) return;
+
+    if (USE_MOCK_DATA) {
+      const next = [
+        ...msg,
+        {
+          message: inputText,
+          timestamp: Date.now(),
+          senderUid: uid || "mock-self",
+          roomId,
+        },
+      ];
+      setMsg(next);
+      return;
+    }
+
     socket.emit("send_message", {
       roomId: roomId,
       message: inputText,
@@ -65,90 +89,74 @@ export default function Chat() {
       senderUid: uid,
       array: msg,
       matchId: matchId,
-      // id: id,
     });
-    console.log(msg);
   }
-
-  const [matches, setMatches] = useState(null);
-  let matchArray = [];
-  const [dummy, setDummy] = useState(false);
-
-  const sMatches = async (item) => {
-    try {
-      console.log(item.uid);
-      const mRef = db.collection("profiles").doc(item.uid);
-      let mResponse = await mRef.get();
-      console.log(mResponse.id);
-      matchArray.push({
-        ...mResponse.data(),
-        id: item.uid,
-        roomId: item.roomId,
-        matchId: mResponse.id,
-      });
-      setDummy(true);
-      return { ...mResponse.data(), uid: item.uid };
-      // setArr([...matchArray, { ...mResponse.data(), id: item.uid }]);
-    } catch (err) {
-      console.error(err);
-    }
-  };
 
   const fetchData = async () => {
     const REFER = db.collection("profiles").doc(uid).collection("matches");
     const response = await REFER.get();
-    let matchIDs = [];
-    response.forEach((doc) => {
-      matchIDs.push(doc.data());
-    });
-    console.log("A", matchIDs);
-    let local_arr = [];
-    matchIDs.forEach((item) =>
-      local_arr.push(
-        (async () => {
-          return await sMatches(item);
-        })()
-      )
-    );
-    let results = await Promise.all([local_arr]);
+    const matchIDs = [];
+    response.forEach((doc) => matchIDs.push(doc.data()));
 
-    console.log(local_arr);
-    console.log(Promise.resolve(results));
+    const results = await Promise.all(
+      matchIDs.map(async (item) => {
+        const mResponse = await db.collection("profiles").doc(item.uid).get();
+        return {
+          ...mResponse.data(),
+          id: item.uid,
+          roomId: item.roomId,
+          matchId: mResponse.id,
+          lastMessage: "Say hello!",
+          lastMessageAt: "",
+        };
+      })
+    );
     return results;
-    // setMatches(results);
-    // console.log(matchArray);
-    // setMatches(matchArray);
-    // return matchArray;
   };
 
-  const clickChat = async (roomId, gmatchId) => {
+  const clickChat = async (roomId, gmatchId, otherUid) => {
     setConvLoaded(false);
     setMatchId(gmatchId);
-    axios.get(`https://amor008.herokuapp.com/rooms/${roomId}`).then((res) => {
-      console.log(...res.data.messages);
+
+    if (USE_MOCK_DATA) {
+      setMsg(
+        getMockMessages(roomId, uid || "mock-self", otherUid || "mock-other")
+      );
+      setConvLoaded(true);
+      return;
+    }
+
+    fetchRoomMessages(roomId).then((res) => {
       setMsg(res.data.messages);
-      // setMsg(res)
     });
   };
 
-  useEffect(async () => {
-    let data = await fetchData();
-    console.log(matchArray);
-    setMatches(matchArray);
-    console.log(data);
-  }, []);
+  useEffect(() => {
+    let cancelled = false;
+
+    async function load() {
+      if (USE_MOCK_DATA) {
+        const viewerSex = profile?.sex || "Male";
+        if (!cancelled) setMatches(getMockMatches(viewerSex));
+        return;
+      }
+
+      try {
+        const data = await fetchData();
+        if (!cancelled) setMatches(data);
+      } catch (err) {
+        console.error(err);
+        if (!cancelled) setMatches(getMockMatches(profile?.sex || "Male"));
+      }
+    }
+
+    load();
+    return () => {
+      cancelled = true;
+    };
+  }, [uid, profile]);
 
   useEffect(() => {
-    if (matches) console.log(matches[0]);
-    console.log(matchArray);
-  }, [matches]);
-
-  // useEffect(() => {
-  //   console.log(msg);
-  // }, [inputText]);
-
-  useEffect(() => {
-    console.log("NoNo", msg);
     if (msg) {
       setConvLoaded(true);
       if (messagesRef.current !== undefined && convLoaded === true)
@@ -156,167 +164,137 @@ export default function Chat() {
     }
   }, [msg]);
 
-  const [convClick, setConv] = useState(null);
-  const [convLoaded, setConvLoaded] = useState(false);
-  const textRef = useRef();
-  const messagesRef = useRef();
-
   useEffect(() => {
     if (messagesRef.current !== undefined && convLoaded === true)
       messagesRef.current.scrollIntoView({ smooth: true });
   }, [convLoaded]);
 
-  // Make a call to server to get the conversations
-
   function enlistConv(item, idx) {
-    // console.log(item, idx);
     return matches ? (
-      <>
-        <div
-          className="conv"
-          id={item.roomId}
-          key={item.roomId}
-          onClick={(e) => {
-            e.stopPropagation();
-            e.preventDefault();
-            socket.emit("joinRoom", item.roomId);
-            if (e.target.className === "conv")
-              e.target.className = "conv clicked";
-            clickChat(item.roomId, item.matchId);
-            setConv(idx);
-          }}
-        >
-          <img src={item ? item.images[0] : ``} alt="Profile" />
+      <div
+        className="conv"
+        id={item.roomId}
+        key={item.roomId}
+        onClick={(e) => {
+          e.stopPropagation();
+          e.preventDefault();
+          if (socket) socket.emit("joinRoom", item.roomId);
+          if (e.target.className === "conv") e.target.className = "conv clicked";
+          clickChat(item.roomId, item.matchId, item.uid || item.id);
+          setConv(idx);
+        }}
+      >
+        <img src={item ? item.images[0] : ``} alt="Profile" />
+        <div>
           <div>
-            <div>
-              {item.f_name} {item.l_name}
-            </div>
-            <div>{`item.messages[0].text`}</div>
-            <div>21:30</div>
+            {item.f_name} {item.l_name}
           </div>
+          <div>{item.lastMessage || "Start the conversation"}</div>
+          <div>{item.lastMessageAt || ""}</div>
         </div>
-      </>
+      </div>
     ) : null;
   }
 
   return matches ? (
     convClick === null ? (
-      <>
-        {/* <h3>{id}</h3>
-            <div>
-                <button onClick={createID}>Create new ID</button>
-            </div> */}
-        <section className="chatContainer">
-          <div className="container" id="chat">
-            <div className="row">
-              <div className="col-sm-3 leftComp">
-                <div className="chatHeading">
-                  <div>Chat</div>
-                  <div>
-                    <button onClick={() => history.goBack()}>
-                      <ArrowBackIcon />
-                    </button>
-                  </div>
+      <section className="chatContainer">
+        <div className="container" id="chat">
+          <div className="row">
+            <div className="col-sm-3 leftComp">
+              <div className="chatHeading">
+                <div>Chat</div>
+                <div>
+                  <button onClick={() => history.goBack()}>
+                    <ArrowBackIcon />
+                  </button>
                 </div>
-                <div className="matches">{matches.map(enlistConv)}</div>
               </div>
-              <div className="col-sm-9 rightComp">
-                <div className="chatWSomeone">
-                  <h3>It's lonely out here.</h3>
-                  <h5>Why not woo your matches?</h5>
-                </div>
+              <div className="matches">{matches.map(enlistConv)}</div>
+            </div>
+            <div className="col-sm-9 rightComp">
+              <div className="chatWSomeone">
+                <h3>It's lonely out here.</h3>
+                <h5>Why not woo your matches?</h5>
               </div>
             </div>
           </div>
-        </section>
-      </>
+        </div>
+      </section>
     ) : convLoaded ? (
-      <>
-        {/* <h3>{id}</h3>
-        <div>
-            <button onClick={createID}>Create new ID</button>
-        </div> */}
-        <section className="chatContainer">
-          <div className="container" id="chat">
-            <div className="row">
-              <div className="col-sm-3 leftComp">
-                <div className="chatHeading">
-                  <div>Chat</div>
-                  <div>
-                    <button onClick={() => history.goBack()}>
-                      <ArrowBackIcon />
-                    </button>
-                  </div>
+      <section className="chatContainer">
+        <div className="container" id="chat">
+          <div className="row">
+            <div className="col-sm-3 leftComp">
+              <div className="chatHeading">
+                <div>Chat</div>
+                <div>
+                  <button onClick={() => history.goBack()}>
+                    <ArrowBackIcon />
+                  </button>
                 </div>
-                <div className="matches">{matches.map(enlistConv)}</div>
               </div>
-              <div className="col-sm-9 rightComp">
-                <div className="matchProf">
-                  <img src={matches[convClick].images[0]} alt="Profile" />
-                  <div>
-                    <p>
-                      {matches[convClick].f_name} {matches[convClick].l_name}
-                    </p>
-                  </div>
+              <div className="matches">{matches.map(enlistConv)}</div>
+            </div>
+            <div className="col-sm-9 rightComp">
+              <div className="matchProf">
+                <img src={matches[convClick].images[0]} alt="Profile" />
+                <div>
+                  <p>
+                    {matches[convClick].f_name} {matches[convClick].l_name}
+                  </p>
                 </div>
-                <div className="chatArea">
-                  <div className="chatBody">
-                    <div id="messages">{showMessages()}</div>
-                    <div className="messageBox">
-                      <textarea
-                        id="input"
-                        onInput={(e) => setInput(e.target.value)}
-                        ref={textRef}
-                        autoFocus
-                      />
-                      <button
-                        onClick={() => {
-                          setInput("");
-                          console.log(textRef.current.value);
-                          textRef.current.value = "";
-                          textRef.current.focus();
-                          sendMessage(matches[convClick].roomId);
-                        }}
-                      >
-                        <i className="zmdi zmdi-mail-send"></i>
-                      </button>
-                    </div>
+              </div>
+              <div className="chatArea">
+                <div className="chatBody">
+                  <div id="messages">{showMessages()}</div>
+                  <div className="messageBox">
+                    <textarea
+                      id="input"
+                      onInput={(e) => setInput(e.target.value)}
+                      ref={textRef}
+                      autoFocus
+                    />
+                    <button
+                      onClick={() => {
+                        setInput("");
+                        textRef.current.value = "";
+                        textRef.current.focus();
+                        sendMessage(matches[convClick].roomId);
+                      }}
+                    >
+                      <i className="zmdi zmdi-mail-send"></i>
+                    </button>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </section>
-      </>
+        </div>
+      </section>
     ) : (
-      <>
-        {/* <h3>{id}</h3>
-        <div>
-            <button onClick={createID}>Create new ID</button>
-        </div> */}
-        <section className="chatContainer">
-          <div className="container" id="chat">
-            <div className="row">
-              <div className="col-sm-3 leftComp">
-                <div className="chatHeading">
-                  <div>Chat</div>
-                  <div>
-                    <button onClick={() => history.goBack()}>
-                      <ArrowBackIcon />
-                    </button>
-                  </div>
+      <section className="chatContainer">
+        <div className="container" id="chat">
+          <div className="row">
+            <div className="col-sm-3 leftComp">
+              <div className="chatHeading">
+                <div>Chat</div>
+                <div>
+                  <button onClick={() => history.goBack()}>
+                    <ArrowBackIcon />
+                  </button>
                 </div>
-                <div className="matches">{matches.map(enlistConv)}</div>
               </div>
-              <div className="col-sm-9 rightComp">
-                <div className="chatWSomeone">
-                  <Loading />
-                </div>
+              <div className="matches">{matches.map(enlistConv)}</div>
+            </div>
+            <div className="col-sm-9 rightComp">
+              <div className="chatWSomeone">
+                <Loading />
               </div>
             </div>
           </div>
-        </section>
-      </>
+        </div>
+      </section>
     )
   ) : null;
 }

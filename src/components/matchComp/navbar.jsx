@@ -3,9 +3,7 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 function Navbar() {
-  let UserImg = useSelector((state) =>
-    state.user.data ? state.user.data.images[0] : ""
-  );
+  let UserImg = useSelector((state) => state.user.data?.images?.[0] || "");
   return (
     <nav className="navbar m-nav">
       <div className="container-fluid">

@@ -1,12 +1,11 @@
+@import url("https://fonts.googleapis.com/css2?family=Quicksand&display=swap");
+
 .profilePage {
   height: 100vh;
   width: 100vw;
-  background: rgb(248, 186, 186);
-  background: linear-gradient(
-    0deg,
-    rgba(248, 186, 186, 1) 9%,
-    rgba(255, 240, 240, 1) 94%
-  );
+  background-color: #ffe8e8;
+  font-family: "Quicksand", sans-serif;
+  color: #4e4242;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -25,11 +24,25 @@
   width: 60%;
   min-height: 70%;
   background-color: white;
-  border-radius: 60px;
+  border-radius: 16px;
   position: relative;
-  box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px,
-    rgba(0, 0, 0, 0.22) 0px 10px 10px;
-  /* border: 0.5px solid rgba(5, 5, 5, 0.479); */
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+}
+
+.container .profilePicPlaceholder {
+  border-radius: 100%;
+  width: 100px;
+  height: 100px;
+  position: relative;
+  z-index: 1;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: indianred;
+  color: #fff;
+  font-size: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .container .profilePic img {
@@ -60,7 +73,7 @@
   transition: color 0.1s ease-in-out;
   transition: box-shadow, color 0.1s ease-in-out;
   background-clip: padding-box;
-  background-color: rgb(48, 48, 48);
+  background-color: #4e4242;
   z-index: 0;
   color: white;
   transition: all 0.3s ease-in-out;
@@ -71,7 +84,7 @@
   content: "";
   width: 0%;
   height: 100%;
-  background-color: rgb(61, 61, 61);
+  background-color: #6b5a5a;
   left: 50%;
   transform: translate(-50%, 0);
   transition: all 0.3s ease-in-out;
@@ -80,8 +93,7 @@
 }
 
 .container .btns .logout.btn:active {
-  box-shadow: inset -4px -4px 8px rgba(12, 12, 12, 0.6),
-    inset 8px 8px 16px rgba(184, 0, 0, 0.479);
+  box-shadow: inset 2px 2px 6px rgba(12, 12, 12, 0.3);
 }
 
 .container .btns .logout.btn:hover::before {
@@ -89,7 +101,7 @@
 }
 
 .container .btns .logout.btn:hover {
-  border: solid rgb(48, 48, 48) 0.8px;
+  border: solid #4e4242 0.8px;
 }
 
 .container .buttons :nth-child(1) {
@@ -101,7 +113,7 @@
   transition: color 0.1s ease-in-out 0.5s;
   transition: box-shadow, color 0.1s ease-in-out 0.5s;
   background-clip: padding-box;
-  background-color: rgb(209, 96, 96);
+  background-color: indianred;
   z-index: 0;
 }
 
@@ -110,7 +122,7 @@
   content: "";
   width: 0%;
   height: 100%;
-  background-color: #7d0606;
+  background-color: rgb(233, 119, 119);
   left: 0;
   top: 0;
   z-index: -1;
@@ -135,7 +147,7 @@
   top: 0;
   z-index: -1;
   transition: width 0.2s ease-in-out 0.5s;
-  background-color: #7d0606;
+  background-color: rgb(233, 119, 119);
 }
 
 .container .buttons .btn:nth-child(2)::before {
@@ -172,7 +184,7 @@
   width: 70%;
   height: 70%;
   overflow-y: scroll;
-  scrollbar-color: #0a4c95 #c2d2e4;
+  scrollbar-color: #c96b6b #f3dede;
 }
 
 .profileData::-webkit-scrollbar {
@@ -241,7 +253,7 @@
   }
 
   .container .buttons .btn {
-    background-color: rgb(209, 96, 96);
+    background-color: indianred;
     color: white;
     border: 0.4px solid black;
   }

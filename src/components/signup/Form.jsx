@@ -1,10 +1,10 @@
 import { useState } from "react";
-import Page0 from "./page0";
-import Page1 from "./page1";
-import Page2 from "./page2";
-import Page3 from "./page3";
+import Page0 from "./Page0";
+import Page1 from "./Page1";
+import Page2 from "./Page2";
+import Page3 from "./Page3";
 import firebase from "firebase/app";
-import { db, auth } from "../landingComp/firebase";
+import { db, auth } from "../../lib/firebase";
 import store from "../../store/store";
 import { Redirect } from "react-router";
 

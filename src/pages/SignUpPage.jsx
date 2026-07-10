@@ -1,5 +1,5 @@
 import "./signUpStyles.css";
-import Form from "../components/signUpComp/form";
+import Form from "../components/signup/Form";
 
 export default function App() {
   return (

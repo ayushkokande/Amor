@@ -1,11 +1,11 @@
 import "./profileStyles.css";
-import ViewModal from "./viewModal";
-import Navbar from "../matchComp/navbar";
-import { auth } from "../landingComp/firebase";
+import ViewModal from "./ViewModal";
+import Navbar from "../match/Navbar";
+import { auth } from "../../lib/firebase";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
-import { db } from "../landingComp/firebase";
+import { db } from "../../lib/firebase";
 import store from "../../store/store";
 import { USE_MOCK_DATA, maleDogs, femaleDogs } from "../../data/mockDogs";
 

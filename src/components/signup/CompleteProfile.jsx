@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { db, auth } from "../landingComp/firebase";
+import { db, auth } from "../../lib/firebase";
 import store from "../../store/store";
 import "./completeProfileStyles.css";
 

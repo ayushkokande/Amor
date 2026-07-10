@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import store from "../../store/store";
 import { useState } from "react";
-import { db } from "../landingComp/firebase";
+import { db } from "../../lib/firebase";
 import { v4 } from "uuid";
 import {
   PLACEHOLDER_DOG,
@@ -16,7 +16,7 @@ import {
 import { picksToRankedIndices } from "../../matching/preferences";
 import { runMatching } from "../../api/groups";
 
-import Loading from "../../spinLoad";
+import Loading from "../common/SpinLoad";
 
 export default function (props) {
   const poolSize = props.group?.length ?? GROUP_SIZE;

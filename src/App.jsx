@@ -1,17 +1,17 @@
 import React from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
 import { useEffect } from "react";
-import { auth, db } from "./components/landingComp/firebase";
+import { auth, db } from "./lib/firebase";
 import store from "./store/store";
-import Loading from "./spinLoad";
+import Loading from "./components/common/SpinLoad";
 import { useSelector } from "react-redux";
 
-import MatchPage from "./pages/matchPage";
-import ChatPage from "./pages/chatPage";
-import ProfilePage from "./pages/profilePage";
-import CompleteProfile from "./components/signUpComp/completeProfile";
+import MatchPage from "./pages/MatchPage";
+import ChatPage from "./pages/ChatPage";
+import ProfilePage from "./pages/ProfilePage";
+import CompleteProfile from "./components/signup/CompleteProfile";
 
-const LandingRoutes = React.lazy(() => import("./pages/landing"));
+const LandingRoutes = React.lazy(() => import("./pages/Landing"));
 
 function App() {
   useEffect(() => {

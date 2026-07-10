@@ -1,12 +1,12 @@
 import { useState, useEffect, useRef } from "react";
 import "./chatStyles.css";
 import io from "socket.io-client";
-import { db } from "../landingComp/firebase";
+import { db } from "../../lib/firebase";
 import { useSelector } from "react-redux";
 import { v4 } from "uuid";
 import { useHistory } from "react-router";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
-import Loading from "../../spinLoad";
+import Loading from "../common/SpinLoad";
 import { SOCKET_URL } from "../../api/client";
 import { fetchRoomMessages } from "../../api/groups";
 import {

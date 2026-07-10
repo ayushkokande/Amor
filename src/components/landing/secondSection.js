@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { useSelector } from "react-redux";
 import store from "../../store/store";
-import { auth, db, googleProvider } from "./firebase";
+import { auth, db, googleProvider } from "../../lib/firebase";
 import Button from "@material-ui/core/Button";
 
 export default function () {

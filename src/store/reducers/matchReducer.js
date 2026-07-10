@@ -1,4 +1,4 @@
-import { GROUP_SIZE } from "../matching/config";
+import { GROUP_SIZE } from "../../matching/config";
 
 const emptySlots = () => Array(GROUP_SIZE).fill("");
 

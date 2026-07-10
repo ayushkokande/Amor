@@ -1,9 +1,9 @@
 import "./matchStyles.css";
-import MatchSec from "../components/matchComp/matchSection";
-import Navbar from "../components/matchComp/navbar";
-import ProfileModal from "../components/matchComp/profileModal";
-import MatchProgress from "../components/matchComp/MatchProgress";
-import MatchReveal from "../components/matchComp/MatchReveal";
+import MatchSec from "../components/match/matchSection";
+import Navbar from "../components/match/navbar";
+import ProfileModal from "../components/match/profileModal";
+import MatchProgress from "../components/match/MatchProgress";
+import MatchReveal from "../components/match/MatchReveal";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import store from "../store/store";

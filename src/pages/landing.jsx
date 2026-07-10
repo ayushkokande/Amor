@@ -1,11 +1,11 @@
 import { Route, Switch, useLocation } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 
-import About from "../components/landingComp/about";
-import FirstSection from "../components/landingComp/firstSection";
-import SecondSection from "../components/landingComp/secondSection";
+import About from "../components/landing/about";
+import FirstSection from "../components/landing/firstSection";
+import SecondSection from "../components/landing/secondSection";
 import SignUpPage from "./signUpPage";
-import Navbar from "../components/landingComp/navbar";
+import Navbar from "../components/landing/navbar";
 
 import "./landingStyles.css";
 

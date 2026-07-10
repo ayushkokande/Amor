@@ -1,4 +1,4 @@
-import "./spinLoadStyle.css";
+import "./spinLoad.css";
 
 export default function () {
   return (

@@ -4,7 +4,6 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useLocation } from "react-router-dom";
 import store from "../../store/store";
 
-import Navbar from "./navbar";
 import { useSelector } from "react-redux";
 
 export default function () {
@@ -104,7 +103,6 @@ export default function () {
         className="l-sec"
         id="firstSection"
       >
-        <Navbar />
         <motion.div
           style={{ backgroundImage: `url(/images/${transBG.img})` }}
           variants={abTransVariants1}

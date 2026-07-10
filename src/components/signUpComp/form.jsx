@@ -43,12 +43,10 @@ export default function () {
       f_name: data.f_name,
       l_name: data.l_name,
       email: data.email,
-      password: data.password,
       age: data.age,
       sex: data.sex,
       bio: data.bio,
       images: data.images,
-      //images remain
     });
 
     console.log("SUCCESSSFULLY DONE");

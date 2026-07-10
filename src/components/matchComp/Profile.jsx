@@ -2,20 +2,30 @@ import { useSelector } from "react-redux";
 import store from "../../store/store";
 import { useState } from "react";
 import { db } from "../landingComp/firebase";
-import axios from "axios";
 import { v4 } from "uuid";
+import {
+  PLACEHOLDER_DOG,
+  USE_MOCK_DATA,
+  submitMockPreference,
+} from "../../data/mockDogs";
+import {
+  GROUP_SIZE,
+  TOTAL_GROUP,
+  createRankOptions,
+} from "../../matching/config";
+import { picksToRankedIndices } from "../../matching/preferences";
+import { runMatching } from "../../api/groups";
 
 import Loading from "../../spinLoad";
 
 export default function (props) {
-  // let profileList = useSelector((state) => state.match.matchList);
-  let arr = [1, 2, 3, 4, 5, 6];
+  const poolSize = props.group?.length ?? GROUP_SIZE;
+  const rankOptions = createRankOptions(poolSize);
 
-  const [profile, setProfile] = useState();
-
-  let GR = useSelector((state) => state.group.group);
-  let uid = useSelector((state) => state.user.id);
+  const fullGroup = useSelector((state) => state.group.group);
+  const uid = useSelector((state) => state.user.id);
   const [n, setN] = useState(props.group ? props.group.length : 0);
+
   function upArr() {
     if (props.idx != 0)
       return (
@@ -41,25 +51,25 @@ export default function (props) {
   }
 
   function yesSubmit(arr) {
-    let i = 0;
-    let newArr = [];
-    for (i = 0; i < arr.length; i++) if (i !== props.idx) newArr.push(arr[i]);
+    const newArr = [];
+    for (let i = 0; i < arr.length; i++) {
+      if (i !== props.idx) newArr.push(arr[i]);
+    }
     return newArr;
   }
 
-  function action(val) {
-    return { type: val };
-  }
-
   function clickHandler(index) {
-    let numb = index;
     props.setPref([
       ...props.pref,
-      { obj: { idx: props.profile.idx, pref: numb } },
+      { obj: { idx: props.profile.idx, pref: index } },
     ]);
     setN(n - 1);
     props.setGroup(yesSubmit(props.group));
-    store.dispatch({ type: `p${index + 1}`, img: props.profile.images[0] });
+    store.dispatch({
+      type: "SET_PREF_SLOT",
+      index,
+      img: props.profile.images[0],
+    });
   }
 
   function buttons(item, index) {
@@ -74,79 +84,71 @@ export default function (props) {
     );
   }
 
-  function modalOpen() {
-    return { type: "opened" };
-  }
-
   function modalView() {
-    store.dispatch(modalOpen());
+    store.dispatch({ type: "opened" });
   }
 
   const onSubmit = async () => {
-    let arr = ["", "", "", "", "", ""];
-    props.pref.map((item) => {
-      arr[item.obj.idx] = item.obj.pref.toString();
-    });
-
-    let str = arr[0];
-    for (let i = 1; i < 6; i++) str = str.concat(arr[i]);
-    console.log(str);
+    const rankedIndices = picksToRankedIndices(props.pref, poolSize);
 
     props.setGroup(null);
     store.dispatch({ type: "pDone" });
     store.dispatch({ type: "groupDone" });
 
-    let REF = db.collection("profiles").doc(uid);
-    let response = await REF.get();
-    let groupData = response.data().groups;
+    if (USE_MOCK_DATA) {
+      const matchProfile = submitMockPreference(
+        props.og.sex,
+        props.og.idx,
+        rankedIndices
+      );
+      props.setGroup([]);
+      props.onMatchComplete?.(matchProfile);
+      return;
+    }
 
-    let res_group = await db.collection("groups").doc(GR.id).get();
+    const REF = db.collection("profiles").doc(uid);
+    const response = await REF.get();
+    const groupData = response.data().groups;
+
+    let res_group = await db.collection("groups").doc(fullGroup.id).get();
     res_group = res_group.data();
 
-    let temp_pref;
     if (props.og.sex === "Male") {
-      temp_pref = res_group.m_pref;
-      temp_pref[props.og.idx] = str;
-      res_group.m_pref = temp_pref;
-      console.log(res_group.m_pref);
+      res_group.m_pref[props.og.idx] = rankedIndices;
     } else {
-      temp_pref = res_group.f_pref;
-      temp_pref[props.og.idx] = str;
-      res_group.f_pref = temp_pref;
-      console.log(res_group.f_pref);
+      res_group.f_pref[props.og.idx] = rankedIndices;
     }
 
-    res_group.cnt = res_group.cnt + 1;
-    // groupData[IX] = res_group;
+    res_group.cnt = (res_group.cnt || 0) + 1;
 
-    // make call if cnt === 12;
     for (let i = 0; i < groupData.length; i++) {
-      if (groupData[i].id === GR.id) groupData[i].marked = true;
+      if (groupData[i].id === fullGroup.id) groupData[i].marked = true;
     }
     await REF.update({ groups: groupData });
+    await db.collection("groups").doc(res_group.id).set(res_group);
 
-    if (res_group.cnt === 12) {
+    if (res_group.cnt === TOTAL_GROUP) {
+      await runMatching(res_group, uid);
       props.setGroup([]);
-      await db.collection("groups").doc(res_group.id).set(res_group);
-      axios
-        .post("https://amor008.herokuapp.com/algo", { group: res_group })
-        .then((res) => console.log(res.data));
+      props.onMatchComplete?.(null);
       props.setGetData(Math.random() * 99);
     } else {
-      await db.collection("groups").doc(res_group.id).set(res_group);
       props.setGroup(null);
+      props.onMatchComplete?.(null);
       props.setGetData(Math.random() * 99);
     }
   };
+
+  const rankHint = `1 being the highest, ${poolSize} being the lowest.`;
 
   return props.group === null ? (
     <div className="profile">
       <div className="profileImg">
         <Loading />
       </div>
-      <div className="profileBtnList">{arr.map(buttons)}</div>
+      <div className="profileBtnList">{rankOptions.map(buttons)}</div>
       <p>Choose your preference!</p>
-      <p>1 being the highest, 6 being the lowest.</p>
+      <p>{rankHint}</p>
     </div>
   ) : n !== 0 ? (
     <div className="profile">
@@ -167,20 +169,14 @@ export default function (props) {
         {downArr()}
       </div>
 
-      <div className="profileBtnList">{arr.map(buttons)}</div>
+      <div className="profileBtnList">{rankOptions.map(buttons)}</div>
       <p>Choose your preference!</p>
-      <p>1 being the highest, 6 being the lowest.</p>
+      <p>{rankHint}</p>
     </div>
-  ) : GR.length !== 0 ? (
+  ) : props.pref.length === poolSize ? (
     <div className="profile">
       <div className="profileImg">
-        {/* <img src={props.profile.images[0]} alt="Profile" /> */}
-        <img
-          style={{ opacity: 0 }}
-          style={{ opacity: 0 }}
-          src="https://i.dailymail.co.uk/1s/2019/02/11/04/9653178-6689819-image-m-107_1549859939216.jpg"
-          alt=""
-        />
+        <img style={{ opacity: 0 }} src={PLACEHOLDER_DOG} alt="" />
         <div className="conBtn">
           <p>Do you wish to submit?</p>
           <div
@@ -192,35 +188,24 @@ export default function (props) {
           </div>
           <div className="btn btn-primary">No</div>
         </div>
-        <div className="profileDesc">
-          <h3>{/* {props.profile.name}, {props.profile.age} */}</h3>
-        </div>
       </div>
 
-      <div className="profileBtnList">{arr.map(buttons)}</div>
+      <div className="profileBtnList">{rankOptions.map(buttons)}</div>
       <p>Choose your preference!</p>
-      <p>1 being the highest, 6 being the lowest.</p>
+      <p>{rankHint}</p>
     </div>
   ) : (
     <div className="profile">
       <div className="profileImg">
-        {/* <img src={props.profile.images[0]} alt="Profile" /> */}
-        <img
-          style={{ opacity: 0 }}
-          src="https://i.dailymail.co.uk/1s/2019/02/11/04/9653178-6689819-image-m-107_1549859939216.jpg"
-          alt=""
-        />
+        <img style={{ opacity: 0 }} src={PLACEHOLDER_DOG} alt="" />
         <div className="conBtn">
           <p>Sorry! You do not have any groups right now.</p>
         </div>
-        <div className="profileDesc">
-          <h3>{/* {props.profile.name}, {props.profile.age} */}</h3>
-        </div>
       </div>
 
-      <div className="profileBtnList">{arr.map(buttons)}</div>
+      <div className="profileBtnList">{rankOptions.map(buttons)}</div>
       <p>Choose your preference!</p>
-      <p>1 being the highest, 6 being the lowest.</p>
+      <p>{rankHint}</p>
     </div>
   );
 }

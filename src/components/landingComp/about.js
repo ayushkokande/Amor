@@ -1,8 +1,5 @@
-import { useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { useSelector } from "react-redux";
-
-import Navbar from "./navbar";
 
 export default function () {
   const transBG = useSelector((state) => state.link);
@@ -112,7 +109,6 @@ export default function () {
         className="l-sec"
         id="thirdSection"
       >
-        <Navbar />
         <motion.div
           style={{ backgroundImage: `url(/images/${transBG.img})` }}
           variants={abTransVariants1}
@@ -159,19 +155,20 @@ export default function () {
               About <span className="amor">amor</span>
             </motion.h3>
             <motion.p variants={contVar} initial="initial" animate="enter">
-              <span>amor</span> is a dating web application, co-developed by
-              Neejor Chakma and Ayush Kokande. It employs Gale-Shapley matching
-              algorithm to attain the most stable matches for the users present
-              in a group.
+              <span>Amor</span> is a group-based dating web application,
+              co-developed by Neejor Chakma and Ayush Kokande. Instead of
+              swiping, users are placed into balanced groups with equal numbers
+              of men and women, and rank every member of the opposite group from
+              most to least preferred.
               <br />
-              Users are requested to fill their subjective preferences over the
-              members of the opposite group. For a better rate of matches, the
-              number of{" "}
-              <strong>
-                <u>active</u>
-              </strong>{" "}
-              groups a user can be a part of, has been limited to 3. Most stable
-              matches are then made accordingly.
+              Once everyone in a group has submitted their rankings, Amor runs
+              the Gale–Shapley stable matching algorithm to produce mutually
+              stable pairs — no two users would both prefer each other over
+              their assigned match. Matched users are then connected through
+              private chat rooms. To keep matching focused and reliable, each
+              user may participate in up to <strong><u>three</u></strong> active
+              groups over time, moving through sequential matching rounds as
+              groups are completed.
             </motion.p>
           </div>
         </div>

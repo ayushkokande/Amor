@@ -6,7 +6,7 @@ export default function (props) {
   let formVar = props.var;
   return (
     <>
-    <div className="formContainer" style = {{backgroundImage: `url(/images/noisy.png)`}}>
+    <div className="formContainer" style = {{backgroundImage: `url(/images/pink_rice.png)`}}>
       <AnimatePresence exitBeforeEnter>
       {show && 
       <motion.div variants={formVar} initial="initial" animate="enter" exit="exit" className="Container">

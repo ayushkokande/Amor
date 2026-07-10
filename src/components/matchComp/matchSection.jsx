@@ -17,6 +17,7 @@ export default function (props) {
           setPref={props.setPref}
           og={props.og}
           setGetData={props.setGetData}
+          onMatchComplete={props.onMatchComplete}
         />
       </div>
       <div key={v4()} style={{ display: "flex", alignItems: "center" }}>

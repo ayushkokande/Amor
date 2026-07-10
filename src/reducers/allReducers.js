@@ -18,7 +18,7 @@ const allReducers = combineReducers({
   socket: socketReducer,
   user: userReducer,
   group: groupReducer,
-  prIdx: profileReducer,
+  prIdx: profileModalReducer,
 });
 
 export default allReducers;

@@ -1,5 +1,5 @@
 import Profile from "./Profile.jsx";
-import List from "./list";
+import List from "./List";
 import { v4 } from "uuid";
 
 export default function (props) {

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useSelector } from "react-redux";
-import RightArr from "./rightArr";
+import RightArr from "./RightArr";
 import store from "../../store/store";
 import { v4 } from "uuid";
 

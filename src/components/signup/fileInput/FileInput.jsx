@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import UploadedImage from "./uploadedImg";
+import UploadedImage from "./UploadedImg";
 import firebase from "firebase";
 import { v4 } from "uuid";
 

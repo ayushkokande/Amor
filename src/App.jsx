@@ -6,12 +6,12 @@ import store from "./store/store";
 import Loading from "./components/common/SpinLoad";
 import { useSelector } from "react-redux";
 
-import MatchPage from "./pages/matchPage";
-import ChatPage from "./pages/chatPage";
-import ProfilePage from "./pages/profilePage";
-import CompleteProfile from "./components/signup/completeProfile";
+import MatchPage from "./pages/MatchPage";
+import ChatPage from "./pages/ChatPage";
+import ProfilePage from "./pages/ProfilePage";
+import CompleteProfile from "./components/signup/CompleteProfile";
 
-const LandingRoutes = React.lazy(() => import("./pages/landing"));
+const LandingRoutes = React.lazy(() => import("./pages/Landing"));
 
 function App() {
   useEffect(() => {

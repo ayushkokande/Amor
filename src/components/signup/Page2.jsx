@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import firebase from "firebase/app";
 import "firebase/storage";
 import usePrevious from "../../hooks/usePrevious";
-import FileInput from "./fileInput/fileInput";
+import FileInput from "./fileInput/FileInput";
 
 export default function (props) {
   const [img, setImg] = useState(null);

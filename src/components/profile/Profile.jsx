@@ -1,6 +1,6 @@
 import "./profileStyles.css";
-import ViewModal from "./viewModal";
-import Navbar from "../match/navbar";
+import ViewModal from "./ViewModal";
+import Navbar from "../match/Navbar";
 import { auth } from "../../lib/firebase";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";

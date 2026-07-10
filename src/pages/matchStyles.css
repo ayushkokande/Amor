@@ -1,13 +1,14 @@
-@import url("https://fonts.googleapis.com/css2?family=Assistant:wght@300&family=Redressed&family=Titillium+Web:wght@300&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Quicksand&family=Assistant:wght@300&family=Redressed&family=Titillium+Web:wght@300&display=swap");
 /* 
 body {
   background-color: #ffe8e8;
 } */
 
 .MatchContainer {
-  font-family: sans-serif;
+  font-family: "Quicksand", sans-serif;
   text-align: center;
   height: 100vh;
+  background-color: #ffe8e8;
 }
 
 .matchSection {
@@ -18,7 +19,108 @@ body {
 .matchHeading {
   color: #4e4242;
   margin: 30px;
-  font-family: "Roboto", sans-serif;
+  font-family: "Quicksand", sans-serif;
+}
+
+.demoBanner {
+  background: #4e4242;
+  color: #fff;
+  font-size: 0.85rem;
+  padding: 8px 16px;
+  margin: 0;
+}
+
+.matchProgress {
+  max-width: 420px;
+  margin: 0 auto 24px;
+  text-align: left;
+}
+
+.matchProgressLabel {
+  font-size: 0.9rem;
+  color: #4e4242;
+  margin-bottom: 6px;
+}
+
+.matchProgressTrack {
+  height: 8px;
+  background: rgba(78, 66, 66, 0.2);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.matchProgressFill {
+  height: 100%;
+  background: #c96b6b;
+  transition: width 0.4s ease;
+}
+
+.matchProgressHint,
+.matchWaitingMsg {
+  font-size: 0.8rem;
+  color: #6b5a5a;
+  margin-top: 8px;
+}
+
+.matchRevealOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.matchRevealCard {
+  background: #fff;
+  border-radius: 16px;
+  padding: 28px;
+  max-width: 360px;
+  width: 100%;
+  text-align: center;
+}
+
+.matchRevealEyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.75rem;
+  color: #c96b6b;
+  margin: 0 0 12px;
+}
+
+.matchRevealPhoto {
+  width: 160px;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin-bottom: 12px;
+}
+
+.matchRevealBio {
+  font-size: 0.9rem;
+  color: #555;
+  margin: 8px 0 16px;
+}
+
+.matchRevealAlgo {
+  font-size: 0.75rem;
+  color: #888;
+  line-height: 1.4;
+  margin-bottom: 20px;
+}
+
+.matchRevealActions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.matchRevealActions .btn-secondary {
+  background: transparent;
+  border: 1px solid #ccc;
+  color: #444;
 }
 
 .matchList {
@@ -395,7 +497,7 @@ body {
 }
 
 .rightArrDiv {
-  background-color: #161616;
+  background-color: #4e4242;
   border-radius: 100%;
   position: absolute;
   bottom: 20%;
@@ -411,7 +513,7 @@ body {
   position: relative;
   z-index: 13;
   color: white;
-  /* background-color: #161616;
+  /* background-color: #4e4242;
   border: 1px solid #3f3f3f; */
   padding: 10px;
   transition: all 0.3s ease-in;

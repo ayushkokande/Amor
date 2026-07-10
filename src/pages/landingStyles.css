@@ -20,6 +20,8 @@ body {
   height: 100vh;
   position: relative;
   overflow: hidden;
+  padding-top: 64px;
+  box-sizing: border-box;
 }
 .l-sec img {
   position: relative;
@@ -306,6 +308,25 @@ body {
 
 /* NAVBAR */
 
+.landing-shell {
+  min-height: 100vh;
+}
+
+.navbar.landing-nav-fixed {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background: transparent;
+  backdrop-filter: blur(6px);
+}
+
+.nav-link-active {
+  font-weight: 700;
+  opacity: 1;
+}
+
 .navbar,
 .NAV {
   position: relative;
@@ -492,6 +513,18 @@ a.nav-link:hover ~ svg rect {
 #secondSection .signInForm .MuiButton-text {
   background-color: indianred !important;
   color: white;
+}
+
+#secondSection .signInForm .googleBtn.MuiButton-text {
+  background-color: #fff !important;
+  color: rgb(65, 65, 65);
+  border: 1px solid #dadce0;
+  text-transform: none;
+  font-family: "Quicksand", sans-serif;
+}
+
+#secondSection .signInForm .googleBtn .googleIcon {
+  margin-right: 8px;
 }
 
 .upArr,

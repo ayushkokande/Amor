@@ -1,0 +1,75 @@
+.completeProfile {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ffe8e8;
+  font-family: "Quicksand", sans-serif;
+}
+
+.completeProfileCard {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+  padding: 36px 32px;
+  width: min(420px, 90vw);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.completeProfileCard h2 {
+  margin: 0;
+  color: #4e4242;
+}
+
+.completeProfileCard p {
+  margin: 0 0 6px;
+  color: #6b5a5a;
+  font-size: 0.9rem;
+}
+
+.cpRow {
+  display: flex;
+  gap: 10px;
+}
+
+.completeProfileCard input,
+.completeProfileCard select,
+.completeProfileCard textarea {
+  flex: 1;
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #dadce0;
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: 0.95rem;
+}
+
+.completeProfileCard button {
+  background-color: indianred;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 12px;
+  font-size: 1rem;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.completeProfileCard button:hover {
+  background-color: rgb(233, 119, 119);
+}
+
+.completeProfileCard button:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.cpSignOut {
+  text-align: center;
+  font-size: 0.8rem;
+  color: #6b5a5a;
+  text-decoration: underline;
+  cursor: pointer;
+}
